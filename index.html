@@ -660,43 +660,6 @@ const contractInstance = new web3.eth.Contract(myAbi, Contract);
 
 
 
-// const alight = new THREE.AmbientLight( 0x404040 ); // soft white light
-// screen.scene.add( alight );
-//
-// //BG SHADE
-// const light3 = new THREE.PointLight( 0xff0f0f,2, 1000 );
-// light3.position.set( 1000, 750, 50 );
-// screen.scene.add( light3 );
-// //
-// const light4 = new THREE.PointLight( 0xffff00,1,1000 );
-// light4.position.set( -10, 0, 100 );
-// screen.scene.add( light4 );
-// const light5 = new THREE.PointLight( 0xffff00,1, 100 );
-// light5.position.set( 115, 10, 100 );
-// screen.scene.add( light5 );
-
-
-
-const capture = async () => {
-  const canvas = document.createElement("canvas");
-  canvas.width = 1000;
-  canvas.height = 1000;
-  const context = canvas.getContext("2d");
-  const video = document.createElement("video");
-
-  try {
-    const captureStream = await navigator.mediaDevices.getDisplayMedia();
-    video.srcObject = captureStream;
-    context.drawImage(video, 0, 0, 1000,1000);
-    console.log(canvas.toDataURL())
-    // const frame = canvas.toDataURL("image/png");
-    // captureStream.getTracks().forEach(track => track.stop());
-    // window.location.href = frame;
-  } catch (err) {
-    console.error("Error: " + err);
-  }
-};
-
 
 var tilesetBgImg = document.createElement("img")
 var tilesetBodyImg = document.createElement("img")
@@ -706,19 +669,19 @@ var tilesetHeadImg = document.createElement("img")
 var tilesetEmotionImg = document.createElement("img")
 var tilesetRareImg = document.createElement("img")
 tilesetBodyImg.crossOrigin = "Anonymous";
-tilesetBodyImg.src = '/2.png';
+tilesetBodyImg.src = '2.png';
 tilesetEmotionImg.crossOrigin = "Anonymous";
-tilesetEmotionImg.src = '/4.png';
+tilesetEmotionImg.src = '4.png';
 tilesetClothesImg.crossOrigin = "Anonymous";
-tilesetClothesImg.src = '/3.png';
+tilesetClothesImg.src = '3.png';
 tilesetHeadImg.crossOrigin = "Anonymous";
-tilesetHeadImg.src = '/5.png';
+tilesetHeadImg.src = '5.png';
 tilesetAccessoriesImg.crossOrigin = "Anonymous";
-tilesetAccessoriesImg.src = '/1.png';
+tilesetAccessoriesImg.src = '1.png';
 
 var forestImg = document.createElement("img")
 forestImg.crossOrigin = "Anonymous";
-forestImg.src = "/bg.png"
+forestImg.src = "bg.png"
 
 var plane;
 var  cylinder;
