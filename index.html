@@ -93,7 +93,7 @@ var web3 = new Web3(window.ethereum);
 var getTotalMinted = async () => {
   await contractInstance.methods.totalMinted().call().then(function(total) {
   console.log(total);
-  document.getElementById("infoBar").innerHTML = "Minted: " + total + "/888"
+  document.getElementById("infoBar").innerHTML = "Minted: " + total + "/420"
 });
 }
 
