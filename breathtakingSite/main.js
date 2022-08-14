@@ -32,7 +32,7 @@ var web3;
 var getTotalMinted = async () => {
   await contractInstance.methods.totalMinted().call().then(function(total) {
   console.log(total);
-  document.getElementById("infoBar").innerHTML = "Minted: " + total + "/420"
+  document.getElementById("infoBar").innerHTML = "Minted: " + total + "/888"
 });
 }
 
