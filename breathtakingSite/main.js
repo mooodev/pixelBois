@@ -14,6 +14,13 @@ audio.loop=true;
 
       }
 var currentAcc;
+
+var activatePassive = () => {
+walking = true;
+audio.play();
+console.log("Thanks for visiting :b")
+}
+
 var activateMeta = async () => {
   console.log("activating metamask")
   const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
