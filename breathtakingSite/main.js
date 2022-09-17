@@ -663,6 +663,7 @@ cylinder2.position.y = -350
 
 generateRandomBoi(commonLayerDatabase,naturalBois)
 animate();
+activatePassive();
 };
 
   class Boi{
