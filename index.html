@@ -84,25 +84,28 @@ button{
 
 <script type="text/javascript">
 
-  class PfpDownloader{
-    constructor(){
-      this.web3;
-      this.myAddress;
-      this.osResponse;
-      this.myNfts = [];
-    }
-    connectMM(){
+  class PfpDownloader {
+      constructor() {
+          this.web3;
+          this.myAddress;
+          this.osResponse;
+          this.myNfts = [];
+      }
+      connectMM() {
 
-    }
-    getDataFromOS(){
+      }
+      getDataFromOS() {
 
-    }
-    searchForOwnerNfts(){
+      }
+      searchForOwnerNfts() {
 
-    }
-    addCard(){
+      }
+      addCard() {
 
-    }
+      }
+      savePfp() {
+
+      }
   }
 
   let myMMAccount;
@@ -110,85 +113,89 @@ button{
   let osresponse = undefined;
   let myNfts = []
   let connectMM = async () => {
-    console.log("connecting to metamask")
-    const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-    const account = accounts[0];
-    myMMAccount = account;
-    document.getElementById("_addressMain").innerHTML = myMMAccount.toString()
-    await getDataFromOS(myMMAccount)
+      console.log("connecting to metamask")
+      const accounts = await ethereum.request({
+          method: 'eth_requestAccounts'
+      });
+      const account = accounts[0];
+      myMMAccount = account;
+      document.getElementById("_addressMain").innerHTML = myMMAccount.toString()
+      await getDataFromOS(myMMAccount)
   }
   let getDataFromOS = async (address) => {
-    const Http = new XMLHttpRequest();
-    let url='https://api.opensea.io/api/v1/assets?owner=';
-    console.log("getting data from OPENSEA")
-    url += address;
-    await Http.open("GET", url);
-    await Http.send();
-    Http.onreadystatechange = (e) => {
-      //console.log(Http.responseText)
-     if(Http.responseText.charAt(0) == "{"){
-      if(JSON.parse(Http.responseText).assets.length > 0){
-          if(osresponse == undefined){osresponse = JSON.stringify(JSON.parse(Http.responseText));
-          searchForOwnerNfts()
-        }
+      const Http = new XMLHttpRequest();
+      let url = 'https://api.opensea.io/api/v1/assets?owner=';
+      console.log("getting data from OPENSEA")
+      url += address;
+      await Http.open("GET", url);
+      await Http.send();
+      Http.onreadystatechange = (e) => {
+          //console.log(Http.responseText)
+          if (Http.responseText.charAt(0) == "{") {
+              if (JSON.parse(Http.responseText).assets.length > 0) {
+                  if (osresponse == undefined) {
+                      osresponse = JSON.stringify(JSON.parse(Http.responseText));
+                      searchForOwnerNfts()
+                  }
+              }
+          }
+          return true;
       }
-    }
-      return true;
-    }
   }
   let searchForOwnerNfts = () => {
-    document.getElementById("nftHolder").innerHTML = '';
-    console.log("searching for matches")
-    for(let n = 0 ; n < JSON.parse(osresponse).assets.length ; n++){
-      if(JSON.parse(osresponse).assets[n].description == "My Breathtaking Pixel Bois"){
-        console.log(myMMAccount + " ownes " + JSON.parse(osresponse).assets[n].name)
-        addCard(JSON.parse(osresponse).assets[n].name)
-        myNfts.push(JSON.parse(osresponse).assets[n])
+      document.getElementById("nftHolder").innerHTML = '';
+      console.log("searching for matches")
+      for (let n = 0; n < JSON.parse(osresponse).assets.length; n++) {
+          if (JSON.parse(osresponse).assets[n].description == "My Breathtaking Pixel Bois") {
+              console.log(myMMAccount + " ownes " + JSON.parse(osresponse).assets[n].name)
+              addCard(JSON.parse(osresponse).assets[n].name)
+              myNfts.push(JSON.parse(osresponse).assets[n])
+          }
       }
-    }
-    return true;
+      return true;
   }
   let addCard = (name) => {
-    let _id = name.slice(5)
-    let _div = document.createElement("div");
-    _div.classList.add('card');
-    let _img = document.createElement("img");
-    _img.src = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/"+_id+".png"
-    _img.alt = name;
-    let _divCont = document.createElement("div");
-    _divCont.classList.add('container');
-    let _name = document.createElement("h3");
-    _name.innerHTML = name;
-    _divCont.appendChild(_name);
-    _div.appendChild(_img);
-    let _healthBar = document.createElement("hr");
-    // let _hpText = document.createElement("h4");
-    // _hpText.innerHTML = '54'
-    // _hpText.classList.add('hrText');
-    _div.appendChild(_healthBar);
-    // _div.appendChild(_hpText);
+      let _id = name.slice(5)
+      let _div = document.createElement("div");
+      _div.classList.add('card');
+      let _img = document.createElement("img");
+      _img.src = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/" + _id + ".png"
+      _img.alt = name;
+      let _divCont = document.createElement("div");
+      _divCont.classList.add('container');
+      let _name = document.createElement("h3");
+      _name.innerHTML = name;
+      _divCont.appendChild(_name);
+      _div.appendChild(_img);
+      let _healthBar = document.createElement("hr");
+      // let _hpText = document.createElement("h4");
+      // _hpText.innerHTML = '54'
+      // _hpText.classList.add('hrText');
+      _div.appendChild(_healthBar);
+      // _div.appendChild(_hpText);
 
-    _div.appendChild(_divCont);
-    let _saveButton = document.createElement("button");
-    _saveButton.innerHTML = "💾"
-    _saveButton.id = _id;
-    _saveButton.addEventListener("click", ()=>{
-      saveId(this.id)
-    });
-    _div.appendChild(_saveButton);
-    document.getElementById("nftHolder").appendChild(_div)
+      _div.appendChild(_divCont);
+      let _saveButton = document.createElement("button");
+      _saveButton.innerHTML = "💾"
+      _saveButton.id = _id;
+      _saveButton.addEventListener("click", () => {
+          saveId(this.id)
+      });
+      _divCont.appendChild(_saveButton);
+      document.getElementById("nftHolder").appendChild(_div)
   }
 
   let saveId = (id) => {
-a.href = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/"+id+".png";
-a.download = id+".png";
-document.body.appendChild(a);
-a.click();
-document.body.removeChild(a);
+      let a = document.createElement('a');
+      a.href = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/" + id + ".png";
+      a.download = id + ".png";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
   }
 
   window.onload = function() {
-    document.getElementById("nftHolder").style.width = "100%"
+      document.getElementById("nftHolder").style.width = "100%"
   };
 
 </script>
