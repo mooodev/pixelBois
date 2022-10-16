@@ -68,12 +68,13 @@ let getDataFromOS = (address) => {
   Http.send();
   Http.onreadystatechange = (e) => {
     //console.log(Http.responseText)
-    for(let n = 0 ; n < Http.responseText.assets.length ; n++){
-      if(Http.responseText.assets[n].description == "My Breathtaking Pixel Bois"){
-        console.log(myMMAccount + " ownes " + Http.responseText.assets[n].name)
-        myNfts.push(Http.responseText.assets[n])
-      }
-    }
+    myNfts = Http.responseText
+    // for(let n = 0 ; n < Http.responseText.assets.length ; n++){
+    //   if(Http.responseText.assets[n].description == "My Breathtaking Pixel Bois"){
+    //     console.log(myMMAccount + " ownes " + Http.responseText.assets[n].name)
+    //     myNfts.push(Http.responseText.assets[n])
+    //   }
+    // }
   }
 }
 
