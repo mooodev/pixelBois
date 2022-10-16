@@ -115,7 +115,6 @@ button{
   let connectMM = async () => {
     osresponse = undefined;
     document.getElementById("nftHolder").innerHTML = ''
-      console.log("connecting to metamask")
       const accounts = await ethereum.request({
           method: 'eth_requestAccounts'
       });
@@ -127,12 +126,10 @@ button{
   let getDataFromOS = async (address) => {
       const Http = new XMLHttpRequest();
       let url = 'https://api.opensea.io/api/v1/assets?owner=';
-      console.log("getting data from OPENSEA")
       url += address;
       await Http.open("GET", url);
       await Http.send();
       Http.onreadystatechange = (e) => {
-          //console.log(Http.responseText)
           if (Http.responseText.charAt(0) == "{") {
               if (JSON.parse(Http.responseText).assets.length > 0) {
                   if (osresponse == undefined) {
@@ -146,10 +143,8 @@ button{
   }
   let searchForOwnerNfts = () => {
       document.getElementById("nftHolder").innerHTML = '';
-      console.log("searching for matches")
       for (let n = 0; n < JSON.parse(osresponse).assets.length; n++) {
           if (JSON.parse(osresponse).assets[n].description == "My Breathtaking Pixel Bois") {
-              console.log(myMMAccount + " ownes " + JSON.parse(osresponse).assets[n].name)
               addCard(JSON.parse(osresponse).assets[n].name)
               myNfts.push(JSON.parse(osresponse).assets[n])
           }
@@ -163,7 +158,6 @@ button{
       _saveButton.innerHTML = "💾"
       _saveButton.id = _id;
       _saveButton.addEventListener("click", (e) => {
-        console.log(e.path[0].id)
         saveId(e.path[0].id)
       });
       _saveButton.style.position = "absolute"
@@ -190,7 +184,6 @@ button{
   }
 
   let saveId = (id) => {
-    console.log(id)
       let a = document.createElement('a');
       a.href = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/" + id + ".png";
       a.download = id + ".png";
