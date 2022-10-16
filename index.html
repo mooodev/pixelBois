@@ -45,6 +45,7 @@ grid-row-gap: 0px;
 
 let myMMAccount;
 let contractInstance;
+let web3;
 let connectMM = async () => {
   console.log("connecting to metamask")
   const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
@@ -59,6 +60,14 @@ var getTotalMinted = async () => {
   console.log("minted total " + total);
 });
 }
+
+
+window.onload = function() {
+  web3 = new Web3(window.ethereum);
+  contractInstance = new web3.eth.Contract(myAbi, Contract);
+};
+
+
 
   const Contract = "0x0568A87e64E65f4cC7898E08f0e57FFe2AA6241f"
   var myAbi = [
