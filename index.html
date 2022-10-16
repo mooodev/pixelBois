@@ -5,6 +5,12 @@
     <meta charset="utf-8">
     <title></title>
     <style media="screen">
+      hr{
+        background-color:red;
+        height:20px;
+        width:80%;
+        border-radius: 5px;
+      }
       .flex-container {
     display: flex;
     flex-direction: column;
@@ -150,6 +156,8 @@ button{
     _name.innerHTML = name;
     _divCont.appendChild(_name);
     _div.appendChild(_img);
+    let _healthBar = document.createElement("hr");
+    _div.appendChild(_healthBar);
     _div.appendChild(_divCont);
     document.getElementById("nftHolder").appendChild(_div)
   }
