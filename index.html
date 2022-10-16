@@ -52,13 +52,13 @@ let connectMM = async () => {
   const account = accounts[0];
   myMMAccount = account;
   document.getElementById("_addressMain").innerHTML = myMMAccount.toString()
-  getTotalMinted(myMMAccount);
+  getBalanceOf(myMMAccount);
 }
 
 let getBalanceOf = async (address) => {
   await contractInstance.methods.balanceOf(address).call().then(function(total) {
   console.log(myMMAccount + " adress owns total " + total);
-
+  getAllOwnedNfts(total);
 });
 }
 let getAllOwnedNfts = async (total) => {
