@@ -93,7 +93,7 @@ button{
   let myMMAccount;
   let contractInstance;
   let web3;
-  let _myNfts;
+  let osresponse;
   let myNfts = []
   let connectMM = async () => {
     console.log("connecting to metamask")
@@ -113,13 +113,14 @@ button{
     Http.open("GET", url);
     Http.send();
     Http.onreadystatechange = (e) => {
+      osresponse = Http.responseText;
     //  _myNfts = Http.responseText;
-      let _parsedResp = JSON.stringify(Http.responseText)
-      let parsedResp = JSON.parse(_parsedResp)
-      for(let n = 0 ; n < parsedResp.assets.length ; n++){
-        if(parsedResp.assets[n].description == "My Breathtaking Pixel Bois"){
-          console.log(myMMAccount + " ownes " + parsedResp.assets[n].name)
-          myNfts.push(parsedResp.assets[n])
+      // let _parsedResp = JSON.stringify(Http.responseText)
+      // let parsedResp = JSON.parse(_parsedResp)
+      for(let n = 0 ; n < JSON.parse(osresponse).assets.length ; n++){
+        if(JSON.parse(osresponse).assets[n].description == "My Breathtaking Pixel Bois"){
+          console.log(myMMAccount + " ownes " + JSON.parse(osresponse).assets[n].name)
+          myNfts.push(JSON.parse(osresponse).assets[n])
         }
       }
     }
