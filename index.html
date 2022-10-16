@@ -125,7 +125,7 @@ button{
     await Http.open("GET", url);
     await Http.send();
     Http.onreadystatechange = (e) => {
-      console.log(Http.responseText)
+      //console.log(Http.responseText)
      if(Http.responseText.charAt(0) == "{"){
       if(JSON.parse(Http.responseText).assets.length > 0){
           if(osresponse == undefined){osresponse = JSON.stringify(JSON.parse(Http.responseText));
@@ -170,6 +170,10 @@ button{
     _div.appendChild(_divCont);
     document.getElementById("nftHolder").appendChild(_div)
   }
+
+  window.onload = function() {
+    document.getElementById("nftHolder").style.width = "100%"
+  };
 
 </script>
 
