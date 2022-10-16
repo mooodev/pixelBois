@@ -1,61 +1,533 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-   <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <link rel="icon" type="image/x-icon" href="https://mooodev.github.io/pixelBois/breathtakingSite/favico.png">
-      <title>Pixel Bois minting page</title>
-   </head>
-   <style media="screen">
-      body{margin: 0; height: 100%; overflow: hidden; background-color: #8d7267;
-      color:white; font-size: 40px;font-weight: 900;
-      text-align: center;}
-      .web3Holder{
-      margin: 0;
-      position: absolute;
-      top: 30%;
-      -ms-transform: translateY(-50%);
-      transform: translateY(-50%);
-      left: 0px;
-      right: 0;
-      margin-left: auto;
-      margin-right: auto;
-      width: 300px; /* Need a specific value to work */
-      }
-      p{
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 10%;
+  <head>
+    <style media="screen">
+      body{
+        background-color:#1B2430;
+        color:#D6D5A8;
+        text-align:center;
       }
       button{
-      font-size: 20px;
-      border-radius: 25px;
-      width: 300px;
-      height: 80px;
-      opacity: 0.6;
-      filter: drop-shadow(30px 10px 4px #4444dd);
+        background-color:#51557E;
       }
-      button:hover{
-      width: 300px;
-      height: 80px;
-      opacity: 0.9;
+      .templateNft{
+        background-color:#816797;
+        position: static;
       }
-      .infoBar{
-      top: 5%;
-      }
-   </style>
-   <body>
-      <p id="totalCount">(っ◔◡◔)っ ♥ ALL PIXEL BOIS HAVE BEEN MINTED ♥</p>
-      <p class="infoBar" id="infoBar">Minted: 420/420</p>
-      <div class="web3Holder" id="web3Holder" hidden>
-         <button id="mintButton" hidden onclick="mint()">MINT</button>
-         <button id="connectButton" onclick="activateMeta()">CONNECT 🦊</button>
-      </div>
-      <div class="screenHolder" id="screenHolder">
-      </div>
-      <script src="https://mooodev.github.io/pixelBois/breathtakingSite/main.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.7.1-rc.0/web3.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-   </body>
+      .parent {
+display: grid;
+grid-template-columns: repeat(5, 1fr);
+grid-template-rows: 0.5fr repeat(3, 1fr) 0.4fr;
+grid-column-gap: 0px;
+grid-row-gap: 0px;
+}
+.div1 { grid-area: 1 / 5 / 2 / 6; }
+.div2 { grid-area: 3 / 2 / 4 / 5; }
+    </style>
+    <meta charset="utf-8">
+    <title>🖼️BOI-PFP's</title>
+  </head>
+  <body>
+    <div class="parent">
+<div class="div1"> <button onclick="connectMM()" type="button" name="button">🦊Connect Metamask</button></div>
+<div class="div2"> BOI-ACCOUNT: <i id="_addressMain"></i>
+
+<div class="templateNft"> Boi#1 </div>
+<div class="templateNft"> Boi#1 </div>
+<div class="templateNft"> Boi#1 </div>
+
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.7.1-rc.0/web3.min.js"></script>
+<script type="text/javascript">
+
+
+let myMMAccount;
+let connectMM = async () => {
+  console.log("connecting to metamask")
+  const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+  const account = accounts[0];
+  myMMAccount = account;
+  document.getElementById("_addressMain").innerHTML = myMMAccount.toString()
+  getTotalMinted();
+}
+
+var getTotalMinted = async () => {
+  await contractInstance.methods.totalMinted().call().then(function(total) {
+  console.log("minted total " + total);
+});
+}
+
+  const Contract = "0x0568A87e64E65f4cC7898E08f0e57FFe2AA6241f"
+  var myAbi = [
+  	{
+  		"inputs": [],
+  		"stateMutability": "nonpayable",
+  		"type": "constructor"
+  	},
+  	{
+  		"anonymous": false,
+  		"inputs": [
+  			{
+  				"indexed": true,
+  				"internalType": "address",
+  				"name": "owner",
+  				"type": "address"
+  			},
+  			{
+  				"indexed": true,
+  				"internalType": "address",
+  				"name": "approved",
+  				"type": "address"
+  			},
+  			{
+  				"indexed": true,
+  				"internalType": "uint256",
+  				"name": "tokenId",
+  				"type": "uint256"
+  			}
+  		],
+  		"name": "Approval",
+  		"type": "event"
+  	},
+  	{
+  		"anonymous": false,
+  		"inputs": [
+  			{
+  				"indexed": true,
+  				"internalType": "address",
+  				"name": "owner",
+  				"type": "address"
+  			},
+  			{
+  				"indexed": true,
+  				"internalType": "address",
+  				"name": "operator",
+  				"type": "address"
+  			},
+  			{
+  				"indexed": false,
+  				"internalType": "bool",
+  				"name": "approved",
+  				"type": "bool"
+  			}
+  		],
+  		"name": "ApprovalForAll",
+  		"type": "event"
+  	},
+  	{
+  		"anonymous": false,
+  		"inputs": [
+  			{
+  				"indexed": true,
+  				"internalType": "address",
+  				"name": "previousOwner",
+  				"type": "address"
+  			},
+  			{
+  				"indexed": true,
+  				"internalType": "address",
+  				"name": "newOwner",
+  				"type": "address"
+  			}
+  		],
+  		"name": "OwnershipTransferred",
+  		"type": "event"
+  	},
+  	{
+  		"anonymous": false,
+  		"inputs": [
+  			{
+  				"indexed": true,
+  				"internalType": "address",
+  				"name": "from",
+  				"type": "address"
+  			},
+  			{
+  				"indexed": true,
+  				"internalType": "address",
+  				"name": "to",
+  				"type": "address"
+  			},
+  			{
+  				"indexed": true,
+  				"internalType": "uint256",
+  				"name": "tokenId",
+  				"type": "uint256"
+  			}
+  		],
+  		"name": "Transfer",
+  		"type": "event"
+  	},
+  	{
+  		"inputs": [
+  			{
+  				"internalType": "address",
+  				"name": "to",
+  				"type": "address"
+  			},
+  			{
+  				"internalType": "uint256",
+  				"name": "tokenId",
+  				"type": "uint256"
+  			}
+  		],
+  		"name": "approve",
+  		"outputs": [],
+  		"stateMutability": "nonpayable",
+  		"type": "function"
+  	},
+  	{
+  		"inputs": [
+  			{
+  				"internalType": "address",
+  				"name": "owner",
+  				"type": "address"
+  			}
+  		],
+  		"name": "balanceOf",
+  		"outputs": [
+  			{
+  				"internalType": "uint256",
+  				"name": "",
+  				"type": "uint256"
+  			}
+  		],
+  		"stateMutability": "view",
+  		"type": "function"
+  	},
+  	{
+  		"inputs": [],
+  		"name": "baseTokenURI",
+  		"outputs": [
+  			{
+  				"internalType": "string",
+  				"name": "",
+  				"type": "string"
+  			}
+  		],
+  		"stateMutability": "view",
+  		"type": "function"
+  	},
+  	{
+  		"inputs": [
+  			{
+  				"internalType": "uint256",
+  				"name": "_maxAmount",
+  				"type": "uint256"
+  			}
+  		],
+  		"name": "changeMaxMint",
+  		"outputs": [],
+  		"stateMutability": "nonpayable",
+  		"type": "function"
+  	},
+  	{
+  		"inputs": [],
+  		"name": "contractURI",
+  		"outputs": [
+  			{
+  				"internalType": "string",
+  				"name": "",
+  				"type": "string"
+  			}
+  		],
+  		"stateMutability": "pure",
+  		"type": "function"
+  	},
+  	{
+  		"inputs": [
+  			{
+  				"internalType": "uint256",
+  				"name": "tokenId",
+  				"type": "uint256"
+  			}
+  		],
+  		"name": "getApproved",
+  		"outputs": [
+  			{
+  				"internalType": "address",
+  				"name": "",
+  				"type": "address"
+  			}
+  		],
+  		"stateMutability": "view",
+  		"type": "function"
+  	},
+  	{
+  		"inputs": [
+  			{
+  				"internalType": "address",
+  				"name": "owner",
+  				"type": "address"
+  			},
+  			{
+  				"internalType": "address",
+  				"name": "operator",
+  				"type": "address"
+  			}
+  		],
+  		"name": "isApprovedForAll",
+  		"outputs": [
+  			{
+  				"internalType": "bool",
+  				"name": "",
+  				"type": "bool"
+  			}
+  		],
+  		"stateMutability": "view",
+  		"type": "function"
+  	},
+  	{
+  		"inputs": [],
+  		"name": "mintFree",
+  		"outputs": [
+  			{
+  				"internalType": "uint256",
+  				"name": "",
+  				"type": "uint256"
+  			}
+  		],
+  		"stateMutability": "nonpayable",
+  		"type": "function"
+  	},
+  	{
+  		"inputs": [],
+  		"name": "name",
+  		"outputs": [
+  			{
+  				"internalType": "string",
+  				"name": "",
+  				"type": "string"
+  			}
+  		],
+  		"stateMutability": "view",
+  		"type": "function"
+  	},
+  	{
+  		"inputs": [],
+  		"name": "owner",
+  		"outputs": [
+  			{
+  				"internalType": "address",
+  				"name": "",
+  				"type": "address"
+  			}
+  		],
+  		"stateMutability": "view",
+  		"type": "function"
+  	},
+  	{
+  		"inputs": [
+  			{
+  				"internalType": "uint256",
+  				"name": "tokenId",
+  				"type": "uint256"
+  			}
+  		],
+  		"name": "ownerOf",
+  		"outputs": [
+  			{
+  				"internalType": "address",
+  				"name": "",
+  				"type": "address"
+  			}
+  		],
+  		"stateMutability": "view",
+  		"type": "function"
+  	},
+  	{
+  		"inputs": [],
+  		"name": "renounceOwnership",
+  		"outputs": [],
+  		"stateMutability": "nonpayable",
+  		"type": "function"
+  	},
+  	{
+  		"inputs": [
+  			{
+  				"internalType": "address",
+  				"name": "from",
+  				"type": "address"
+  			},
+  			{
+  				"internalType": "address",
+  				"name": "to",
+  				"type": "address"
+  			},
+  			{
+  				"internalType": "uint256",
+  				"name": "tokenId",
+  				"type": "uint256"
+  			}
+  		],
+  		"name": "safeTransferFrom",
+  		"outputs": [],
+  		"stateMutability": "nonpayable",
+  		"type": "function"
+  	},
+  	{
+  		"inputs": [
+  			{
+  				"internalType": "address",
+  				"name": "from",
+  				"type": "address"
+  			},
+  			{
+  				"internalType": "address",
+  				"name": "to",
+  				"type": "address"
+  			},
+  			{
+  				"internalType": "uint256",
+  				"name": "tokenId",
+  				"type": "uint256"
+  			},
+  			{
+  				"internalType": "bytes",
+  				"name": "_data",
+  				"type": "bytes"
+  			}
+  		],
+  		"name": "safeTransferFrom",
+  		"outputs": [],
+  		"stateMutability": "nonpayable",
+  		"type": "function"
+  	},
+  	{
+  		"inputs": [
+  			{
+  				"internalType": "address",
+  				"name": "operator",
+  				"type": "address"
+  			},
+  			{
+  				"internalType": "bool",
+  				"name": "approved",
+  				"type": "bool"
+  			}
+  		],
+  		"name": "setApprovalForAll",
+  		"outputs": [],
+  		"stateMutability": "nonpayable",
+  		"type": "function"
+  	},
+  	{
+  		"inputs": [
+  			{
+  				"internalType": "string",
+  				"name": "_baseTokenURI",
+  				"type": "string"
+  			}
+  		],
+  		"name": "setBaseTokenURI",
+  		"outputs": [],
+  		"stateMutability": "nonpayable",
+  		"type": "function"
+  	},
+  	{
+  		"inputs": [
+  			{
+  				"internalType": "bytes4",
+  				"name": "interfaceId",
+  				"type": "bytes4"
+  			}
+  		],
+  		"name": "supportsInterface",
+  		"outputs": [
+  			{
+  				"internalType": "bool",
+  				"name": "",
+  				"type": "bool"
+  			}
+  		],
+  		"stateMutability": "view",
+  		"type": "function"
+  	},
+  	{
+  		"inputs": [],
+  		"name": "symbol",
+  		"outputs": [
+  			{
+  				"internalType": "string",
+  				"name": "",
+  				"type": "string"
+  			}
+  		],
+  		"stateMutability": "view",
+  		"type": "function"
+  	},
+  	{
+  		"inputs": [
+  			{
+  				"internalType": "uint256",
+  				"name": "tokenId",
+  				"type": "uint256"
+  			}
+  		],
+  		"name": "tokenURI",
+  		"outputs": [
+  			{
+  				"internalType": "string",
+  				"name": "",
+  				"type": "string"
+  			}
+  		],
+  		"stateMutability": "view",
+  		"type": "function"
+  	},
+  	{
+  		"inputs": [],
+  		"name": "totalMinted",
+  		"outputs": [
+  			{
+  				"internalType": "uint256",
+  				"name": "",
+  				"type": "uint256"
+  			}
+  		],
+  		"stateMutability": "view",
+  		"type": "function"
+  	},
+  	{
+  		"inputs": [
+  			{
+  				"internalType": "address",
+  				"name": "from",
+  				"type": "address"
+  			},
+  			{
+  				"internalType": "address",
+  				"name": "to",
+  				"type": "address"
+  			},
+  			{
+  				"internalType": "uint256",
+  				"name": "tokenId",
+  				"type": "uint256"
+  			}
+  		],
+  		"name": "transferFrom",
+  		"outputs": [],
+  		"stateMutability": "nonpayable",
+  		"type": "function"
+  	},
+  	{
+  		"inputs": [
+  			{
+  				"internalType": "address",
+  				"name": "newOwner",
+  				"type": "address"
+  			}
+  		],
+  		"name": "transferOwnership",
+  		"outputs": [],
+  		"stateMutability": "nonpayable",
+  		"type": "function"
+  	}
+  ]
+
+
+</script>
+  </body>
 </html>
