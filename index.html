@@ -95,8 +95,8 @@ button{
     let url='https://api.opensea.io/api/v1/assets?owner=';
     console.log("getting data from OPENSEA")
     url += address;
-    Http.open("GET", url);
-    Http.send();
+    await Http.open("GET", url);
+    await Http.send();
     Http.onreadystatechange = (e) => {
       console.log(e)
       osresponse = Http.responseText;
@@ -105,6 +105,7 @@ button{
   }
 
   let searchForOwnerNfts = () => {
+    console.log("searching for matches")
     for(let n = 0 ; n < JSON.parse(osresponse).assets.length ; n++){
       if(JSON.parse(osresponse).assets[n].description == "My Breathtaking Pixel Bois"){
         console.log(myMMAccount + " ownes " + JSON.parse(osresponse).assets[n].name)
