@@ -113,6 +113,7 @@ button{
     Http.open("GET", url);
     Http.send();
     Http.onreadystatechange = (e) => {
+      console.log(e)
       osresponse = Http.responseText;
     //  _myNfts = Http.responseText;
       // let _parsedResp = JSON.stringify(Http.responseText)
