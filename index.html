@@ -157,6 +157,16 @@ button{
   let addCard = (name) => {
       let _id = name.slice(5)
       let _div = document.createElement("div");
+      let _saveButton = document.createElement("button");
+      _saveButton.innerHTML = "💾"
+      _saveButton.id = _id;
+      _saveButton.addEventListener("click", (e) => {
+        console.log(e.innerHTML)
+        console.log(e)
+        saveId(this.id)
+      });
+      _saveButton.style.position = "absolute"
+      _div.appendChild(_saveButton);
       _div.classList.add('card');
       let _img = document.createElement("img");
       _img.src = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/" + _id + ".png"
@@ -175,16 +185,6 @@ button{
       // _div.appendChild(_hpText);
 
       _div.appendChild(_divCont);
-      let _saveButton = document.createElement("button");
-      _saveButton.innerHTML = "💾"
-      _saveButton.id = _id;
-      _saveButton.addEventListener("click", () => {
-        console.log(this.innerHTML)
-        console.log(this)
-        //  saveId(this.id)
-      });
-      _saveButton.style.position = "absolute"
-      _divCont.appendChild(_saveButton);
       document.getElementById("nftHolder").appendChild(_div)
   }
 
