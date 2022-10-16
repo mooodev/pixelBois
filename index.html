@@ -125,7 +125,7 @@ button{
     await Http.open("GET", url);
     await Http.send();
     Http.onreadystatechange = (e) => {
-      conosole.log(Http.responseText)
+      console.log(Http.responseText)
      if(Http.responseText.charAt(0) == "{"){
       if(JSON.parse(Http.responseText).assets.length > 0){
           if(osresponse == undefined){osresponse = JSON.stringify(JSON.parse(Http.responseText));
