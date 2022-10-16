@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
+     <link rel="icon" type="image/x-icon" href="https://mooodev.github.io/pixelBois/breathtakingSite/favico.png">
     <meta charset="utf-8">
     <title></title>
     <style media="screen">
@@ -92,6 +93,7 @@ button{
   let myMMAccount;
   let contractInstance;
   let web3;
+  let _myNfts;
   let myNfts = []
   let connectMM = async () => {
     console.log("connecting to metamask")
@@ -111,7 +113,7 @@ button{
     Http.open("GET", url);
     Http.send();
     Http.onreadystatechange = (e) => {
-      myNfts = Http.responseText;
+      _myNfts = Http.responseText;
       let _parsedResp = Http.responseText
       let parsedResp = JSON.parse(_parsedResp)
       for(let n = 0 ; n < parsedResp.assets.length ; n++){
