@@ -183,14 +183,16 @@ button{
         console.log(this)
         //  saveId(this.id)
       });
-      _divCont.innerHTML = _divCont.innerHTML + _saveButton;
+      _saveButton.style.position = "absolute"
+      _divCont.appendChild(_saveButton);
       document.getElementById("nftHolder").appendChild(_div)
   }
 
   let saveId = (id) => {
+    console.log(id)
       let a = document.createElement('a');
-      a.href = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/" + id + ".png";
-      a.download = id + ".png";
+      a.href = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/" + 1 + ".png";
+      a.download = 1 + ".png";
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
