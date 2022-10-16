@@ -83,13 +83,16 @@ button{
     const account = accounts[0];
     myMMAccount = account;
     document.getElementById("_addressMain").innerHTML = myMMAccount.toString()
-    getDataFromOS(myMMAccount)
+    await getDataFromOS(myMMAccount)
+    searchForOwnerNfts();
   }
 
 
-  const Http = new XMLHttpRequest();
-  let url='https://api.opensea.io/api/v1/assets?owner=';
-  let getDataFromOS = (address) => {
+
+
+  let getDataFromOS = async (address) => {
+    const Http = new XMLHttpRequest();
+    let url='https://api.opensea.io/api/v1/assets?owner=';
     console.log("getting data from OPENSEA")
     url += address;
     Http.open("GET", url);
@@ -97,19 +100,19 @@ button{
     Http.onreadystatechange = (e) => {
       console.log(e)
       osresponse = Http.responseText;
-    //  _myNfts = Http.responseText;
-      // let _parsedResp = JSON.stringify(Http.responseText)
-      // let parsedResp = JSON.parse(_parsedResp)
-      for(let n = 0 ; n < JSON.parse(osresponse).assets.length ; n++){
-        if(JSON.parse(osresponse).assets[n].description == "My Breathtaking Pixel Bois"){
-          console.log(myMMAccount + " ownes " + JSON.parse(osresponse).assets[n].name)
-          addCard(JSON.parse(osresponse).assets[n].name)
-          myNfts.push(JSON.parse(osresponse).assets[n])
-        }
-      }
+      return true;
     }
   }
 
+  let searchForOwnerNfts = () => {
+    for(let n = 0 ; n < JSON.parse(osresponse).assets.length ; n++){
+      if(JSON.parse(osresponse).assets[n].description == "My Breathtaking Pixel Bois"){
+        console.log(myMMAccount + " ownes " + JSON.parse(osresponse).assets[n].name)
+        addCard(JSON.parse(osresponse).assets[n].name)
+        //myNfts.push(JSON.parse(osresponse).assets[n])
+      }
+    }
+  }
 
   let addCard = (name) => {
     let _id = name.slice(5)
