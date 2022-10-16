@@ -7,7 +7,7 @@
     <style media="screen">
       hr{
         background-color:#50C878;
-        height:20px;
+        height:15px;
         width:90%;
         border-radius: 20px;
       }
@@ -145,7 +145,6 @@ button{
         myNfts.push(JSON.parse(osresponse).assets[n])
       }
     }
-    osresponse = '';
     return true;
   }
   let addCard = (name) => {
@@ -162,11 +161,11 @@ button{
     _divCont.appendChild(_name);
     _div.appendChild(_img);
     let _healthBar = document.createElement("hr");
-    let _hpText = document.createElement("h4");
-    _hpText.innerHTML = '54'
-    _hpText.classList.add('hrText');
+    // let _hpText = document.createElement("h4");
+    // _hpText.innerHTML = '54'
+    // _hpText.classList.add('hrText');
     _div.appendChild(_healthBar);
-    _div.appendChild(_hpText);
+    // _div.appendChild(_hpText);
     _div.appendChild(_divCont);
     document.getElementById("nftHolder").appendChild(_div)
   }
