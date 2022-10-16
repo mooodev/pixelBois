@@ -161,9 +161,8 @@ button{
       _saveButton.innerHTML = "💾"
       _saveButton.id = _id;
       _saveButton.addEventListener("click", (e) => {
-        console.log(e.innerHTML)
-        console.log(e)
-        saveId(this.id)
+        console.log(e.path[0].id)
+        saveId(e.path[0].id)
       });
       _saveButton.style.position = "absolute"
       _div.appendChild(_saveButton);
@@ -191,8 +190,8 @@ button{
   let saveId = (id) => {
     console.log(id)
       let a = document.createElement('a');
-      a.href = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/" + 1 + ".png";
-      a.download = 1 + ".png";
+      a.href = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/" + id + ".png";
+      a.download = id + ".png";
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
