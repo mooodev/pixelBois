@@ -46,6 +46,7 @@ grid-row-gap: 0px;
 let myMMAccount;
 let contractInstance;
 let web3;
+let myNfts = []
 let connectMM = async () => {
   console.log("connecting to metamask")
   const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
@@ -66,7 +67,13 @@ let getDataFromOS = (address) => {
   Http.open("GET", url);
   Http.send();
   Http.onreadystatechange = (e) => {
-    console.log(Http.responseText)
+    //console.log(Http.responseText)
+    for(let n = 0 ; n < Http.responseText.assets.length ; n++){
+      if(Http.responseText.assets[n].description == "My Breathtaking Pixel Bois"){
+        console.log(myMMAccount + " ownes " + Http.responseText.assets[n].name)
+        myNfts.push(Http.responseText.assets[n])
+      }
+    }
   }
 }
 
