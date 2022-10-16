@@ -43,6 +43,7 @@ grid-row-gap: 0px;
 
 
 let myMMAccount;
+let contractInstance;
 let connectMM = async () => {
   console.log("connecting to metamask")
   const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
