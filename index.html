@@ -167,8 +167,23 @@ button{
     // _hpText.classList.add('hrText');
     _div.appendChild(_healthBar);
     // _div.appendChild(_hpText);
+
     _div.appendChild(_divCont);
+    let _saveButton = document.createElement("button");
+    _saveButton.innerHTML = "💾"
+    _saveButton.id = _id;
+    _saveButton.onclick(()=>{
+      saveId(this.id)
+    })
     document.getElementById("nftHolder").appendChild(_div)
+  }
+
+  let saveId = (id) => {
+a.href = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/"+id+".png";
+a.download = id+".png";
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
   }
 
   window.onload = function() {
