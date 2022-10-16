@@ -73,10 +73,30 @@ button{
 
 <script type="text/javascript">
 
+  class PfpDownloader{
+    constructor(){
+      this.web3;
+      this.myAddress;
+      this.osResponse;
+      this.myNfts = [];
+    }
+    connectMM(){
+
+    }
+    getDataFromOS(){
+
+    }
+    searchForOwnerNfts(){
+
+    }
+    addCard(){
+
+    }
+  }
+
   let myMMAccount;
-  let contractInstance;
   let web3;
-  let osresponse;
+  let osresponse = undefined;
   let myNfts = []
   let connectMM = async () => {
     console.log("connecting to metamask")
@@ -94,12 +114,12 @@ button{
     await Http.open("GET", url);
     await Http.send();
     Http.onreadystatechange = (e) => {
-      if(osresponse == undefined){
-        osresponse = Http.responseText;
-        searchForOwnerNfts();
-      }else{
-        //already got
+
+      if(JSON.parse(Http.responseText).assets.length > 0){
+          if(osresponse == undefined)osresponse = JSON.stringify(JSON.parse(Http.responseText));
+          setTimeout(() => {searchForOwnerNfts()}, 1000);
       }
+    
       return true;
     }
   }
