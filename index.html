@@ -116,10 +116,11 @@ button{
     Http.onreadystatechange = (e) => {
 
       if(JSON.parse(Http.responseText).assets.length > 0){
-          if(osresponse == undefined)osresponse = JSON.stringify(JSON.parse(Http.responseText));
-          setTimeout(() => {searchForOwnerNfts()}, 1000);
+          if(osresponse == undefined){osresponse = JSON.stringify(JSON.parse(Http.responseText));
+          searchForOwnerNfts()
+        }
       }
-    
+
       return true;
     }
   }
