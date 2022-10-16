@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+   <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="icon" type="image/x-icon" href="https://mooodev.github.io/pixelBois/breathtakingSite/favico.png">
+      <title>Pixel Bois minting page</title>
+   </head>
+   <style media="screen">
+      body{margin: 0; height: 100%; overflow: hidden; background-color: #8d7267;
+      color:white; font-size: 40px;font-weight: 900;
+      text-align: center;}
+      .web3Holder{
+      margin: 0;
+      position: absolute;
+      top: 30%;
+      -ms-transform: translateY(-50%);
+      transform: translateY(-50%);
+      left: 0px;
+      right: 0;
+      margin-left: auto;
+      margin-right: auto;
+      width: 300px; /* Need a specific value to work */
+      }
+      p{
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 10%;
+      }
+      button{
+      font-size: 20px;
+      border-radius: 25px;
+      width: 300px;
+      height: 80px;
+      opacity: 0.6;
+      filter: drop-shadow(30px 10px 4px #4444dd);
+      }
+      button:hover{
+      width: 300px;
+      height: 80px;
+      opacity: 0.9;
+      }
+      .infoBar{
+      top: 5%;
+      }
+   </style>
+   <body>
+      <p id="totalCount">(っ◔◡◔)っ ♥ ALL PIXEL BOIS HAVE BEEN MINTED ♥</p>
+      <p class="infoBar" id="infoBar">Minted: 420/420</p>
+      <div class="web3Holder" id="web3Holder" hidden>
+         <button id="mintButton" hidden onclick="mint()">MINT</button>
+         <button id="connectButton" onclick="activateMeta()">CONNECT 🦊</button>
+      </div>
+      <div class="screenHolder" id="screenHolder">
+      </div>
+      <script src="https://mooodev.github.io/pixelBois/breathtakingSite/main.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.7.1-rc.0/web3.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+   </body>
+</html>
