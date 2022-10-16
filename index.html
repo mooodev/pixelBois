@@ -114,17 +114,18 @@ button{
     await Http.open("GET", url);
     await Http.send();
     Http.onreadystatechange = (e) => {
-
+     if(Http.responseText.charAt(0) == "{"){
       if(JSON.parse(Http.responseText).assets.length > 0){
           if(osresponse == undefined){osresponse = JSON.stringify(JSON.parse(Http.responseText));
           searchForOwnerNfts()
         }
       }
-
+    }
       return true;
     }
   }
   let searchForOwnerNfts = () => {
+    document.getElementById("nftHolder").innerHTML = '';
     console.log("searching for matches")
     for(let n = 0 ; n < JSON.parse(osresponse).assets.length ; n++){
       if(JSON.parse(osresponse).assets[n].description == "My Breathtaking Pixel Bois"){
@@ -133,6 +134,7 @@ button{
         myNfts.push(JSON.parse(osresponse).assets[n])
       }
     }
+    osresponse = '';
     return true;
   }
   let addCard = (name) => {
