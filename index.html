@@ -172,9 +172,9 @@ button{
     let _saveButton = document.createElement("button");
     _saveButton.innerHTML = "💾"
     _saveButton.id = _id;
-    _saveButton.onclick(()=>{
+    _saveButton.addEventListener("click", ()=>{
       saveId(this.id)
-    })
+    });
     document.getElementById("nftHolder").appendChild(_div)
   }
 
