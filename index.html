@@ -113,6 +113,8 @@ button{
   let osresponse = undefined;
   let myNfts = []
   let connectMM = async () => {
+    osresponse = undefined;
+    document.getElementById("nftHolder").innerHTML = ''
       console.log("connecting to metamask")
       const accounts = await ethereum.request({
           method: 'eth_requestAccounts'
