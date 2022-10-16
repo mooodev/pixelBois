@@ -1,614 +1,133 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-   <link rel="icon" type="image/x-icon" href="https://mooodev.github.io/pixelBois/breathtakingSite/favico.png">
   <head>
+    <meta charset="utf-8">
+    <title></title>
     <style media="screen">
-      .card {
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  transition: 0.3s;
-  border-radius: 5px; /* 5px rounded corners */
+      .flex-container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-content: stretch;
+    align-items: flex-start;
+    }
+
+.flex-item:nth-child(1) {
+    order: 0;
+    flex: 0 1 auto;
+    align-self: flex-end;
+    }
+
+.flex-item:nth-child(2) {
+    order: 0;
+    flex: 0 1 auto;
+    align-self: center;
+    }
+
+.flex-item:nth-child(3) {
+    order: 0;
+    flex: 0 1 auto;
+    align-self: center;
+    }
+    .card {
+box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+transition: 0.3s;
+border-radius: 5px; /* 5px rounded corners */
+width: 20%;
+position:relative;
+display:inline-block;
+background-color:#816797;
+margin: auto;
 }
 
 /* Add rounded corners to the top left and the top right corner of the image */
 img {
-  border-radius: 5px 5px 0 0;
+border-radius: 5px 5px 0 0;
 }
-      body{
-        background-color:#1B2430;
-        color:#D6D5A8;
-        text-align:center;
-      }
-      button{
-        background-color:#51557E;
-      }
-      .templateNft{
-        background-color:#816797;
-        position: static;
-      }
-      .parent {
-display: grid;
-grid-template-columns: repeat(5, 1fr);
-grid-template-rows: 0.5fr repeat(3, 1fr) 0.4fr;
-grid-column-gap: 0px;
-grid-row-gap: 0px;
+body{
+  background-color:#1B2430;
+  color:#D6D5A8;
+  text-align:center;
 }
-.div1 { grid-area: 1 / 5 / 2 / 6; }
-.div2 { grid-area: 3 / 2 / 4 / 5; }
+button{
+  background-color:#51557E;
+}
     </style>
-    <meta charset="utf-8">
-    <title>🖼️BOI-PFP's</title>
   </head>
   <body>
-    <div class="parent">
-<div class="div1"> <button onclick="connectMM()" type="button" name="button">🦊Connect Metamask</button></div>
-<div class="div2"> BOI-ACCOUNT: <i id="_addressMain"></i>
 
-<!-- <div class="templateNft"> Boi#1 </div>
-<div class="templateNft"> Boi#1 </div>
-<div class="templateNft"> Boi#1 </div> -->
-<div class="card">
-  <img src="img_avatar.png" alt="Avatar" style="width:100%">
-  <div class="container">
-    <h4><b>John Doe</b></h4>
-    <p>Architect & Engineer</p>
+<div class="flex-container">
+  <div class="flex-item">
+    <button onclick="connectMM()"  type="button" name="button">🦊Connect Metamask</button>
+  </div>
+  <div class="flex-item">BOI-ACCOUNT: <i id="_addressMain">0x</i></div>
+  <div class="flex-item">
+    <div class="card">
+      <img src="https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/3.png" alt="Avatar" style="width:100%">
+      <div class="container">
+        <h4><b>John Doe</b></h4>
+        <p>Architect & Engineer</p>
+      </div>
+    </div>
+    <div class="card">
+      <img src="https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/5.png" alt="Avatar" style="width:100%">
+      <div class="container">
+        <h4><b>John Doe</b></h4>
+        <p>Architect & Engineer</p>
+      </div>
+    </div>
+    <div class="card">
+      <img src="https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/13.png" alt="Avatar" style="width:100%">
+      <div class="container">
+        <h4><b>John Doe</b></h4>
+        <p>Architect & Engineer</p>
+      </div>
+    </div>
   </div>
 </div>
 
-</div>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.7.1-rc.0/web3.min.js"></script>
 <script type="text/javascript">
 
-
-let myMMAccount;
-let contractInstance;
-let web3;
-let myNfts = []
-let connectMM = async () => {
-  console.log("connecting to metamask")
-  const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-  const account = accounts[0];
-  myMMAccount = account;
-  document.getElementById("_addressMain").innerHTML = myMMAccount.toString()
-  //getBalanceOf(myMMAccount);
-  getDataFromOS(myMMAccount)
-}
+  let myMMAccount;
+  let contractInstance;
+  let web3;
+  let myNfts = []
+  let connectMM = async () => {
+    console.log("connecting to metamask")
+    const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+    const account = accounts[0];
+    myMMAccount = account;
+    document.getElementById("_addressMain").innerHTML = myMMAccount.toString()
+    getDataFromOS(myMMAccount)
+  }
 
 
-
-const Http = new XMLHttpRequest();
-let url='https://api.opensea.io/api/v1/assets?owner=';
-let getDataFromOS = (address) => {
-  console.log("getting data from OPENSEA")
-  url += address;
-  Http.open("GET", url);
-  Http.send();
-  Http.onreadystatechange = (e) => {
-    //console.log(Http.responseText)
-    let parsedResp = JSON.parse(Http.responseText)
-    for(let n = 0 ; n < Http.responseText.assets.length ; n++){
-      if(parsedResp.assets[n].description == "My Breathtaking Pixel Bois"){
-        console.log(myMMAccount + " ownes " + parsedResp.assets[n].name)
-        myNfts.push(parsedResp.assets[n])
+  const Http = new XMLHttpRequest();
+  let url='https://api.opensea.io/api/v1/assets?owner=';
+  let getDataFromOS = (address) => {
+    console.log("getting data from OPENSEA")
+    url += address;
+    Http.open("GET", url);
+    Http.send();
+    Http.onreadystatechange = (e) => {
+      //console.log(Http.responseText)
+      let parsedResp = JSON.parse(Http.responseText)
+      for(let n = 0 ; n < Http.responseText.assets.length ; n++){
+        if(parsedResp.assets[n].description == "My Breathtaking Pixel Bois"){
+          console.log(myMMAccount + " ownes " + parsedResp.assets[n].name)
+          myNfts.push(parsedResp.assets[n])
+        }
       }
     }
   }
-}
 
 
-
-// let getBalanceOf = async (address) => {
-//   await contractInstance.methods.balanceOf(address).call().then(function(total) {
-//   console.log(myMMAccount + " adress owns total " + total);
-//   getAllOwnedNfts(total);
-// });
-// }
-// let getAllOwnedNfts = async (total) => {
-//   console.log("looking for specific NFT owned")
-//   let _owner = myMMAccount;
-//   let _totalOwned = total;
-//   let _totalFound = 0;
-//   let _currentId = 1;
-//   let _idArray = [];
-//   for(let n = 0 ; n < 420 ; n++){
-//     if(_totalFound == _totalOwned){
-//       n = 420;
-//       console.log("Found all NFTs " + _idArray)
-//       return true;
-//     }else{
-//       let _myNftOwner = await getOwnerOf(_currentId)
-//       if(_myNftOwner == myMMAccount){
-//         _idArray.push(_currentId);
-//         _totalFound++;
-//       }
-//     }
-//     _currentId++;
-//   }
-// }
-// let getOwnerOf = async (id) => {
-//   console.log("getting owner of "+ id)
-//   await contractInstance.methods.ownerOf(id).call().then(function(owner) {
-//   return owner;
-// });
-// }
-
-window.onload = function() {
-  web3 = new Web3(window.ethereum);
-  contractInstance = new web3.eth.Contract(myAbi, Contract);
-};
-
-
-
-  const Contract = "0x0568A87e64E65f4cC7898E08f0e57FFe2AA6241f"
-  var myAbi = [
-  	{
-  		"inputs": [],
-  		"stateMutability": "nonpayable",
-  		"type": "constructor"
-  	},
-  	{
-  		"anonymous": false,
-  		"inputs": [
-  			{
-  				"indexed": true,
-  				"internalType": "address",
-  				"name": "owner",
-  				"type": "address"
-  			},
-  			{
-  				"indexed": true,
-  				"internalType": "address",
-  				"name": "approved",
-  				"type": "address"
-  			},
-  			{
-  				"indexed": true,
-  				"internalType": "uint256",
-  				"name": "tokenId",
-  				"type": "uint256"
-  			}
-  		],
-  		"name": "Approval",
-  		"type": "event"
-  	},
-  	{
-  		"anonymous": false,
-  		"inputs": [
-  			{
-  				"indexed": true,
-  				"internalType": "address",
-  				"name": "owner",
-  				"type": "address"
-  			},
-  			{
-  				"indexed": true,
-  				"internalType": "address",
-  				"name": "operator",
-  				"type": "address"
-  			},
-  			{
-  				"indexed": false,
-  				"internalType": "bool",
-  				"name": "approved",
-  				"type": "bool"
-  			}
-  		],
-  		"name": "ApprovalForAll",
-  		"type": "event"
-  	},
-  	{
-  		"anonymous": false,
-  		"inputs": [
-  			{
-  				"indexed": true,
-  				"internalType": "address",
-  				"name": "previousOwner",
-  				"type": "address"
-  			},
-  			{
-  				"indexed": true,
-  				"internalType": "address",
-  				"name": "newOwner",
-  				"type": "address"
-  			}
-  		],
-  		"name": "OwnershipTransferred",
-  		"type": "event"
-  	},
-  	{
-  		"anonymous": false,
-  		"inputs": [
-  			{
-  				"indexed": true,
-  				"internalType": "address",
-  				"name": "from",
-  				"type": "address"
-  			},
-  			{
-  				"indexed": true,
-  				"internalType": "address",
-  				"name": "to",
-  				"type": "address"
-  			},
-  			{
-  				"indexed": true,
-  				"internalType": "uint256",
-  				"name": "tokenId",
-  				"type": "uint256"
-  			}
-  		],
-  		"name": "Transfer",
-  		"type": "event"
-  	},
-  	{
-  		"inputs": [
-  			{
-  				"internalType": "address",
-  				"name": "to",
-  				"type": "address"
-  			},
-  			{
-  				"internalType": "uint256",
-  				"name": "tokenId",
-  				"type": "uint256"
-  			}
-  		],
-  		"name": "approve",
-  		"outputs": [],
-  		"stateMutability": "nonpayable",
-  		"type": "function"
-  	},
-  	{
-  		"inputs": [
-  			{
-  				"internalType": "address",
-  				"name": "owner",
-  				"type": "address"
-  			}
-  		],
-  		"name": "balanceOf",
-  		"outputs": [
-  			{
-  				"internalType": "uint256",
-  				"name": "",
-  				"type": "uint256"
-  			}
-  		],
-  		"stateMutability": "view",
-  		"type": "function"
-  	},
-  	{
-  		"inputs": [],
-  		"name": "baseTokenURI",
-  		"outputs": [
-  			{
-  				"internalType": "string",
-  				"name": "",
-  				"type": "string"
-  			}
-  		],
-  		"stateMutability": "view",
-  		"type": "function"
-  	},
-  	{
-  		"inputs": [
-  			{
-  				"internalType": "uint256",
-  				"name": "_maxAmount",
-  				"type": "uint256"
-  			}
-  		],
-  		"name": "changeMaxMint",
-  		"outputs": [],
-  		"stateMutability": "nonpayable",
-  		"type": "function"
-  	},
-  	{
-  		"inputs": [],
-  		"name": "contractURI",
-  		"outputs": [
-  			{
-  				"internalType": "string",
-  				"name": "",
-  				"type": "string"
-  			}
-  		],
-  		"stateMutability": "pure",
-  		"type": "function"
-  	},
-  	{
-  		"inputs": [
-  			{
-  				"internalType": "uint256",
-  				"name": "tokenId",
-  				"type": "uint256"
-  			}
-  		],
-  		"name": "getApproved",
-  		"outputs": [
-  			{
-  				"internalType": "address",
-  				"name": "",
-  				"type": "address"
-  			}
-  		],
-  		"stateMutability": "view",
-  		"type": "function"
-  	},
-  	{
-  		"inputs": [
-  			{
-  				"internalType": "address",
-  				"name": "owner",
-  				"type": "address"
-  			},
-  			{
-  				"internalType": "address",
-  				"name": "operator",
-  				"type": "address"
-  			}
-  		],
-  		"name": "isApprovedForAll",
-  		"outputs": [
-  			{
-  				"internalType": "bool",
-  				"name": "",
-  				"type": "bool"
-  			}
-  		],
-  		"stateMutability": "view",
-  		"type": "function"
-  	},
-  	{
-  		"inputs": [],
-  		"name": "mintFree",
-  		"outputs": [
-  			{
-  				"internalType": "uint256",
-  				"name": "",
-  				"type": "uint256"
-  			}
-  		],
-  		"stateMutability": "nonpayable",
-  		"type": "function"
-  	},
-  	{
-  		"inputs": [],
-  		"name": "name",
-  		"outputs": [
-  			{
-  				"internalType": "string",
-  				"name": "",
-  				"type": "string"
-  			}
-  		],
-  		"stateMutability": "view",
-  		"type": "function"
-  	},
-  	{
-  		"inputs": [],
-  		"name": "owner",
-  		"outputs": [
-  			{
-  				"internalType": "address",
-  				"name": "",
-  				"type": "address"
-  			}
-  		],
-  		"stateMutability": "view",
-  		"type": "function"
-  	},
-  	{
-  		"inputs": [
-  			{
-  				"internalType": "uint256",
-  				"name": "tokenId",
-  				"type": "uint256"
-  			}
-  		],
-  		"name": "ownerOf",
-  		"outputs": [
-  			{
-  				"internalType": "address",
-  				"name": "",
-  				"type": "address"
-  			}
-  		],
-  		"stateMutability": "view",
-  		"type": "function"
-  	},
-  	{
-  		"inputs": [],
-  		"name": "renounceOwnership",
-  		"outputs": [],
-  		"stateMutability": "nonpayable",
-  		"type": "function"
-  	},
-  	{
-  		"inputs": [
-  			{
-  				"internalType": "address",
-  				"name": "from",
-  				"type": "address"
-  			},
-  			{
-  				"internalType": "address",
-  				"name": "to",
-  				"type": "address"
-  			},
-  			{
-  				"internalType": "uint256",
-  				"name": "tokenId",
-  				"type": "uint256"
-  			}
-  		],
-  		"name": "safeTransferFrom",
-  		"outputs": [],
-  		"stateMutability": "nonpayable",
-  		"type": "function"
-  	},
-  	{
-  		"inputs": [
-  			{
-  				"internalType": "address",
-  				"name": "from",
-  				"type": "address"
-  			},
-  			{
-  				"internalType": "address",
-  				"name": "to",
-  				"type": "address"
-  			},
-  			{
-  				"internalType": "uint256",
-  				"name": "tokenId",
-  				"type": "uint256"
-  			},
-  			{
-  				"internalType": "bytes",
-  				"name": "_data",
-  				"type": "bytes"
-  			}
-  		],
-  		"name": "safeTransferFrom",
-  		"outputs": [],
-  		"stateMutability": "nonpayable",
-  		"type": "function"
-  	},
-  	{
-  		"inputs": [
-  			{
-  				"internalType": "address",
-  				"name": "operator",
-  				"type": "address"
-  			},
-  			{
-  				"internalType": "bool",
-  				"name": "approved",
-  				"type": "bool"
-  			}
-  		],
-  		"name": "setApprovalForAll",
-  		"outputs": [],
-  		"stateMutability": "nonpayable",
-  		"type": "function"
-  	},
-  	{
-  		"inputs": [
-  			{
-  				"internalType": "string",
-  				"name": "_baseTokenURI",
-  				"type": "string"
-  			}
-  		],
-  		"name": "setBaseTokenURI",
-  		"outputs": [],
-  		"stateMutability": "nonpayable",
-  		"type": "function"
-  	},
-  	{
-  		"inputs": [
-  			{
-  				"internalType": "bytes4",
-  				"name": "interfaceId",
-  				"type": "bytes4"
-  			}
-  		],
-  		"name": "supportsInterface",
-  		"outputs": [
-  			{
-  				"internalType": "bool",
-  				"name": "",
-  				"type": "bool"
-  			}
-  		],
-  		"stateMutability": "view",
-  		"type": "function"
-  	},
-  	{
-  		"inputs": [],
-  		"name": "symbol",
-  		"outputs": [
-  			{
-  				"internalType": "string",
-  				"name": "",
-  				"type": "string"
-  			}
-  		],
-  		"stateMutability": "view",
-  		"type": "function"
-  	},
-  	{
-  		"inputs": [
-  			{
-  				"internalType": "uint256",
-  				"name": "tokenId",
-  				"type": "uint256"
-  			}
-  		],
-  		"name": "tokenURI",
-  		"outputs": [
-  			{
-  				"internalType": "string",
-  				"name": "",
-  				"type": "string"
-  			}
-  		],
-  		"stateMutability": "view",
-  		"type": "function"
-  	},
-  	{
-  		"inputs": [],
-  		"name": "totalMinted",
-  		"outputs": [
-  			{
-  				"internalType": "uint256",
-  				"name": "",
-  				"type": "uint256"
-  			}
-  		],
-  		"stateMutability": "view",
-  		"type": "function"
-  	},
-  	{
-  		"inputs": [
-  			{
-  				"internalType": "address",
-  				"name": "from",
-  				"type": "address"
-  			},
-  			{
-  				"internalType": "address",
-  				"name": "to",
-  				"type": "address"
-  			},
-  			{
-  				"internalType": "uint256",
-  				"name": "tokenId",
-  				"type": "uint256"
-  			}
-  		],
-  		"name": "transferFrom",
-  		"outputs": [],
-  		"stateMutability": "nonpayable",
-  		"type": "function"
-  	},
-  	{
-  		"inputs": [
-  			{
-  				"internalType": "address",
-  				"name": "newOwner",
-  				"type": "address"
-  			}
-  		],
-  		"name": "transferOwnership",
-  		"outputs": [],
-  		"stateMutability": "nonpayable",
-  		"type": "function"
-  	}
-  ]
-
+  window.onload = function() {
+    web3 = new Web3(window.ethereum);
+  };
 
 </script>
+
   </body>
 </html>
