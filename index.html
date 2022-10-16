@@ -40,6 +40,7 @@ position:relative;
 display:inline-block;
 background-color:#816797;
 margin: auto;
+margin: 10px;
 }
 
 /* Add rounded corners to the top left and the top right corner of the image */
@@ -84,12 +85,7 @@ button{
     myMMAccount = account;
     document.getElementById("_addressMain").innerHTML = myMMAccount.toString()
     await getDataFromOS(myMMAccount)
-    searchForOwnerNfts();
   }
-
-
-
-
   let getDataFromOS = async (address) => {
     const Http = new XMLHttpRequest();
     let url='https://api.opensea.io/api/v1/assets?owner=';
@@ -98,23 +94,26 @@ button{
     await Http.open("GET", url);
     await Http.send();
     Http.onreadystatechange = (e) => {
-      console.log(e)
-      osresponse = Http.responseText;
+      if(osresponse == undefined){
+        osresponse = Http.responseText;
+        searchForOwnerNfts();
+      }else{
+        //already got
+      }
       return true;
     }
   }
-
   let searchForOwnerNfts = () => {
     console.log("searching for matches")
     for(let n = 0 ; n < JSON.parse(osresponse).assets.length ; n++){
       if(JSON.parse(osresponse).assets[n].description == "My Breathtaking Pixel Bois"){
         console.log(myMMAccount + " ownes " + JSON.parse(osresponse).assets[n].name)
         addCard(JSON.parse(osresponse).assets[n].name)
-        //myNfts.push(JSON.parse(osresponse).assets[n])
+        myNfts.push(JSON.parse(osresponse).assets[n])
       }
     }
+    return true;
   }
-
   let addCard = (name) => {
     let _id = name.slice(5)
     let _div = document.createElement("div");
