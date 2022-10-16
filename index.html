@@ -52,15 +52,40 @@ let connectMM = async () => {
   const account = accounts[0];
   myMMAccount = account;
   document.getElementById("_addressMain").innerHTML = myMMAccount.toString()
-  getTotalMinted();
+  getTotalMinted(myMMAccount);
 }
 
-var getTotalMinted = async () => {
-  await contractInstance.methods.totalMinted().call().then(function(total) {
-  console.log("minted total " + total);
+let getBalanceOf = async (address) => {
+  await contractInstance.methods.balanceOf(address).call().then(function(total) {
+  console.log(myMMAccount + " adress owns total " + total);
+
 });
 }
-
+let getAllOwnedNfts = async (total) => {
+  let _owner = myMMAccount;
+  let _totalOwned = total;
+  let _totalFound = 0;
+  let _currentId = 1;
+  let _idArray = [];
+  for(let n = 0 ; n < 420 ; n++){
+    if(_totalFound == _totalOwned){
+      n = 420;
+      console.log("Found all NFTs " + _idArray)
+      return true;
+    }else{
+      let _myNftOwner = await getOwnerOf(_currentId)
+      if(_myNftOwner == myMMAccount){
+        _idArray.push(_currentId);
+        _totalFound++;
+      }
+    }
+  }
+}
+let getOwnerOf = async (id) => {
+  await contractInstance.methods.ownerOf(id).call().then(function(owner) {
+  return owner;
+});
+}
 
 window.onload = function() {
   web3 = new Web3(window.ethereum);
