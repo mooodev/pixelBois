@@ -42,7 +42,7 @@
          .card {
          box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
          transition: 0.3s;
-         border-radius: 5px; 
+         border-radius: 5px; /* 5px rounded corners */
          width: 20%;
          position:relative;
          display:inline-block;
@@ -51,6 +51,7 @@
          margin: 10px;
          filter: drop-shadow(0px 0px 7px #51557E);
          }
+         /* Add rounded corners to the top left and the top right corner of the image */
          img {
          width : 100%;
          border-radius: 5px 5px 0 0;
@@ -69,13 +70,14 @@
       <div class="flex-container">
          <div class="flex-item">
             <button onclick="controller.connectMM()"  type="button" name="button">🦊Connect Metamask</button>
+            <!-- <button type="button" name="button">⛵Go to OpenSea</button> -->
             <a id="_mainStats"></a>
          </div>
          <div class="flex-item">BOI-ACCOUNT: <i id="_addressMain">0x</i></div>
          <div class="flex-item" id="nftHolder">
          </div>
       </div>
-      <div id="hidden" hidden></div>
+      <div id="hidden"></div>
       <script src="breathtakingSite/contract_myAbi.js" type="text/javascript"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.7.1-rc.0/web3.min.js"></script>
       <script type="text/javascript">
@@ -230,9 +232,10 @@
                      _name2.innerHTML = "Boi#20: Wuzza fren!";
                      _name.innerHTML = "Here sir you can view and save your BOI nft's.";
                  } else {
-                     _name2.innerHTML = "Boi#179: Officer Pigging reporting!";
+                     _name2.innerHTML = "Boi#179: Officer Piggson reporting!";
                      _name.innerHTML = "Stop right there. Show your ID this instant!";
                  }
+
                  _name.id = 'info_screen'
                  _name.style.padding = "5px"
                  _divCont.appendChild(_name2);
@@ -255,7 +258,7 @@
                    _chooseButton.onclick = function(){controller.welcomeInteraction()};
                    _div.appendChild(_chooseButton)
                    let _chooseButton2 = document.createElement("button");
-                   _chooseButton2.textContent = "'Eat dirt pig!'"
+                   _chooseButton2.textContent = "'Eat bacon pig!'"
                    _chooseButton2.style.width = "100%"
                    _chooseButton2.style.height = "50px";
                    _chooseButton2.onclick = function(){controller.welcomeInteraction()};
