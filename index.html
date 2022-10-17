@@ -242,7 +242,7 @@ button{
           if (Http.responseText.charAt(0) == "{") {
               if (JSON.parse(Http.responseText).assets.length > 0) {
                   if (osresponse == undefined) {
-                    console.log("got a batch back!")
+                    //console.log("got a batch back!")
                       osresponse = JSON.stringify(JSON.parse(Http.responseText));
                       searchForOwnerNfts()
                   }
