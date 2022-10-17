@@ -239,11 +239,10 @@ button{
       Http.open("GET", url);
       Http.send();
       Http.onreadystatechange = (e) => {
-
           if (Http.responseText.charAt(0) == "{" && Http.responseText.charAt(Http.responseText.length-1) == "}" ) {
-            console.log(_lastExtraBit +" is lastbit and next  "+ JSON.stringify(JSON.parse(Http.responseText).next))
             //  if (JSON.parse(Http.responseText).assets.length > 0) {
             if(_lastExtraBit !== JSON.stringify(JSON.parse(Http.responseText).next)){
+              console.log(_lastExtraBit +" is lastbit and next  "+ JSON.stringify(JSON.parse(Http.responseText).next))
               _lastExtraBit = JSON.stringify(JSON.parse(Http.responseText).next);
               osresponse = JSON.stringify(JSON.parse(Http.responseText));
               searchForOwnerNfts()
