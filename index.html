@@ -266,7 +266,7 @@ button{
         controller.addCard(myNfts[m].name)
       }
       if(JSON.parse(osresponse).next !== null && JSON.parse(osresponse).next !== _lastExtraBit){
-        console.log(_lastExtraBit + " equals " + JSON.stringify(JSON.parse(osresponse).next)
+        console.log(_lastExtraBit + " equals " + JSON.stringify(JSON.parse(osresponse).next))
         console.log("parsing more data end + " + JSON.parse(osresponse).next)
         let extraBit = JSON.stringify(JSON.parse(osresponse).next)
         osresponse = undefined;
