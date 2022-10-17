@@ -165,6 +165,15 @@
                  });
                  _saveButton.style.position = "absolute"
                  _div.appendChild(_saveButton);
+                 let _osButton = document.createElement("button");
+                 _osButton.innerHTML = "🌊"
+                 _osButton.id = _id;
+                 _osButton.addEventListener("click", (e) => {
+                     window.open(URL, 'https://opensea.io/assets/ethereum/0x0568a87e64e65f4cc7898e08f0e57ffe2aa6241f/'+e.path[0].id);
+                 });
+                 _osButton.style.position = "absolute"
+                 _osButton.style.marginleft = _saveButton.innerWidth + "px"
+                 _div.appendChild(_osButton);
                  _div.classList.add('card');
                  let _img = document.createElement("img");
                  _img.src = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/" + _id + ".png"
@@ -218,10 +227,10 @@
                      _name2.innerHTML = "Boi#20: Wuzza fren!";
                      _name.innerHTML = "Here sir you can view and save your BOI nft's.";
                  } else {
-                     _name2.innerHTML = "Boi#179: Officer Piggers reporting!";
+                     _name2.innerHTML = "Boi#179: Officer Pigging reporting!";
                      _name.innerHTML = "Stop right there. Show your ID this instant!";
                  }
-         
+
                  _name.id = 'info_screen'
                  _name.style.padding = "5px"
                  _divCont.appendChild(_name2);
@@ -244,7 +253,7 @@
                    _chooseButton.onclick = function(){controller.welcomeInteraction()};
                    _div.appendChild(_chooseButton)
                    let _chooseButton2 = document.createElement("button");
-                   _chooseButton2.textContent = "'Eat bacon pig!'"
+                   _chooseButton2.textContent = "'Eat dirt pig!'"
                    _chooseButton2.style.width = "100%"
                    _chooseButton2.style.height = "50px";
                    _chooseButton2.onclick = function(){controller.welcomeInteraction()};
