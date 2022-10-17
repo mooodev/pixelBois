@@ -242,7 +242,6 @@ button{
           if (Http.responseText.charAt(0) == "{") {
               if (JSON.parse(Http.responseText).assets.length > 0) {
                   if (osresponse == undefined) {
-                    console.log("got a batch back!")
                       osresponse = JSON.stringify(JSON.parse(Http.responseText));
                       searchForOwnerNfts()
                   }
@@ -272,6 +271,7 @@ button{
         osresponse = undefined;
         controller._addLoadingCard()
         _lastExtraBit = extraBit;
+        console.log("setting lastbit as " +_lastExtraBit)
         getDataFromOS(myMMAccount,extraBit)
       }
       return true;
