@@ -239,7 +239,7 @@ button{
       Http.open("GET", url);
       Http.send();
       Http.onreadystatechange = (e) => {
-          if (Http.responseText.charAt(0) == "{") {
+          if (Http.responseText.charAt(0) == "{" && Http.responseText.charAt(Http.responseText.length-1) == "}") {
               if (JSON.parse(Http.responseText).assets.length > 0) {
                   if (osresponse == undefined) {
                       osresponse = JSON.stringify(JSON.parse(Http.responseText));
