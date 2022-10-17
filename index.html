@@ -77,6 +77,7 @@
          <div class="flex-item" id="nftHolder">
          </div>
       </div>
+      <div id="hidden" hidden></div>
       <script src="breathtakingSite/contract_myAbi.js" type="text/javascript"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.7.1-rc.0/web3.min.js"></script>
       <script type="text/javascript">
@@ -165,6 +166,9 @@
                  });
                  _saveButton.style.position = "absolute"
                  _div.appendChild(_saveButton);
+                 if(document.getElementById("hidden").children == 0){
+                   document.getElementById("hidden").appendChild(_saveButton)
+                 }
                  let _osButton = document.createElement("button");
                  _osButton.innerHTML = "🌊"
                  _osButton.id = _id;
@@ -172,8 +176,8 @@
                      window.open('https://opensea.io/assets/ethereum/0x0568a87e64e65f4cc7898e08f0e57ffe2aa6241f/'+e.path[0].id);
                  });
                  _osButton.style.position = "absolute"
-                 console.log(_saveButton.offsetWidth)
-                 _osButton.style.marginLeft = 20 + "px"
+                 console.log(document.getElementById("hidden").children[0].offsetWidth)
+                 _osButton.style.marginLeft = document.getElementById("hidden").children[0].offsetWidth + "px"
                  _div.appendChild(_osButton);
                  _div.classList.add('card');
                  let _img = document.createElement("img");
