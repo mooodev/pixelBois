@@ -244,7 +244,7 @@ button{
                   if (osresponse == undefined) {
                       osresponse = JSON.stringify(JSON.parse(Http.responseText));
                       if(_lastExtraBit !== JSON.stringify(JSON.parse(osresponse).next)){
-                      //  _lastExtraBit = '';
+                        _lastExtraBit = '';
                         searchForOwnerNfts()
                       }
                   }
