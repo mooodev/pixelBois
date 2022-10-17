@@ -271,6 +271,7 @@ button{
         let extraBit = JSON.stringify(JSON.parse(osresponse).next)
         osresponse = undefined;
         controller._addLoadingCard()
+        _lastExtraBit = extraBit;
         getDataFromOS(myMMAccount,extraBit)
       }
       return true;
