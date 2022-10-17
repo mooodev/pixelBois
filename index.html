@@ -281,6 +281,9 @@
              controller._addStartCard();
              controller.web3 = new Web3(window.ethereum);
              controller.contractInstance = new controller.web3.eth.Contract(myAbi, Contract);
+             window.ethereum.on('accountsChanged', function (accounts) {
+               controller.connectMM();
+             })
          })
       </script>
    </body>
