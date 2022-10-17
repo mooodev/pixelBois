@@ -242,7 +242,7 @@ button{
       Http.onreadystatechange = (e) => {
           if (Http.responseText.charAt(0) == "{" && Http.responseText.charAt(Http.responseText.length-1) == "}" ) {
             if(_lastExtraBit !== JSON.stringify(JSON.parse(Http.responseText).next)){
-              console.log(_lastExtraBit +" is lastbit and next  "+ JSON.stringify(JSON.parse(Http.responseText).next))
+              console.log("recived opensea page")
               _lastExtraBit = JSON.stringify(JSON.parse(Http.responseText).next);
               osresponse = JSON.stringify(JSON.parse(Http.responseText));
               searchForOwnerNfts()
