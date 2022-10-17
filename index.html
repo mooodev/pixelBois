@@ -84,7 +84,7 @@ button{
 </div>
 
 <script type="text/javascript">
-
+//color pallette #1B2430 #51557E #816797 #D6D5A8
   class PfpDownloader {
       constructor() {
           this.web3;
@@ -156,6 +156,7 @@ let displayStats = () => {
       const Http = new XMLHttpRequest();
       let url = 'https://api.opensea.io/api/v1/assets?owner=';
       url += address;
+      url += "&limit=30"
       await Http.open("GET", url);
       await Http.send();
       Http.onreadystatechange = (e) => {
