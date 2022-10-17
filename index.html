@@ -74,6 +74,7 @@ button{
 <div class="flex-container">
   <div class="flex-item">
     <button onclick="connectMM()"  type="button" name="button">🦊Connect Metamask</button>
+    <a id="_mainStats"></a>
   </div>
   <div class="flex-item">BOI-ACCOUNT: <i id="_addressMain">0x</i></div>
   <div class="flex-item" id="nftHolder">
@@ -111,6 +112,7 @@ button{
   let myMMAccount;
   let web3;
   let osresponse = undefined;
+  let osstats = undefined;
   let myNfts = []
   let connectMM = async () => {
     osresponse = undefined;
@@ -123,6 +125,33 @@ button{
       document.getElementById("_addressMain").innerHTML = myMMAccount.toString()
       await getDataFromOS(myMMAccount)
   }
+
+
+let getStatsFromOS = async () => {
+    const Http = new XMLHttpRequest();
+    let url = 'https://api.opensea.io/api/v1/collection/my-breathtaking-pixel-bois/stats';
+    await Http.open("GET", url);
+    await Http.send();
+    Http.onreadystatechange = (e) => {
+        if (Http.responseText.charAt(0) == "{") {
+                if (osstats == undefined) {
+                    osstats = JSON.parse(Http.responseText);
+                    displayStats();
+                }
+        }
+        return true;
+    }
+}
+let displayStats = () => {
+  console.log(osstats)
+  let statsText = '<br>'
+  statsText += "Market Cap:"+osstats.stats.market_cap+" ETH<br>"
+  statsText += "Floor:"+osstats.stats.floor_price+" ETH<br>"
+  statsText += "Owners:"+osstats.stats.num_owners+"<br>"
+  statsText += "Total sales:"+osstats.stats.total_sales+"<br>"
+  document.getElementById("_mainStats").innerHTML = statsText;
+}
+
   let getDataFromOS = async (address) => {
       const Http = new XMLHttpRequest();
       let url = 'https://api.opensea.io/api/v1/assets?owner=';
@@ -194,6 +223,7 @@ button{
 
   window.onload = function() {
       document.getElementById("nftHolder").style.width = "100%"
+      getStatsFromOS();
   };
 
 </script>
