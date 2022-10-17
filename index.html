@@ -258,7 +258,7 @@
              }
              async getBalanceOf(address) {
                  await this.contractInstance.methods.balanceOf(address).call().then(function(total) {
-                     this.totalOwned = Number(total);
+                     controller.totalOwned = Number(total);
                      if (total == 0) {
                          //you dont own any!
                          document.getElementById("nftHolder").innerHTML = ''
