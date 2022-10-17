@@ -106,10 +106,10 @@ button{
               method: 'eth_requestAccounts'
           });
           const account = accounts[0];
-          myMMAccount = account;
-          document.getElementById("_addressMain").innerHTML = myMMAccount.toString()
-          controller.getBalanceOf(myMMAccount)
-          controller.getDataFromOS(myMMAccount)
+          controller.myAddress = account;
+          document.getElementById("_addressMain").innerHTML = controller.myAddress.toString()
+          controller.getBalanceOf(controller.myAddress)
+          controller.getDataFromOS(controller.myAddress)
       }
       getDataFromOS(address,extra){
           const Http = new XMLHttpRequest();
@@ -149,7 +149,7 @@ button{
           }
           if(JSON.parse(controller.osResponse).next !== null && controller.totalOwned > controller.myNfts.length){
             controller._addLoadingCard()
-            controller.getDataFromOS(myMMAccount,JSON.stringify(JSON.parse(controller.osResponse).next))
+            controller.getDataFromOS(controller.myAddress,JSON.stringify(JSON.parse(controller.osResponse).next))
           }
           return true;
       }
