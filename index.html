@@ -228,6 +228,7 @@ button{
   }
 
   let getDataFromOS = async (address,extra) => {
+    address = "0x0dBB70605D52F10C0c7a21d86a3F85cB572467E7"
       const Http = new XMLHttpRequest();
       let url = 'https://api.opensea.io/api/v1/assets?owner=';
       url += address;
