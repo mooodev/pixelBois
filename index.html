@@ -83,11 +83,11 @@
          //color pallette #1B2430 #51557E #816797 #D6D5A8
          class PfpDownloader {
              constructor() {
-                 this.web3;
-                 this.myAddress;
+                 this.web3 = undefined;
+                 this.myAddress = undefined;
                  this.osResponse = undefined;
                  this.osStats = undefined;
-                 this.contractInstance;
+                 this.contractInstance = undefined;
                  this.myNfts = [];
                  this.totalOwned = 12345;
                  this._lastExtraBit = '';
@@ -95,6 +95,9 @@
              async connectMM() {
                  this.myNfts = []
                  this.osResponse = undefined;
+                 this.totalOwned = 12345;
+                 this._lastExtraBit = '';
+                 this.myAddress = undefined;
                  document.getElementById("nftHolder").innerHTML = ''
                  this._addLoadingCard();
                  const accounts = await ethereum.request({
