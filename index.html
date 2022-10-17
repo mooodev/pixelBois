@@ -273,6 +273,8 @@ button{
       if(JSON.parse(osresponse).next !== 'null'){
         controller._addLoadingCard()
         getDataFromOS(myMMAccount,JSON.stringify(JSON.parse(osresponse).next))
+      }else {
+        console.log("ITs down")
       }
       return true;
   }
