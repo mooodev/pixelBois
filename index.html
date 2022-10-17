@@ -88,199 +88,200 @@ button{
 <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.7.1-rc.0/web3.min.js"></script>
 <script type="text/javascript">
 //color pallette #1B2430 #51557E #816797 #D6D5A8
-  class PfpDownloader {
-      constructor() {
-          this.web3;
-          this.myAddress;
-          this.osResponse = undefined;
-          this.osStats = undefined;
-          this.contractInstance;
-          this.myNfts = [];
-          this.totalOwned = 12345;
-          this._lastExtraBit = '';
-      }
-      async connectMM() {
+class PfpDownloader {
+    constructor() {
+        this.web3;
+        this.myAddress;
+        this.osResponse = undefined;
+        this.osStats = undefined;
+        this.contractInstance;
+        this.myNfts = [];
+        this.totalOwned = 12345;
+        this._lastExtraBit = '';
+    }
+    async connectMM() {
         controller.myNfts = []
         controller.osResponse = undefined;
         document.getElementById("nftHolder").innerHTML = ''
         controller._addLoadingCard();
-          const accounts = await ethereum.request({
-              method: 'eth_requestAccounts'
-          });
-          const account = accounts[0];
-          controller.myAddress = account;
-          document.getElementById("_addressMain").innerHTML = controller.myAddress.toString()
-          controller.getBalanceOf(controller.myAddress)
-          controller.getDataFromOS(controller.myAddress)
-      }
-      getDataFromOS(address,extra){
-          const Http = new XMLHttpRequest();
-          let url = 'https://api.opensea.io/api/v1/assets?owner=';
-          url += address;
-          url += "&limit=30"
-          if(extra){
-            url += "&cursor="+extra;
-          }
-          Http.open("GET", url);
-          Http.send();
-          Http.onreadystatechange = (e) => {
-              if (Http.responseText.charAt(0) == "{" && Http.responseText.charAt(Http.responseText.length-1) == "}" ) {
-                if(controller._lastExtraBit !== JSON.stringify(JSON.parse(Http.responseText).next)){
-                  controller._lastExtraBit = JSON.stringify(JSON.parse(Http.responseText).next);
-                  controller.osResponse = JSON.stringify(JSON.parse(Http.responseText));
-                  controller.searchForOwnerNfts()
+        const accounts = await ethereum.request({
+            method: 'eth_requestAccounts'
+        });
+        const account = accounts[0];
+        controller.myAddress = account;
+        document.getElementById("_addressMain").innerHTML = controller.myAddress.toString()
+        controller.getBalanceOf(controller.myAddress)
+        controller.getDataFromOS(controller.myAddress)
+    }
+    getDataFromOS(address, extra) {
+        const Http = new XMLHttpRequest();
+        let url = 'https://api.opensea.io/api/v1/assets?owner=';
+        url += address;
+        url += "&limit=30"
+        if (extra) {
+            url += "&cursor=" + extra;
+        }
+        Http.open("GET", url);
+        Http.send();
+        Http.onreadystatechange = (e) => {
+            if (Http.responseText.charAt(0) == "{" && Http.responseText.charAt(Http.responseText.length - 1) == "}") {
+                if (controller._lastExtraBit !== JSON.stringify(JSON.parse(Http.responseText).next)) {
+                    controller._lastExtraBit = JSON.stringify(JSON.parse(Http.responseText).next);
+                    controller.osResponse = JSON.stringify(JSON.parse(Http.responseText));
+                    controller.searchForOwnerNfts()
                 }
-              }
-              return true;
-          }
-      }
-      searchForOwnerNfts() {
+            }
+            return true;
+        }
+    }
+    searchForOwnerNfts() {
         document.getElementById("nftHolder").innerHTML = ''
-          for (let n = 0; n < JSON.parse(controller.osResponse).assets.length; n++) {
+        for (let n = 0; n < JSON.parse(controller.osResponse).assets.length; n++) {
             let _new = true;
-            for(let n1 = 0 ; n1 < controller.myNfts.length ; n1++){
-              if(JSON.parse(controller.osResponse).assets[n].name == controller.myNfts[n1].name)_new = false;
+            for (let n1 = 0; n1 < controller.myNfts.length; n1++) {
+                if (JSON.parse(controller.osResponse).assets[n].name == controller.myNfts[n1].name) _new = false;
             }
             if (JSON.parse(controller.osResponse).assets[n].description == "My Breathtaking Pixel Bois" && _new) {
                 controller.myNfts.push(JSON.parse(controller.osResponse).assets[n])
             }
-          }
-          for(let m = 0 ; m < controller.myNfts.length ; m++){
+        }
+        for (let m = 0; m < controller.myNfts.length; m++) {
             controller.addCard(controller.myNfts[m].name)
-          }
-          if(JSON.parse(controller.osResponse).next !== null && controller.totalOwned > controller.myNfts.length){
+        }
+        if (JSON.parse(controller.osResponse).next !== null && controller.totalOwned > controller.myNfts.length) {
             controller._addLoadingCard()
-            controller.getDataFromOS(controller.myAddress,JSON.stringify(JSON.parse(controller.osResponse).next))
-          }
-          return true;
-      }
-      addCard(name){
-          let _id = name.slice(5)
-          let _div = document.createElement("div");
-          let _saveButton = document.createElement("button");
-          _saveButton.innerHTML = "💾"
-          _saveButton.id = _id;
-          _saveButton.addEventListener("click", (e) => {
+            controller.getDataFromOS(controller.myAddress, JSON.stringify(JSON.parse(controller.osResponse).next))
+        }
+        return true;
+    }
+    addCard(name) {
+        let _id = name.slice(5)
+        let _div = document.createElement("div");
+        let _saveButton = document.createElement("button");
+        _saveButton.innerHTML = "💾"
+        _saveButton.id = _id;
+        _saveButton.addEventListener("click", (e) => {
             controller.savePfp(e.path[0].id)
-          });
-          _saveButton.style.position = "absolute"
-          _div.appendChild(_saveButton);
-          _div.classList.add('card');
-          let _img = document.createElement("img");
-          _img.src = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/" + _id + ".png"
-          _img.alt = name;
-          let _divCont = document.createElement("div");
-          _divCont.classList.add('container');
-          let _name = document.createElement("h3");
-          _name.innerHTML = name;
-          _divCont.appendChild(_name);
-          _div.appendChild(_img);
-          let _healthBar = document.createElement("hr");
-          _div.appendChild(_healthBar);
-          _div.appendChild(_divCont);
-          document.getElementById("nftHolder").appendChild(_div)
-      }
-      _addLoadingCard(){
-          let _div = document.createElement("div");
-          _div.classList.add('card');
-          let _img = document.createElement("img");
-          _img.src = "https://raw.githubusercontent.com/mooodev/pixelBois/main/breathtakingSite/bookloader.gif"
-          _img.alt = "loading nfts";
-          let _divCont = document.createElement("div");
-          _divCont.classList.add('container');
-          let _name = document.createElement("h3");
-          _name.innerHTML = "Loading..";
-          let _name2 = document.createElement("p");
-          _name2.innerHTML = "Plase await";
-          _divCont.appendChild(_name2);
-          _divCont.appendChild(_name);
-          _div.appendChild(_img);
-          _div.appendChild(_divCont);
-          document.getElementById("nftHolder").appendChild(_div)
-      }
-      _addStartCard(){
+        });
+        _saveButton.style.position = "absolute"
+        _div.appendChild(_saveButton);
+        _div.classList.add('card');
+        let _img = document.createElement("img");
+        _img.src = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/" + _id + ".png"
+        _img.alt = name;
+        let _divCont = document.createElement("div");
+        _divCont.classList.add('container');
+        let _name = document.createElement("h3");
+        _name.innerHTML = name;
+        _divCont.appendChild(_name);
+        _div.appendChild(_img);
+        let _healthBar = document.createElement("hr");
+        _div.appendChild(_healthBar);
+        _div.appendChild(_divCont);
+        document.getElementById("nftHolder").appendChild(_div)
+    }
+    _addLoadingCard() {
+        let _div = document.createElement("div");
+        _div.classList.add('card');
+        let _img = document.createElement("img");
+        _img.src = "https://raw.githubusercontent.com/mooodev/pixelBois/main/breathtakingSite/bookloader.gif"
+        _img.alt = "loading nfts";
+        let _divCont = document.createElement("div");
+        _divCont.classList.add('container');
+        let _name = document.createElement("h3");
+        _name.innerHTML = "Loading..";
+        let _name2 = document.createElement("p");
+        _name2.innerHTML = "Plase await";
+        _divCont.appendChild(_name2);
+        _divCont.appendChild(_name);
+        _div.appendChild(_img);
+        _div.appendChild(_divCont);
+        document.getElementById("nftHolder").appendChild(_div)
+    }
+    _addStartCard() {
         let _rand = Math.random()
-          let _div = document.createElement("div");
-          _div.classList.add('card');
-          let _img = document.createElement("img");
-          if(_rand < 0.5){
+        let _div = document.createElement("div");
+        _div.classList.add('card');
+        let _img = document.createElement("img");
+        if (_rand < 0.5) {
             _img.src = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/20.png"
-          }else{
+        } else {
             _img.src = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/179.png"
-          }
-          _img.alt = "hello welcoming boi";
-          let _divCont = document.createElement("div");
-          _divCont.classList.add('container');
-          let _name = document.createElement("p");
-          let _name2 = document.createElement("h4");
-          if(_rand < 0.5){
+        }
+        _img.alt = "hello welcoming boi";
+        let _divCont = document.createElement("div");
+        _divCont.classList.add('container');
+        let _name = document.createElement("p");
+        let _name2 = document.createElement("h4");
+        if (_rand < 0.5) {
             _name2.innerHTML = "Boi#20: Wuzza fren!";
-          }else{
+        } else {
             _name2.innerHTML = "Boi#179: Officer Pigging reporting!";
-          }
-          _name.innerHTML = "Here sir you can view and save your BOI nft's.";
-          _name.id = 'info_screen'
-          _name.style.padding = "5px"
-          _divCont.appendChild(_name2);
-          _divCont.appendChild(_name);
-          _div.appendChild(_img);
-          _div.appendChild(_divCont);
-          document.getElementById("nftHolder").appendChild(_div)
-      }
-      async getStatsFromOS(){
-          const Http = new XMLHttpRequest();
-          let url = 'https://api.opensea.io/api/v1/collection/my-breathtaking-pixel-bois/stats';
-          await Http.open("GET", url);
-          await Http.send();
-          Http.onreadystatechange = (e) => {
-              if (Http.responseText.charAt(0) == "{") {
-                      if (this.osStats == undefined) {
-                          this.osStats = JSON.parse(Http.responseText);
-                          controller.displayStats();
-                      }
-              }
-              return true;
-          }
-      }
-      displayStats(){
+        }
+        _name.innerHTML = "Here sir you can view and save your BOI nft's.";
+        _name.id = 'info_screen'
+        _name.style.padding = "5px"
+        _divCont.appendChild(_name2);
+        _divCont.appendChild(_name);
+        _div.appendChild(_img);
+        _div.appendChild(_divCont);
+        document.getElementById("nftHolder").appendChild(_div)
+    }
+    async getStatsFromOS() {
+        const Http = new XMLHttpRequest();
+        let url = 'https://api.opensea.io/api/v1/collection/my-breathtaking-pixel-bois/stats';
+        await Http.open("GET", url);
+        await Http.send();
+        Http.onreadystatechange = (e) => {
+            if (Http.responseText.charAt(0) == "{") {
+                if (this.osStats == undefined) {
+                    this.osStats = JSON.parse(Http.responseText);
+                    controller.displayStats();
+                }
+            }
+            return true;
+        }
+    }
+    displayStats() {
         console.log(this.osStats)
         let statsText = '<br>'
-        statsText += "Market Cap:"+this.osStats.stats.market_cap+" ETH<br>"
-        statsText += "Floor:"+this.osStats.stats.floor_price+" ETH<br>"
+        statsText += "Market Cap:" + this.osStats.stats.market_cap + " ETH<br>"
+        statsText += "Floor:" + this.osStats.stats.floor_price + " ETH<br>"
         // statsText += "Owners:"+osstats.stats.num_owners+"<br>"
-        statsText += "Total sales:"+this.osStats.stats.total_sales+"<br>"
+        statsText += "Total sales:" + this.osStats.stats.total_sales + "<br>"
         document.getElementById("_mainStats").innerHTML = statsText;
-      }
-      savePfp(id) {
-          let a = document.createElement('a');
-          a.href = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/" + id + ".png";
-          a.download = id + ".png";
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-      }
-      async getBalanceOf(address){
+    }
+    savePfp(id) {
+        let a = document.createElement('a');
+        a.href = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/" + id + ".png";
+        a.download = id + ".png";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
+    async getBalanceOf(address) {
         await this.contractInstance.methods.balanceOf(address).call().then(function(total) {
-        controller.totalOwned = Number(total);
-        if(total == 0){
-          //you dont own any!
-          document.getElementById("nftHolder").innerHTML = ''
-          controller._addStartCard();
-          document.getElementById("info_screen").innerHTML = "Oh no looks likt you dont own any BOIZ D:"
-        }
-      })
-  }
+            controller.totalOwned = Number(total);
+            if (total == 0) {
+                //you dont own any!
+                document.getElementById("nftHolder").innerHTML = ''
+                setTimeout(() => {
+                    controller._addStartCard();
+                    document.getElementById("info_screen").innerHTML = "Oh no looks likt you dont own any BOIZ D:"
+                }, "100")
+            }
+        })
+    }
 }
-  const controller = new PfpDownloader()
-  const Contract = "0x0568A87e64E65f4cC7898E08f0e57FFe2AA6241f"
-  window.addEventListener('load', function() {
+const controller = new PfpDownloader()
+const Contract = "0x0568A87e64E65f4cC7898E08f0e57FFe2AA6241f"
+window.addEventListener('load', function() {
     document.getElementById("nftHolder").style.width = "100%";
     controller.getStatsFromOS();
     controller._addStartCard();
     controller.web3 = new Web3(window.ethereum);
     controller.contractInstance = new controller.web3.eth.Contract(myAbi, Contract);
 })
-
 </script>
 
   </body>
