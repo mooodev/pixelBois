@@ -210,8 +210,8 @@ button{
           a.click();
           document.body.removeChild(a);
       }
-      async getBalanceOf(address){
-        await this.contractInstance.methods.balanceOf(address).call().then(function(total) {
+      getBalanceOf(address){
+        this.contractInstance.methods.balanceOf(address).call().then(function(total) {
         console.log(address + " owns total " + total);
         this.totalOwned = total;
         if(total == 0){
