@@ -242,9 +242,10 @@ button{
           if (Http.responseText.charAt(0) == "{" && Http.responseText.charAt(Http.responseText.length-1) == "}" ) {
 
               if (JSON.parse(Http.responseText).assets.length > 0) {
-                console.log(_lastExtraBit +" is lastbit and next  "+ JSON.stringify(JSON.parse(osresponse).next))
+
                   if (osresponse == undefined) {
                       osresponse = JSON.stringify(JSON.parse(Http.responseText));
+                      console.log(_lastExtraBit +" is lastbit and next  "+ JSON.stringify(JSON.parse(osresponse).next))
                       if(_lastExtraBit !== JSON.stringify(JSON.parse(osresponse).next)){
                         _lastExtraBit = '';
                         searchForOwnerNfts()
