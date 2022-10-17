@@ -52,6 +52,7 @@ display:inline-block;
 background-color:#816797;
 margin: auto;
 margin: 10px;
+filter: drop-shadow(0px 0px 14px #51557E);
 }
 
 /* Add rounded corners to the top left and the top right corner of the image */
@@ -230,7 +231,7 @@ button{
       const Http = new XMLHttpRequest();
       let url = 'https://api.opensea.io/api/v1/assets?owner=';
       url += address;
-      url += "&limit=10"
+      url += "&limit=15"
       if(extra){
         url += "&cursor="+extra;
       }
@@ -251,10 +252,14 @@ button{
   let searchForOwnerNfts = () => {
     document.getElementById("nftHolder").innerHTML = ''
       for (let n = 0; n < JSON.parse(osresponse).assets.length; n++) {
-          if (JSON.parse(osresponse).assets[n].description == "My Breathtaking Pixel Bois") {
-              //controller.addCard(JSON.parse(osresponse).assets[n].name)
-              myNfts.push(JSON.parse(osresponse).assets[n])
-          }
+        let _new = true;
+        for(let n1 = 0 ; n1 < myNfts.length ; n1++){
+          if(JSON.parse(osresponse).assets[n].name == myNfts.name)_new = false;
+        }
+        if (JSON.parse(osresponse).assets[n].description == "My Breathtaking Pixel Bois" && _new) {
+            //controller.addCard(JSON.parse(osresponse).assets[n].name)
+            myNfts.push(JSON.parse(osresponse).assets[n])
+        }
       }
       for(let m = 0 ; m < myNfts.length ; m++){
         controller.addCard(myNfts[m].name)
