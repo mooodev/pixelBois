@@ -269,12 +269,11 @@ button{
       }
 
 
-      console.log("sending new request with lastbit " + JSON.stringify(JSON.parse(osresponse).next))
-      if(JSON.parse(osresponse).next !== 'null'){
+
+      if(JSON.parse(osresponse).next !== null){
+        console.log("sending new request with lastbit " + JSON.stringify(JSON.parse(osresponse).next))
         controller._addLoadingCard()
         getDataFromOS(myMMAccount,JSON.stringify(JSON.parse(osresponse).next))
-      }else {
-        console.log("ITs down")
       }
       return true;
   }
