@@ -213,7 +213,7 @@ button{
       async getBalanceOf(address){
         await this.contractInstance.methods.balanceOf(address).call().then(function(total) {
         console.log(address + " owns total " + total);
-        this._totalOwned = total;
+        this.totalOwned = total;
         if(total == 0){
           //you dont own any!
         }
