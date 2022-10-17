@@ -227,8 +227,7 @@ button{
       getDataFromOS(myMMAccount)
   }
 
-  let getDataFromOS = async (address,extra) => {
-    address = "0x0dBB70605D52F10C0c7a21d86a3F85cB572467E7"
+  let getDataFromOS = (address,extra) => {
       const Http = new XMLHttpRequest();
       let url = 'https://api.opensea.io/api/v1/assets?owner=';
       url += address;
@@ -236,12 +235,13 @@ button{
       if(extra){
         url += "&cursor="+extra;
       }
-      await Http.open("GET", url);
-      await Http.send();
+      Http.open("GET", url);
+      Http.send();
       Http.onreadystatechange = (e) => {
           if (Http.responseText.charAt(0) == "{") {
               if (JSON.parse(Http.responseText).assets.length > 0) {
                   if (osresponse == undefined) {
+                    console.log("got a batch back!")
                       osresponse = JSON.stringify(JSON.parse(Http.responseText));
                       searchForOwnerNfts()
                   }
@@ -271,8 +271,6 @@ button{
         osresponse = undefined;
         getDataFromOS(myMMAccount,extraBit)
         controller._addLoadingCard()
-      }else{
-
       }
       return true;
   }
