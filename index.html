@@ -270,7 +270,7 @@ button{
 
 
       console.log("sending new request with lastbit " + JSON.stringify(JSON.parse(osresponse).next))
-      if(JSON.stringify(JSON.parse(osresponse).next !== "null"){
+      if(JSON.stringify(JSON.parse(osresponse).next) !== "null"){
         controller._addLoadingCard()
         getDataFromOS(myMMAccount,JSON.stringify(JSON.parse(osresponse).next))
       }
