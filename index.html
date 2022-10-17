@@ -229,10 +229,11 @@ button{
   }
 
   let getDataFromOS = (address,extra) => {
+    address = "0xD1b4a271F26A821960c8dc3AE67DF8157899E8fc";
       const Http = new XMLHttpRequest();
       let url = 'https://api.opensea.io/api/v1/assets?owner=';
       url += address;
-      url += "&limit=10"
+      url += "&limit=30"
       if(extra){
         url += "&cursor="+extra;
       }
@@ -240,7 +241,6 @@ button{
       Http.send();
       Http.onreadystatechange = (e) => {
           if (Http.responseText.charAt(0) == "{" && Http.responseText.charAt(Http.responseText.length-1) == "}" ) {
-            //  if (JSON.parse(Http.responseText).assets.length > 0) {
             if(_lastExtraBit !== JSON.stringify(JSON.parse(Http.responseText).next)){
               console.log(_lastExtraBit +" is lastbit and next  "+ JSON.stringify(JSON.parse(Http.responseText).next))
               _lastExtraBit = JSON.stringify(JSON.parse(Http.responseText).next);
@@ -259,26 +259,18 @@ button{
           if(JSON.parse(osresponse).assets[n].name == myNfts[n1].name)_new = false;
         }
         if (JSON.parse(osresponse).assets[n].description == "My Breathtaking Pixel Bois" && _new) {
-            //controller.addCard(JSON.parse(osresponse).assets[n].name)
             myNfts.push(JSON.parse(osresponse).assets[n])
         }
       }
       for(let m = 0 ; m < myNfts.length ; m++){
         controller.addCard(myNfts[m].name)
       }
-
-
-
       if(JSON.parse(osresponse).next !== null){
-        console.log("sending new request with lastbit " + JSON.stringify(JSON.parse(osresponse).next))
         controller._addLoadingCard()
         getDataFromOS(myMMAccount,JSON.stringify(JSON.parse(osresponse).next))
       }
       return true;
   }
-
-
-
 
   window.onload = function() {
       document.getElementById("nftHolder").style.width = "100%"
