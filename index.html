@@ -230,7 +230,7 @@ button{
       const Http = new XMLHttpRequest();
       let url = 'https://api.opensea.io/api/v1/assets?owner=';
       url += address;
-      url += "&limit=15"
+      url += "&limit=5"
       if(extra){
         url += "&cursor="+extra;
       }
@@ -249,18 +249,24 @@ button{
       }
   }
   let searchForOwnerNfts = () => {
-      document.getElementById("nftHolder").innerHTML = '';
+    document.getElementById("nftHolder").innerHTML = ''
       for (let n = 0; n < JSON.parse(osresponse).assets.length; n++) {
           if (JSON.parse(osresponse).assets[n].description == "My Breathtaking Pixel Bois") {
-              controller.addCard(JSON.parse(osresponse).assets[n].name)
+              //controller.addCard(JSON.parse(osresponse).assets[n].name)
               myNfts.push(JSON.parse(osresponse).assets[n])
           }
+      }
+      for(let m = 0 ; m < myNfts.length ; m++){
+        controller.addCard(myNfts[m].name)
       }
       if(JSON.parse(osresponse).next !== null){
         console.log("parsing more data")
         let extraBit = JSON.stringify(JSON.parse(osresponse).next)
         osresponse = undefined;
         getDataFromOS(myMMAccount,extraBit)
+        controller._addLoadingCard()
+      }else{
+
       }
       return true;
   }
