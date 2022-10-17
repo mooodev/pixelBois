@@ -52,7 +52,7 @@ display:inline-block;
 background-color:#816797;
 margin: auto;
 margin: 10px;
-filter: drop-shadow(0px 0px 14px #51557E);
+filter: drop-shadow(0px 0px 7px #51557E);
 }
 
 /* Add rounded corners to the top left and the top right corner of the image */
@@ -254,7 +254,7 @@ button{
       for (let n = 0; n < JSON.parse(osresponse).assets.length; n++) {
         let _new = true;
         for(let n1 = 0 ; n1 < myNfts.length ; n1++){
-          if(JSON.parse(osresponse).assets[n].name == myNfts.name)_new = false;
+          if(JSON.parse(osresponse).assets[n].name == myNfts[n1].name)_new = false;
         }
         if (JSON.parse(osresponse).assets[n].description == "My Breathtaking Pixel Bois" && _new) {
             //controller.addCard(JSON.parse(osresponse).assets[n].name)
