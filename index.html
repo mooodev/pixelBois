@@ -171,6 +171,7 @@ button{
             _name2.innerHTML = "Boi#179: Officer Pigging reporting!";
           }
           _name.innerHTML = "Here sir you can view and save your BOI nft's.";
+          _name.id = 'info_screen'
           _name.style.padding = "5px"
           _divCont.appendChild(_name2);
           _divCont.appendChild(_name);
@@ -210,12 +211,16 @@ button{
           a.click();
           document.body.removeChild(a);
       }
-      getBalanceOf(address){
-        this.contractInstance.methods.balanceOf(address).call().then(function(total) {
+      async getBalanceOf(address){
+        await this.contractInstance.methods.balanceOf(address).call().then(function(total) {
         console.log(address + " owns total " + total);
-        this.totalOwned = total;
+      //  controller.totalOwned = total;
+        controller.totalOwned = 1;
         if(total == 0){
           //you dont own any!
+          document.getElementById("nftHolder").innerHTML = ''
+          controller._addStartCard();
+          document.getElementById("info_screen").innerHTML = "Oh no looks likt you dont own any BOIZ D:"
         }
       })
   }
