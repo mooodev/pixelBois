@@ -213,6 +213,7 @@ button{
   let myMMAccount;
   let web3;
   let osresponse = undefined;
+  let _lastExtraBit = '';
   let myNfts = []
   let connectMM = async () => {
     osresponse = undefined;
@@ -265,8 +266,7 @@ button{
       for(let m = 0 ; m < myNfts.length ; m++){
         controller.addCard(myNfts[m].name)
       }
-      if(JSON.parse(osresponse).next !== null){
-
+      if(JSON.parse(osresponse).next !== null && JSON.parse(osresponse).next !== _lastExtraBit){
         console.log("parsing more data end + " + JSON.parse(osresponse).next)
         let extraBit = JSON.stringify(JSON.parse(osresponse).next)
         osresponse = undefined;
