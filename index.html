@@ -201,6 +201,7 @@
              _addStartCard() {
                  let _rand = Math.random()
                  let _div = document.createElement("div");
+                 _div.id = "info_block"
                  _div.classList.add('card');
                  let _img = document.createElement("img");
                  if (_rand < 0.5) {
@@ -215,17 +216,53 @@
                  let _name2 = document.createElement("h4");
                  if (_rand < 0.5) {
                      _name2.innerHTML = "Boi#20: Wuzza fren!";
+                     _name.innerHTML = "Here sir you can view and save your BOI nft's.";
                  } else {
                      _name2.innerHTML = "Boi#179: Officer Pigging reporting!";
+                     _name.innerHTML = "Stop right there. Show your ID this instant!";
                  }
-                 _name.innerHTML = "Here sir you can view and save your BOI nft's.";
+         
                  _name.id = 'info_screen'
                  _name.style.padding = "5px"
                  _divCont.appendChild(_name2);
                  _divCont.appendChild(_name);
                  _div.appendChild(_img);
                  _div.appendChild(_divCont);
+                 if(this.totalOwned == 12345){
+                  if(_rand < 0.5){
+                   let _chooseButton = document.createElement("button");
+                   _chooseButton.textContent = "🦊Connect MetaMask"
+                   _chooseButton.style.width = "100%"
+                   _chooseButton.style.height = "50px";
+                   _chooseButton.onclick = function(){controller.connectMM()};
+                   _div.appendChild(_chooseButton)
+                 }else{
+                   let _chooseButton = document.createElement("button");
+                   _chooseButton.textContent = "Show identification documents."
+                   _chooseButton.style.width = "100%"
+                   _chooseButton.style.height = "50px";
+                   _chooseButton.onclick = function(){controller.welcomeInteraction()};
+                   _div.appendChild(_chooseButton)
+                   let _chooseButton2 = document.createElement("button");
+                   _chooseButton2.textContent = "'Eat dirt pig!'"
+                   _chooseButton2.style.width = "100%"
+                   _chooseButton2.style.height = "50px";
+                   _chooseButton2.onclick = function(){controller.welcomeInteraction()};
+                   _div.appendChild(_chooseButton2)
+                  }
+                 }
                  document.getElementById("nftHolder").appendChild(_div)
+             }
+             welcomeInteraction(){
+               document.getElementById("info_screen").textContent = "Ok fair enough, move along now."
+               document.getElementById("info_block").removeChild(document.getElementById("info_block").lastChild)
+               document.getElementById("info_block").removeChild(document.getElementById("info_block").lastChild)
+               let _chooseButton = document.createElement("button");
+               _chooseButton.textContent = "🦊Connect MetaMask"
+               _chooseButton.style.width = "100%"
+               _chooseButton.style.height = "50px";
+               _chooseButton.onclick = function(){controller.connectMM()};
+               document.getElementById("info_block").appendChild(_chooseButton)
              }
              async getStatsFromOS() {
                  const Http = new XMLHttpRequest();
