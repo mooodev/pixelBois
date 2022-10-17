@@ -74,6 +74,7 @@ button{
 <div class="flex-container">
   <div class="flex-item">
     <button onclick="connectMM()"  type="button" name="button">🦊Connect Metamask</button>
+    <!-- <button type="button" name="button">⛵Go to OpenSea</button> -->
     <a id="_mainStats"></a>
   </div>
   <div class="flex-item">BOI-ACCOUNT: <i id="_addressMain">0x</i></div>
@@ -89,7 +90,8 @@ button{
       constructor() {
           this.web3;
           this.myAddress;
-          this.osResponse;
+          this.osResponse = undefined;
+          this.osStats = undefined;
           this.myNfts = [];
       }
       connectMM() {
@@ -101,62 +103,137 @@ button{
       searchForOwnerNfts() {
 
       }
-      addCard() {
-
+      addCard(){
+          let _id = name.slice(5)
+          let _div = document.createElement("div");
+          let _saveButton = document.createElement("button");
+          _saveButton.innerHTML = "💾"
+          _saveButton.id = _id;
+          _saveButton.addEventListener("click", (e) => {
+            controller.savePfp(e.path[0].id)
+          });
+          _saveButton.style.position = "absolute"
+          _div.appendChild(_saveButton);
+          _div.classList.add('card');
+          let _img = document.createElement("img");
+          _img.src = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/" + _id + ".png"
+          _img.alt = name;
+          let _divCont = document.createElement("div");
+          _divCont.classList.add('container');
+          let _name = document.createElement("h3");
+          _name.innerHTML = name;
+          _divCont.appendChild(_name);
+          _div.appendChild(_img);
+          let _healthBar = document.createElement("hr");
+          _div.appendChild(_healthBar);
+          _div.appendChild(_divCont);
+          document.getElementById("nftHolder").appendChild(_div)
       }
-      savePfp() {
-
+      _addLoadingCard(){
+          let _div = document.createElement("div");
+          _div.classList.add('card');
+          let _img = document.createElement("img");
+          _img.src = "https://raw.githubusercontent.com/mooodev/pixelBois/main/breathtakingSite/bookloader.gif"
+          _img.alt = "loading nfts";
+          let _divCont = document.createElement("div");
+          _divCont.classList.add('container');
+          let _name = document.createElement("h3");
+          _name.innerHTML = "Loading..";
+          let _name2 = document.createElement("p");
+          _name2.innerHTML = "Plase await";
+          _divCont.appendChild(_name2);
+          _divCont.appendChild(_name);
+          _div.appendChild(_img);
+          _div.appendChild(_divCont);
+          document.getElementById("nftHolder").appendChild(_div)
+      }
+      _addStartCard(){
+        let _rand = Math.random()
+          let _div = document.createElement("div");
+          _div.classList.add('card');
+          let _img = document.createElement("img");
+          if(_rand < 0.5){
+            _img.src = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/20.png"
+          }else{
+            _img.src = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/179.png"
+          }
+          _img.alt = "hello welcoming boi";
+          let _divCont = document.createElement("div");
+          _divCont.classList.add('container');
+          let _name = document.createElement("p");
+          let _name2 = document.createElement("h4");
+          if(_rand < 0.5){
+            _name2.innerHTML = "Boi#20: Wuzza fren!";
+          }else{
+            _name2.innerHTML = "Boi#179: Officer Pigging reporting!";
+          }
+          _name.innerHTML = "Here sir you can view and save your BOI nft's.";
+          _name.style.padding = "5px"
+          _divCont.appendChild(_name2);
+          _divCont.appendChild(_name);
+          _div.appendChild(_img);
+          _div.appendChild(_divCont);
+          document.getElementById("nftHolder").appendChild(_div)
+      }
+      async getStatsFromOS(){
+          const Http = new XMLHttpRequest();
+          let url = 'https://api.opensea.io/api/v1/collection/my-breathtaking-pixel-bois/stats';
+          await Http.open("GET", url);
+          await Http.send();
+          Http.onreadystatechange = (e) => {
+              if (Http.responseText.charAt(0) == "{") {
+                      if (this.osStats == undefined) {
+                          this.osStats = JSON.parse(Http.responseText);
+                          controller.displayStats();
+                      }
+              }
+              return true;
+          }
+      }
+      displayStats(){
+        console.log(this.osStats)
+        let statsText = '<br>'
+        statsText += "Market Cap:"+this.osStats.stats.market_cap+" ETH<br>"
+        statsText += "Floor:"+this.osStats.stats.floor_price+" ETH<br>"
+        // statsText += "Owners:"+osstats.stats.num_owners+"<br>"
+        statsText += "Total sales:"+this.osStats.stats.total_sales+"<br>"
+        document.getElementById("_mainStats").innerHTML = statsText;
+      }
+      savePfp(id) {
+          let a = document.createElement('a');
+          a.href = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/" + id + ".png";
+          a.download = id + ".png";
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
       }
   }
-
+  const controller = new PfpDownloader()
   let myMMAccount;
   let web3;
   let osresponse = undefined;
-  let osstats = undefined;
   let myNfts = []
   let connectMM = async () => {
     osresponse = undefined;
     document.getElementById("nftHolder").innerHTML = ''
+    controller._addLoadingCard();
       const accounts = await ethereum.request({
           method: 'eth_requestAccounts'
       });
       const account = accounts[0];
       myMMAccount = account;
       document.getElementById("_addressMain").innerHTML = myMMAccount.toString()
-      await getDataFromOS(myMMAccount)
+      getDataFromOS(myMMAccount)
   }
 
-
-let getStatsFromOS = async () => {
-    const Http = new XMLHttpRequest();
-    let url = 'https://api.opensea.io/api/v1/collection/my-breathtaking-pixel-bois/stats';
-    await Http.open("GET", url);
-    await Http.send();
-    Http.onreadystatechange = (e) => {
-        if (Http.responseText.charAt(0) == "{") {
-                if (osstats == undefined) {
-                    osstats = JSON.parse(Http.responseText);
-                    displayStats();
-                }
-        }
-        return true;
-    }
-}
-let displayStats = () => {
-  console.log(osstats)
-  let statsText = '<br>'
-  statsText += "Market Cap:"+osstats.stats.market_cap+" ETH<br>"
-  statsText += "Floor:"+osstats.stats.floor_price+" ETH<br>"
-  statsText += "Owners:"+osstats.stats.num_owners+"<br>"
-  statsText += "Total sales:"+osstats.stats.total_sales+"<br>"
-  document.getElementById("_mainStats").innerHTML = statsText;
-}
-
-  let getDataFromOS = async (address) => {
+  let getDataFromOS = async (address,extra) => {
       const Http = new XMLHttpRequest();
       let url = 'https://api.opensea.io/api/v1/assets?owner=';
       url += address;
-      url += "&limit=30"
+      url += "&limit=15"
+      if(extra){
+        url += "&cursor="+extra;
+      }
       await Http.open("GET", url);
       await Http.send();
       Http.onreadystatechange = (e) => {
@@ -175,56 +252,26 @@ let displayStats = () => {
       document.getElementById("nftHolder").innerHTML = '';
       for (let n = 0; n < JSON.parse(osresponse).assets.length; n++) {
           if (JSON.parse(osresponse).assets[n].description == "My Breathtaking Pixel Bois") {
-              addCard(JSON.parse(osresponse).assets[n].name)
+              controller.addCard(JSON.parse(osresponse).assets[n].name)
               myNfts.push(JSON.parse(osresponse).assets[n])
           }
       }
+      if(JSON.parse(osresponse).next !== null){
+        console.log("parsing more data")
+        let extraBit = JSON.stringify(JSON.parse(osresponse).next)
+        osresponse = undefined;
+        getDataFromOS(myMMAccount,extraBit)
+      }
       return true;
   }
-  let addCard = (name) => {
-      let _id = name.slice(5)
-      let _div = document.createElement("div");
-      let _saveButton = document.createElement("button");
-      _saveButton.innerHTML = "💾"
-      _saveButton.id = _id;
-      _saveButton.addEventListener("click", (e) => {
-        saveId(e.path[0].id)
-      });
-      _saveButton.style.position = "absolute"
-      _div.appendChild(_saveButton);
-      _div.classList.add('card');
-      let _img = document.createElement("img");
-      _img.src = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/" + _id + ".png"
-      _img.alt = name;
-      let _divCont = document.createElement("div");
-      _divCont.classList.add('container');
-      let _name = document.createElement("h3");
-      _name.innerHTML = name;
-      _divCont.appendChild(_name);
-      _div.appendChild(_img);
-      let _healthBar = document.createElement("hr");
-      // let _hpText = document.createElement("h4");
-      // _hpText.innerHTML = '54'
-      // _hpText.classList.add('hrText');
-      _div.appendChild(_healthBar);
-      // _div.appendChild(_hpText);
 
-      _div.appendChild(_divCont);
-      document.getElementById("nftHolder").appendChild(_div)
-  }
 
-  let saveId = (id) => {
-      let a = document.createElement('a');
-      a.href = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/" + id + ".png";
-      a.download = id + ".png";
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-  }
+
 
   window.onload = function() {
       document.getElementById("nftHolder").style.width = "100%"
-      getStatsFromOS();
+      controller.getStatsFromOS();
+      controller._addStartCard()
   };
 
 </script>
