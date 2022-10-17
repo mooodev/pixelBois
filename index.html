@@ -239,19 +239,25 @@ button{
       Http.open("GET", url);
       Http.send();
       Http.onreadystatechange = (e) => {
+
           if (Http.responseText.charAt(0) == "{" && Http.responseText.charAt(Http.responseText.length-1) == "}" ) {
+            console.log(_lastExtraBit +" is lastbit and next  "+ JSON.stringify(JSON.parse(osresponse).next))
+            //  if (JSON.parse(Http.responseText).assets.length > 0) {
+            if(_lastExtraBit !== JSON.stringify(JSON.parse(osresponse).next){
+              _lastExtraBit = JSON.stringify(JSON.parse(osresponse).next;
+              osresponse = JSON.stringify(JSON.parse(Http.responseText));
+              searchForOwnerNfts()
+            }
 
-              if (JSON.parse(Http.responseText).assets.length > 0) {
-
-                  if (osresponse == undefined) {
-                      osresponse = JSON.stringify(JSON.parse(Http.responseText));
-                      console.log(_lastExtraBit +" is lastbit and next  "+ JSON.stringify(JSON.parse(osresponse).next))
-                      if(_lastExtraBit !== JSON.stringify(JSON.parse(osresponse).next)){
-                        _lastExtraBit = '';
-                        searchForOwnerNfts()
-                      }
-                  }
-              }
+                  // if (osresponse == undefined) {
+                  //     osresponse = JSON.stringify(JSON.parse(Http.responseText));
+                  //     console.log(_lastExtraBit +" is lastbit and next  "+ JSON.stringify(JSON.parse(osresponse).next))
+                  //     if(_lastExtraBit !== JSON.stringify(JSON.parse(osresponse).next)){
+                  //       _lastExtraBit = '';
+                  //       searchForOwnerNfts()
+                  //     }
+                  // }
+        //      }
           }
           return true;
       }
@@ -271,16 +277,20 @@ button{
       for(let m = 0 ; m < myNfts.length ; m++){
         controller.addCard(myNfts[m].name)
       }
-      if(JSON.stringify(JSON.parse(osresponse).next) !== _lastExtraBit){
-      //  console.log(_lastExtraBit + " not equals " + JSON.stringify(JSON.parse(osresponse).next))
-        console.log("parsing more data end + " + JSON.parse(osresponse).next)
-        let extraBit = JSON.stringify(JSON.parse(osresponse).next)
-        osresponse = undefined;
-        controller._addLoadingCard()
-        _lastExtraBit = extraBit;
-      //  console.log("setting lastbit as " +_lastExtraBit)
-        getDataFromOS(myMMAccount,extraBit)
-      }
+
+
+      console.log("sending new request with lastbit " + JSON.stringify(JSON.parse(osresponse).next))
+      getDataFromOS(myMMAccount,JSON.stringify(JSON.parse(osresponse).next))
+
+      // if(JSON.stringify(JSON.parse(osresponse).next) !== _lastExtraBit){
+      //   console.log("parsing more data end + " + JSON.parse(osresponse).next)
+      //   let extraBit = JSON.stringify(JSON.parse(osresponse).next)
+      //   osresponse = undefined;
+      //   controller._addLoadingCard()
+      //   _lastExtraBit = extraBit;
+      // //  console.log("setting lastbit as " +_lastExtraBit)
+      //   getDataFromOS(myMMAccount,extraBit)
+      // }
       return true;
   }
 
