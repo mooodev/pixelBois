@@ -84,7 +84,7 @@ button{
 
   </div>
 </div>
-<script src="https://raw.githubusercontent.com/mooodev/pixelBois/main/breathtakingSite/contract_myAbi.js" type="text/javascript"></script>
+<script src="breathtakingSite/contract_myAbi.js" type="text/javascript"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.7.1-rc.0/web3.min.js"></script>
 <script type="text/javascript">
 //color pallette #1B2430 #51557E #816797 #D6D5A8
@@ -272,13 +272,14 @@ button{
 }
   const controller = new PfpDownloader()
   const Contract = "0x0568A87e64E65f4cC7898E08f0e57FFe2AA6241f"
-  window.onload = function() {
+  window.addEventListener('load', function() {
+    document.getElementById("nftHolder").style.width = "100%";
+    controller.getStatsFromOS();
+    controller._addStartCard();
     controller.web3 = new Web3(window.ethereum);
     controller.contractInstance = new controller.web3.eth.Contract(myAbi, Contract);
-      document.getElementById("nftHolder").style.width = "100%";
-      controller.getStatsFromOS();
-      controller._addStartCard()
-  };
+})
+
 </script>
 
   </body>
