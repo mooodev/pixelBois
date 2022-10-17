@@ -243,6 +243,7 @@ button{
               if (JSON.parse(Http.responseText).assets.length > 0) {
                   if (osresponse == undefined) {
                       osresponse = JSON.stringify(JSON.parse(Http.responseText));
+                      _lastExtraBit = '';
                       searchForOwnerNfts()
                   }
               }
