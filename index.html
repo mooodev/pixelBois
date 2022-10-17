@@ -230,7 +230,7 @@ button{
       const Http = new XMLHttpRequest();
       let url = 'https://api.opensea.io/api/v1/assets?owner=';
       url += address;
-      url += "&limit=5"
+      url += "&limit=10"
       if(extra){
         url += "&cursor="+extra;
       }
