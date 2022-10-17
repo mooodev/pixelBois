@@ -74,7 +74,7 @@ button{
 
 <div class="flex-container">
   <div class="flex-item">
-    <button onclick="connectMM()"  type="button" name="button">🦊Connect Metamask</button>
+    <button onclick="controller.connectMM()"  type="button" name="button">🦊Connect Metamask</button>
     <!-- <button type="button" name="button">⛵Go to OpenSea</button> -->
     <a id="_mainStats"></a>
   </div>
@@ -96,15 +96,62 @@ button{
           this.contractInstance;
           this.myNfts = [];
           this.totalOwned = 12345;
+          this._lastExtraBit = '';
       }
-      connectMM() {
-
+      async connectMM() {
+        controller.osResponse = undefined;
+        document.getElementById("nftHolder").innerHTML = ''
+        controller._addLoadingCard();
+          const accounts = await ethereum.request({
+              method: 'eth_requestAccounts'
+          });
+          const account = accounts[0];
+          myMMAccount = account;
+          document.getElementById("_addressMain").innerHTML = myMMAccount.toString()
+          controller.getBalanceOf(myMMAccount)
+          controller.getDataFromOS(myMMAccount)
       }
-      getDataFromOS() {
-
+      getDataFromOS(address,extra){
+          const Http = new XMLHttpRequest();
+          let url = 'https://api.opensea.io/api/v1/assets?owner=';
+          url += address;
+          url += "&limit=30"
+          if(extra){
+            url += "&cursor="+extra;
+          }
+          Http.open("GET", url);
+          Http.send();
+          Http.onreadystatechange = (e) => {
+              if (Http.responseText.charAt(0) == "{" && Http.responseText.charAt(Http.responseText.length-1) == "}" ) {
+                if(controller._lastExtraBit !== JSON.stringify(JSON.parse(Http.responseText).next)){
+                  console.log("recived opensea page")
+                  controller._lastExtraBit = JSON.stringify(JSON.parse(Http.responseText).next);
+                  controller.osResponse = JSON.stringify(JSON.parse(Http.responseText));
+                  controller.searchForOwnerNfts()
+                }
+              }
+              return true;
+          }
       }
       searchForOwnerNfts() {
-
+        document.getElementById("nftHolder").innerHTML = ''
+          for (let n = 0; n < JSON.parse(controller.osResponse).assets.length; n++) {
+            let _new = true;
+            for(let n1 = 0 ; n1 < controller.myNfts.length ; n1++){
+              if(JSON.parse(controller.osResponse).assets[n].name == controller.myNfts[n1].name)_new = false;
+            }
+            if (JSON.parse(controller.osResponse).assets[n].description == "My Breathtaking Pixel Bois" && _new) {
+                controller.myNfts.push(JSON.parse(controller.osResponse).assets[n])
+            }
+          }
+          for(let m = 0 ; m < controller.myNfts.length ; m++){
+            controller.addCard(controller.myNfts[m].name)
+          }
+          if(JSON.parse(controller.osResponse).next !== null && controller.totalOwned > controller.myNfts.length){
+            controller._addLoadingCard()
+            controller.getDataFromOS(myMMAccount,JSON.stringify(JSON.parse(controller.osResponse).next))
+          }
+          return true;
       }
       addCard(name){
           let _id = name.slice(5)
@@ -214,8 +261,7 @@ button{
       async getBalanceOf(address){
         await this.contractInstance.methods.balanceOf(address).call().then(function(total) {
         console.log(address + " owns total " + total);
-      //  controller.totalOwned = total;
-        controller.totalOwned = 1;
+        controller.totalOwned = Number(total);
         if(total == 0){
           //you dont own any!
           document.getElementById("nftHolder").innerHTML = ''
@@ -226,70 +272,7 @@ button{
   }
 }
   const controller = new PfpDownloader()
-  //let myMMAccount;
-  //let web3;
-  let osresponse = undefined;
-  let _lastExtraBit = '';
-  let myNfts = []
-  let connectMM = async () => {
-    osresponse = undefined;
-    document.getElementById("nftHolder").innerHTML = ''
-    controller._addLoadingCard();
-      const accounts = await ethereum.request({
-          method: 'eth_requestAccounts'
-      });
-      const account = accounts[0];
-      myMMAccount = account;
-      document.getElementById("_addressMain").innerHTML = myMMAccount.toString()
-      controller.getBalanceOf(myMMAccount)
-      getDataFromOS(myMMAccount)
-  }
-
-  let getDataFromOS = (address,extra) => {
-    address = "0xD1b4a271F26A821960c8dc3AE67DF8157899E8fc";
-      const Http = new XMLHttpRequest();
-      let url = 'https://api.opensea.io/api/v1/assets?owner=';
-      url += address;
-      url += "&limit=30"
-      if(extra){
-        url += "&cursor="+extra;
-      }
-      Http.open("GET", url);
-      Http.send();
-      Http.onreadystatechange = (e) => {
-          if (Http.responseText.charAt(0) == "{" && Http.responseText.charAt(Http.responseText.length-1) == "}" ) {
-            if(_lastExtraBit !== JSON.stringify(JSON.parse(Http.responseText).next)){
-              console.log("recived opensea page")
-              _lastExtraBit = JSON.stringify(JSON.parse(Http.responseText).next);
-              osresponse = JSON.stringify(JSON.parse(Http.responseText));
-              searchForOwnerNfts()
-            }
-          }
-          return true;
-      }
-  }
-  let searchForOwnerNfts = () => {
-    document.getElementById("nftHolder").innerHTML = ''
-      for (let n = 0; n < JSON.parse(osresponse).assets.length; n++) {
-        let _new = true;
-        for(let n1 = 0 ; n1 < myNfts.length ; n1++){
-          if(JSON.parse(osresponse).assets[n].name == myNfts[n1].name)_new = false;
-        }
-        if (JSON.parse(osresponse).assets[n].description == "My Breathtaking Pixel Bois" && _new) {
-            myNfts.push(JSON.parse(osresponse).assets[n])
-        }
-      }
-      for(let m = 0 ; m < myNfts.length ; m++){
-        controller.addCard(myNfts[m].name)
-      }
-      if(JSON.parse(osresponse).next !== null && controller.totalOwned > myNfts.length){
-        controller._addLoadingCard()
-        getDataFromOS(myMMAccount,JSON.stringify(JSON.parse(osresponse).next))
-      }
-      return true;
-  }
-
-
+  const Contract = "0x0568A87e64E65f4cC7898E08f0e57FFe2AA6241f"
 
   window.onload = function() {
     controller.web3 = new Web3(window.ethereum);
@@ -299,7 +282,6 @@ button{
       controller._addStartCard()
   };
 
-  const Contract = "0x0568A87e64E65f4cC7898E08f0e57FFe2AA6241f"
   var myAbi = [
     {
       "inputs": [],
