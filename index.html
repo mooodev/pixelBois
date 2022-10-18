@@ -99,7 +99,8 @@
       <script src="breathtakingSite/contract_myAbi.js" type="text/javascript"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.7.1-rc.0/web3.min.js"></script>
       <script type="text/javascript">
-         //color pallette #1B2430 #51557E #816797 #D6D5A8
+        //color pallette #1B2430 #51557E #816797 #D6D5A8
+         const Contract = "0x0568A87e64E65f4cC7898E08f0e57FFe2AA6241f"
          class PfpDownloader {
              constructor() {
                  this.web3 = undefined;
@@ -248,12 +249,13 @@
                  let _name2 = document.createElement("h4");
                  if (_rand < 0.5) {
                      _name2.innerHTML = "Boi#20: Wuzza fren!";
-                     _name.innerHTML = "Here sir you can view and save your BOI nft's.";
+                     //_name.innerHTML = "Here sir you can view and save your BOI nft's.";
+                     typewiterArray.push(new Typewiter(_name,"Here sir you can view and save your BOI nft's.",70))
                  } else {
                      _name2.innerHTML = "Boi#179: Officer Piggson reporting!";
-                     _name.innerHTML = "Stop right there. Show your ID this instant!";
+                     //_name.innerHTML = "Stop right there. Show your ID this instant!";
+                     typewiterArray.push(new Typewiter(_name,"Stop right there. Show your ID this instant!",70))
                  }
-
                  _name.id = 'info_screen'
                  _name.style.padding = "5px"
                  _divCont.appendChild(_name2);
@@ -287,7 +289,8 @@
                  document.getElementById("nftHolder").appendChild(_div)
              }
              welcomeInteraction(){
-               document.getElementById("info_screen").textContent = "Ok fair enough, move along now."
+               //document.getElementById("info_screen").textContent = "Ok fair enough, move along now."
+               typewiterArray.push(new Typewiter(document.getElementById("info_screen"),"Ok fair enough, move along now..",140))
                document.getElementById("info_block").removeChild(document.getElementById("info_block").lastChild)
                document.getElementById("info_block").removeChild(document.getElementById("info_block").lastChild)
                let _chooseButton = document.createElement("button");
@@ -337,15 +340,63 @@
                          document.getElementById("nftHolder").innerHTML = ''
                          setTimeout(() => {
                              controller._addStartCard();
-                             document.getElementById("info_screen").innerHTML = "Oh no looks likt you dont own any BOIZ D:"
+                             typewiterArray.push(new Typewiter(document.getElementById("info_screen"),"Oh no looks likt you dont own any BOIZ D:",70))
+                             //document.getElementById("info_screen").innerHTML = "Oh no looks likt you dont own any BOIZ D:"
                          }, "100")
                      }
                  })
              }
          }
+         class Typewiter {
+           constructor(target,text,speed) {
+             for(let tp = 0; tp < typewiterArray.length ; tp++){
+               console.log(typewiterArray[tp].target == target)
+               if(typewiterArray[tp].target == target){
+                 console.log("deleted item")
+                 typewiterArray.splice(tp,1)
+                 tp = typewiterArray.length;
+               }
+             }
+             this.speed = speed;
+             this.currentTimer = 100;
+             this.target = target;
+             this.text = text;
+             this.position = 0;
+             this.typing = true;
+             this.target.innerHTML = ''
+           }
+           update(delta){
+             this.currentTimer -= delta;
+             if(this.currentTimer < 0){
+               this.currentTimer = JSON.parse(JSON.stringify(this.speed));
+               this.target.innerHTML += this.text.charAt(this.position);
+               this.position += 1;
+               if(this.position >= this.text.length){
+                 this.typing = false;
+               }
+             }
+           }
+         }
+         const typewiterArray = []
+         let timer = new Date().getTime();
+         const gameLoop = () => {
+           let newTimer = new Date().getTime();
+           let delta = newTimer - timer;
+           //typewriter
+            for(let tp = 0 ; tp < typewiterArray.length; tp++){
+              typewiterArray[tp].update(delta);
+              if(!typewiterArray[tp].typing){
+                console.log("deleting typewriter")
+                typewiterArray.splice(tp,1)
+                tp--;
+              }
+            }
+            timer = newTimer;
+           window.requestAnimationFrame(gameLoop);
+         }
          const controller = new PfpDownloader()
-         const Contract = "0x0568A87e64E65f4cC7898E08f0e57FFe2AA6241f"
          window.addEventListener('load', function() {
+             gameLoop();
              document.getElementById("nftHolder").style.width = "100%";
              controller.getStatsFromOS();
              controller._addStartCard();
