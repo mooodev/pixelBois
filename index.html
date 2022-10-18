@@ -227,6 +227,7 @@
                  _name.innerHTML = name;
                  _divCont.appendChild(_name);
                  _div.appendChild(_img);
+                 let _healthBarDiv = document.createElement("div");
                  let _healthBar = document.createElement("hr");
                  let _hp = 0;
                  let _mp = 0;
@@ -238,8 +239,9 @@
                      _mp = this.myNfts[pos].traits[x].value;
                    }
                  }
-                 _healthBar.innerHTML = "<span class='tooltiptext'>HP:" + _hp+"/"+_hp  + " , MP:"+_mp+"/"+_mp + "</span>"
-                 _div.appendChild(_healthBar);
+                 _healthBar.innerHTML = "<span class='tooltiptext'>HP:" + _hp+"/"+_hp  + "<br>MP:"+_mp+"/"+_mp + "</span>"
+                 _healthBarDiv.appendChild(_healthBar);
+                 _div.appendChild(_healthBarDiv);
                  _div.appendChild(_divCont);
                  document.getElementById("nftHolder").appendChild(_div)
              }
