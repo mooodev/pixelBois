@@ -177,7 +177,7 @@
                  let _id = name.slice(5)
                  let _div = document.createElement("div");
                  let _saveButton = document.createElement("button");
-                 _saveButton.innerHTML = "💾<span class='tooltiptext'>Save image</span>"
+                 _saveButton.innerHTML = "💾<a class='tooltiptext'>Save image</a>"
                  _saveButton.id = _id;
                  _saveButton.addEventListener("click", (e) => {
                      this.savePfp(e.path[0].id)
@@ -188,7 +188,7 @@
                    document.getElementById("hidden").appendChild(_saveButton)
                  }
                  let _osButton = document.createElement("button");
-                 _osButton.innerHTML = "🌊<span class='tooltiptext'>View on OpenSea</span>"
+                 _osButton.innerHTML = "🌊<a class='tooltiptext'>View on OpenSea</a>"
                  _osButton.id = _id;
                  _osButton.addEventListener("click", (e) => {
                      window.open('https://opensea.io/assets/ethereum/0x0568a87e64e65f4cc7898e08f0e57ffe2aa6241f/'+e.path[0].id);
