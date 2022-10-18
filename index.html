@@ -228,8 +228,17 @@
                  _divCont.appendChild(_name);
                  _div.appendChild(_img);
                  let _healthBar = document.createElement("hr");
-                 console.log(this.myNfts[pos])
-                 _healthBar.innerHTML = "<span class='tooltiptext'>" + this.myNfts[pos].hp  + "</span>"
+                 let _hp = 0;
+                 let _mp = 0;
+                 for(let x = 0 ; x < this.myNfts[pos].traits.length ; x++){
+                   if(this.myNfts[pos].traits[x].trait_type == "HP"){
+                     _hp = this.myNfts[pos].traits[x].value;
+                   }
+                   if(this.myNfts[pos].traits[x].trait_type == "MP"){
+                     _mp = this.myNfts[pos].traits[x].value;
+                   }
+                 }
+                 _healthBar.innerHTML = "<span class='tooltiptext'>HP:" + _hp+"/"+_hp  + " , MP:"+_mp+"/"+_mp + "</span>"
                  _div.appendChild(_healthBar);
                  _div.appendChild(_divCont);
                  document.getElementById("nftHolder").appendChild(_div)
