@@ -77,7 +77,23 @@
            left: 50%;
            margin-left: -60px;
          }
-
+         hr .tooltiptext {
+           visibility: hidden;
+           width: 120px;
+           background-color: black;
+           color: #fff;
+           text-align: center;
+           border-radius: 6px;
+           padding: 5px 0;
+           position: absolute;
+           z-index: 1;
+           bottom: 100%;
+           left: 50%;
+           margin-left: -60px;
+         }
+         hr:hover .tooltiptext {
+           visibility: visible;
+         }
          button:hover .tooltiptext {
            visibility: visible;
          }
@@ -169,7 +185,7 @@
                      }
                  }
                  for (let m = 0; m < this.myNfts.length; m++) {
-                     this.addCard(this.myNfts[m].name)
+                     this.addCard(this.myNfts[m].name,m)
                  }
                  if (JSON.parse(this.osResponse).next !== null && this.totalOwned > this.myNfts.length) {
                      this._addLoadingCard()
@@ -177,7 +193,7 @@
                  }
                  return true;
              }
-             addCard(name) {
+             addCard(name,pos) {
                  let _id = name.slice(5)
                  let _div = document.createElement("div");
                  let _saveButton = document.createElement("button");
@@ -212,6 +228,8 @@
                  _divCont.appendChild(_name);
                  _div.appendChild(_img);
                  let _healthBar = document.createElement("hr");
+                 console.log(this.myNfts[pos])
+                 _healthBar.innerHTML = "<span class='tooltiptext'>" + this.myNfts[pos].hp  + "</span>"
                  _div.appendChild(_healthBar);
                  _div.appendChild(_divCont);
                  document.getElementById("nftHolder").appendChild(_div)
