@@ -64,6 +64,24 @@
          button{
          background-color:#51557E;
          }
+         button .tooltiptext {
+           visibility: hidden;
+           width: 120px;
+           background-color: black;
+           color: #fff;
+           text-align: center;
+           border-radius: 6px;
+           padding: 5px 0;
+           position: absolute;
+           z-index: 1;
+           bottom: 100%;
+           left: 50%;
+           margin-left: -60px;
+         }
+
+         button:hover .tooltiptext {
+           visibility: visible;
+         }
       </style>
    </head>
    <body>
@@ -159,7 +177,7 @@
                  let _id = name.slice(5)
                  let _div = document.createElement("div");
                  let _saveButton = document.createElement("button");
-                 _saveButton.innerHTML = "💾"
+                 _saveButton.innerHTML = "💾" + <span class="tooltiptext">Save image</span>
                  _saveButton.id = _id;
                  _saveButton.addEventListener("click", (e) => {
                      this.savePfp(e.path[0].id)
@@ -170,13 +188,12 @@
                    document.getElementById("hidden").appendChild(_saveButton)
                  }
                  let _osButton = document.createElement("button");
-                 _osButton.innerHTML = "🌊"
+                 _osButton.innerHTML = "🌊" + <span class="tooltiptext">View on OpenSea</span>
                  _osButton.id = _id;
                  _osButton.addEventListener("click", (e) => {
                      window.open('https://opensea.io/assets/ethereum/0x0568a87e64e65f4cc7898e08f0e57ffe2aa6241f/'+e.path[0].id);
                  });
                  _osButton.style.position = "absolute"
-                 console.log(document.getElementById("hidden").children[0].offsetWidth)
                  _osButton.style.marginLeft = document.getElementById("hidden").children[0].offsetWidth + "px"
                  _div.appendChild(_osButton);
                  _div.appendChild(_saveButton);
