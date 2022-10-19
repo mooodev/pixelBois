@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
    <head>
-      
+     <link href="http://fonts.cdnfonts.com/css/common-pixel" rel="stylesheet">
       <link rel="icon" type="image/x-icon" href="https://mooodev.github.io/pixelBois/breathtakingSite/favico.png">
       <meta charset="utf-8">
       <title>PIXEL BOIZ</title>
       <style media="screen">
-         
+        @import url('http://fonts.cdnfonts.com/css/common-pixel');
          hr{
          background-color:#50C878;
          height:15px;
@@ -51,7 +51,8 @@
          background-color:#816797;
          margin: auto;
          margin: 10px;
-         filter: drop-shadow(0px 0px 7px #131921);
+         filter: drop-shadow(0px 10px 10px #131921);
+         border: 10px solid #1B2430;
          }
          img {
          width : 100%;
@@ -61,11 +62,11 @@
          background-color:#1B2430;
          color:#D6D5A8;
          text-align:center;
-            
+         font-family: 'Common Pixel', sans-serif;
          }
          button{
          background-color:#51557E;
-            
+         font-family: 'Common Pixel', sans-serif;
          }
          button .tooltiptext {
            visibility: hidden;
@@ -268,7 +269,7 @@
                  document.getElementById("nftHolder").appendChild(_div)
              }
              _addStartCard() {
-                 let _rand = Math.random()
+                 let _rand = 1
                  let _div = document.createElement("div");
                  _div.id = "info_block"
                  _div.classList.add('card');
@@ -282,8 +283,8 @@
                  let _divCont = document.createElement("div");
                  _divCont.classList.add('container');
                  let _name = document.createElement("p");
-                 let _name2 = document.createElement("h2");
-                 if (_rand < 0.5) {
+                 let _name2 = document.createElement("h4");
+                 if (_rand < 0) {
                      _name2.innerHTML = "Boi#20: Wuzza fren!";
                      //_name.innerHTML = "Here sir you can view and save your BOI nft's.";
                      typewiterArray.push(new Typewiter(_name,"Here sir you can view and save your BOI nft's.",70))
@@ -440,5 +441,166 @@
              })
          })
       </script>
+
+
+
+      <script type="text/javascript">
+
+
+        class Dialgue{
+          constructor(){
+            this.active = true;
+            this.currentText = new StatementConstruct(0,'...');
+            this.availableQuestions = [];
+            this.replyData = [];
+          }
+          addCard(){
+            let _div = document.createElement("div");
+            _div.classList.add('card');
+            let _img = document.createElement("img");
+            _img.src = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/" + 179 + ".png"
+            _img.style = "-webkit-transform: scaleX(-1);transform: scaleX(-1);"
+            _div.appendChild(_img);
+            let _name = document.createElement("h2");
+            _name.textContent = "Boi#179: Officer Piggson";
+            _div.appendChild(_name);
+            let _text = document.createElement("p");
+            _text.id = "_dText"
+            // _text.style.color = '#131921';
+            _text.style.textAlign = "left";
+            _text.style.padding = "10px"
+            _div.appendChild(_text)
+            let _buttonDiv = document.createElement("div");
+            _buttonDiv.id = "_dButtonDiv"
+            _buttonDiv.textContent = "buttons here"
+            _div.appendChild(_buttonDiv)
+            let _cancelButton = document.createElement("Button");
+            _cancelButton.textContent = "Bye."
+            _cancelButton.addEventListener("click",(e)=>{
+              this.endConversation();
+            });
+            _div.appendChild(_cancelButton)
+            _cancelButton.style.width = "100%";
+            _cancelButton.style.height = "50px";
+            document.getElementById("nftHolder").appendChild(_div)
+            return true;
+          }
+          updateCard(){
+            document.getElementById("_dButtonDiv").innerHTML = '';
+            //document.getElementById("_dText").textContent = this.currentText.returnText();
+            typewiterArray.push(new Typewiter(document.getElementById("_dText"),this.currentText.returnText(),70))
+            for(let n = 0 ; n < this.availableQuestions.length ; n++){
+              let button = document.createElement("Button");
+              button.textContent = this.availableQuestions[n].text;
+              button.id = this.availableQuestions[n].id;
+              document.getElementById("_dButtonDiv").appendChild(button)
+              button.style.width = "100%";
+              button.style.height = "50px";
+              if(this.availableQuestions[n].pushed){
+                button.style.color = "#816797"
+              }
+              let _butRef = this.availableQuestions[n];
+              button.addEventListener("click",(e)=>{
+                _butRef.pushed = true;
+                currentDialogue.updateConversation(e.path[0].id)
+              });
+            }
+            return true;
+          }
+          updateConversation(_id){
+            if(!this.active){
+              console.log("but there is no conversation..")
+              return false;
+            }
+            for(let n = 0 ; n < this.replyData.length ; n++){
+              if(this.replyData[n].id == _id){
+                this.newCurrentText(this.replyData[n])
+                if(this.replyData[n].specialOptions){
+                  //this.availableQuestions = [];
+                  this.availableQuestions.unshift(JSON.parse(JSON.stringify(this.replyData[n].specialOptions)))
+                  this.replyData[n].specialOptions = false;
+                }
+                if(this.replyData[n].endDialogue){
+                this.stopConversation()
+                }
+                n = this.replyData.length
+              }
+            }
+            this.updateCard();
+            return true;
+          }
+          newCurrentText(statement){
+            this.currentText = statement;
+            return true;
+          }
+          makeQuestionVisible(question){
+            this.availableQuestions.push(question)
+            return true;
+          }
+          stopConversation(){
+            this.availableQuestions = [];
+            this.updateCard();
+            return true;
+          }
+          endConversation(){
+            if(!this.active){
+              return false;
+            }
+            this.currentText = new StatementConstruct(0,'Goodbye');
+            this.stopConversation()
+            this.active = false;
+            return true;
+          }
+        }
+        class Question {
+          constructor(id,text) {
+            this.id = id;
+            this.text = text;
+            this.pushed = false;
+          }
+        }
+        class StatementConstruct{
+          constructor(id,text){
+            this.id = id;
+            this.text = text;
+            this.specialOptions = false;
+            this.endDialogue = false;
+          }
+          returnText(){
+            if (typeof this.text === 'string' || this.text instanceof String){
+              return this.text;
+            }else{
+              let _rand = Math.floor(Math.random()*this.text.length)
+              return this.text[_rand]
+            }
+          }
+        }
+
+
+          let currentDialogue;
+          let startDialogue = new Dialgue();
+          let welcomeMessage = new StatementConstruct(0,"Stop right there. Show your ID this instant!")
+          let q0 = new Question(1,"Show identification documents.")
+          let a0 = new StatementConstruct(1,["Ok sir right this way, thank you for cooperation.","Everything looks great, please enjoy your stay."])
+          let q1 = new Question(2,'Eat bacon pig!')
+          let a1 = new StatementConstruct(2,"Ok fair enough, move along then..")
+          a1.specialOptions = new Question(3,"Me too..so where are the diamods again?")
+          let a2 = new StatementConstruct(3,"I guess I'll tell you... Its in the dragons belly!")
+          a2.endDialogue = true;
+          startDialogue.currentText = welcomeMessage;
+          startDialogue.availableQuestions = [q0,q1]
+          startDialogue.replyData = [a0,a1,a2]
+
+
+
+          currentDialogue = startDialogue;
+          // currentDialogue.addCard()
+          // currentDialogue.updateCard()
+
+
+
+
+      </script>
+
    </body>
 </html>
