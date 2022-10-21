@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+   <head>
+      <meta charset="utf-8">
+      <title></title>
+      <style media="screen">
+        body{
+
+        }
+      </style>
+   </head>
+   <body>
+      <div class="screenHolder" id="screenHolder">
+      </div>
+      <!--Header-->
+      <img src="https://raw.githubusercontent.com/mooodev/pixelBois/main/breathtakingSite/images/tileset2x.png" id="tileset" alt="">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+      <script>
+         class MainThreeScreen{
+           constructor(){
+             this.players = []
+             this.lights = []
+             this.scene = new THREE.Scene();
+             this.camera =  new THREE.OrthographicCamera(window.innerWidth / -2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / -2, 0.1,1000);
+             this.renderer = new THREE.WebGLRenderer({ alpha: true });
+             this.bgColors = [0xffffff,0x000000,0xfff000]
+             //this.pageController = new PageController()
+             this.init();
+             this.moveSpeedX = 0.9
+           }
+           init(){
+             this.renderer.setSize( window.innerWidth, window.innerHeight );
+          //   document.getElementById("screenHolder").appendChild( this.renderer.domElement );
+             this.camera.position.z = 10;
+             console.log("initiatedMainScreen")
+           }
+           allPlayers2Center(){
+             for(var n = 0; n < this.players.length; n++){
+               this.players[n].desiredPos = [0,0]
+             }
+           }
+           allPlayers2Start(){
+             for(var n = 0; n < this.players.length; n++){
+               this.players[n].desiredPos = this.players[n].startPos
+             }
+           }
+           xPlayer2Center(x){
+
+           }
+           xPlayer2Start(x){
+
+           }
+           updatePlayerPositions(){
+             for(var n = 0 ; n < this.players.length; n++){
+             // console.log("yeye", this.players[n].three.position.x, this.players[n].desiredPos[0] )
+               if(this.players[n].three.position.x - this.players[n].desiredPos[0] < -25){
+                 this.players[n].speed[0] += 1;
+               }else if(this.players[n].three.position.x - this.players[n].desiredPos[0] > 25){
+                 this.players[n].speed[0] -= 1;
+               }
+               if(this.players[n].three.position.y - this.players[n].desiredPos[1] < -25){
+                 this.players[n].speed[1] += 1;
+               }else if(this.players[n].three.position.y - this.players[n].desiredPos[1] > 25){
+                 this.players[n].speed[1] -= 1;
+               }
+               this.players[n].speed[0] = this.players[n].speed[0]*this.moveSpeedX
+               this.players[n].speed[1] = this.players[n].speed[1]*0.98
+               this.players[n].three.position.x += this.players[n].speed[0]
+               this.players[n].three.position.y += this.players[n].speed[1]
+             }
+           }
+           addToScene(obj){
+             this.scene.add( obj );
+             console.log("added a page")
+           }
+           addPlayerOnScreen(player,side){
+             this.players.push(player)
+             var geometry = new THREE.PlaneGeometry( 100, 100 );
+             var material = new THREE.MeshBasicMaterial( {color: 0xfff000, side: THREE.DoubleSide} );
+             var plane = new THREE.Mesh( geometry, material );
+             this.players[this.players.length-1].three = plane;
+             this.players[this.players.length-1].three.position.y = window.innerHeight/2
+             this.addToScene( this.players[this.players.length-1].three );
+             if(side == 1){
+               this.players[this.players.length-1].desiredPos = [(Math.round(Math.random()*window.innerWidth/2)-(window.innerWidth/2)),Math.round(Math.random()*30)-30]
+             }else{
+               this.players[this.players.length-1].desiredPos = [(Math.round(Math.random()*window.innerWidth/2)),Math.round(Math.random()*30)-30]
+             }
+               this.players[this.players.length-1].startPos = this.players[this.players.length-1].desiredPos;
+           }
+           addSmallLight(x,y){
+
+           }
+           addColoredLight(x,y,color){
+
+           }
+         }
+
+         class PlayerAnimation{
+           constructor(){
+             this.three;
+             this.desiredPos = [];
+             this.speed = [0,0];
+             this.animationQueue = [];
+             this.animation;
+           }
+           textBubble(text){
+
+           }
+           animStanding(){
+
+           }
+           animDead(){
+
+           }
+           animCelebrate(){
+
+           }
+           animTakeDD(){
+
+           }
+           animFalling(){
+
+           }
+           updateAnimation(){
+
+           }
+           walkTo(x,y){
+             this.desiredPos = [x,y]
+           }
+         }
+
+
+         var mainScreen = new MainThreeScreen()
+         // mainScreen.addPlayerOnScreen(new PlayerAnimation(),1)
+         // mainScreen.addPlayerOnScreen(new PlayerAnimation())
+         // mainScreen.addPlayerOnScreen(new PlayerAnimation())
+         // mainScreen.addPlayerOnScreen(new PlayerAnimation())
+         // mainScreen.addPlayerOnScreen(new PlayerAnimation())
+
+         var clock = new THREE.Clock();
+         function animate() {
+             var delta = clock.getDelta();
+             requestAnimationFrame( animate );
+             mainScreen.renderer.render( mainScreen.scene, mainScreen.camera );
+             mainScreen.updatePlayerPositions()
+         }
+         animate()
+
+         const canvas = document.createElement("canvas");
+         // const canvas = document.getElementById("canvas");
+         canvas.width = 300;
+         canvas.height = 300;
+         const ctx = canvas.getContext("2d");
+         const image = document.getElementById("tileset");
+         document.getElementById("screenHolder").appendChild( canvas );
+         image.addEventListener("load", (e) => {
+
+           ctx.drawImage(image, 0,0 , 300,300, 64,64,32,32);
+
+           let _processingTexture = canvas.toDataURL()
+
+           const texture = new THREE.TextureLoader().load( _processingTexture );
+           texture.wrapS = THREE.RepeatWrapping;
+           texture.wrapT = THREE.RepeatWrapping;
+           texture.repeat.set( 4, 4 );
+           var geometry = new THREE.PlaneGeometry( 400, 100 );
+           var material = new THREE.MeshBasicMaterial( {map:texture, side: THREE.DoubleSide} );
+           var plane = new THREE.Mesh( geometry, material );
+           mainScreen.addToScene( plane );
+
+         });
+
+
+
+         // const texture = new THREE.TextureLoader().load( "https://raw.githubusercontent.com/mooodev/pixelBois/main/breathtakingSite/images/tileset2x.png" );
+         // texture.wrapS = THREE.RepeatWrapping;
+         // texture.wrapT = THREE.RepeatWrapping;
+         // texture.repeat.set( 4, 4 );
+         // var geometry = new THREE.PlaneGeometry( 400, 100 );
+         // var material = new THREE.MeshBasicMaterial( {map:texture, side: THREE.DoubleSide} );
+         // var plane = new THREE.Mesh( geometry, material );
+         // mainScreen.addToScene( plane );
+
+
+      </script>
+   </body>
+</html>
