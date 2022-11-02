@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    hello
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/simple-peer/9.11.1/simplepeer.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+    <script type="text/javascript">
+    //NETWORKING
+ class PeerMessage {
+  constructor(type,msg,priv){
+   this.type = type;
+   this.msg = msg;
+   this.priv = priv;
+  }
+ }
+ //main settings
+var socket = io("https://gentle-grand-artichoke.glitch.me/");
+
+ //peering
+var peerArray = [];
+ class PeePeer {
+    constructor(initiator, tempId ) {
+      this.tempId = tempId;
+        this.peer = new SimplePeer({
+            initiator: initiator,
+            trickle: false
+        });
+     this.peer.on('connect', () => {
+            console.log("New peer connected!");
+   // let dataMsg = JSON.stringify(new PeerMessage("timeLine",{playerPos:rpgChain.myHero.desiredPosition}));
+   // this.peer.send(dataMsg)
+   calculateNetworkSize();
+        });
+
+        this.peer.on('signal', (data) => {
+            if (data.type === "answer") {
+    let reply = JSON.stringify({id: this.tempId,data: data});
+   socket.emit('signal:reply', reply);
+
+    }else{
+   let invite = JSON.stringify({id: this.tempId,data: data});
+   socket.emit('signal:invite', invite);
+            };
+            return;
+        });
+        this.peer.on('data', (data) => {
+          //  console.log(utf8decoder.decode(data));
+   let dataObj = JSON.parse(utf8decoder.decode(data));
+
+   console.log("got something from peer")
+        });
+        this.peer.on('close', () => {
+            console.log("peer disconnected!");
+   peerArray.splice(peerArray.indexOf(this),1);
+        })
+    }
+};
+ //signaling
+ socket.on("signal:_hello", function(_data) {
+  console.log("new peer want to join!");
+ peerArray.push(new PeePeer(true, _data));
+})
+ socket.on("signal:_invite", function(_data) {
+  console.log("ive been invited!");
+  let dataObj = JSON.parse(_data);
+  peerArray.push(new PeePeer(false));
+  var test = JSON.stringify(dataObj.data)
+  peerArray[peerArray.length-1].tempId = dataObj.id;
+  peerArray[peerArray.length-1].peer.signal(test);
+})
+
+ socket.on('signal:_reply',function(_data){
+  var test = JSON.stringify(_data)
+  peerArray[peerArray.length-1].peer.signal(test);
+ })
+
+ let utf8decoder = new TextDecoder();
+
+var hello = () => {
+ socket.emit('signal:hello');
+ console.log("sending hello to server!");
+}
+
+var calculateNetworkSize = () => {
+  var tempNumber = 1;
+  peerArray.forEach(function(_peer){
+   if(_peer.peer._connected)tempNumber++;
+   //console.log(_peer)
+  })
+  console.log(tempNumber)
+ }
+
+
+hello();
+
+
+
+    </script>
+  </body>
+</html>
