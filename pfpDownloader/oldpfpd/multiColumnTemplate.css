@@ -83,7 +83,7 @@ body{
 	margin-top: 0px;
 }
 .columns {
-	width: 25%;
+	width: 20%;
 	float: left;
 	/* font-family: "Source Sans Pro"; */
 	color: #A5A5A5;
@@ -101,7 +101,7 @@ body{
 }
 .columns:hover {
 	background-color:#353535;
-	width: 25%;
+	width: 20%;
 	float: left;
 	border-radius: 25px;
 	/* border: solid 2px rgba(211, 220, 50, .6); */
