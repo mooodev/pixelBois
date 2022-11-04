@@ -72,6 +72,7 @@ body{
 	background-color: rgba(185,185,185,0.10);
 	border: rgba(129,54,159,1.00) thin;
 		border-radius: 0px 0px 50px 0px;
+		color: #A5A5A5;
 }
 .row.blockDisplay {
 	display: block;
