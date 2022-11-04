@@ -80,11 +80,11 @@
   </header>
        <div class="row" id="nftHolder">
 
-   <div class="columns">
+   <!-- <div class="columns">
       <p class="thumbnail_align"> <img src="https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/10.png" alt="" class="thumbnail"/> </p>
       <h4>BOI #23</h4>
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-    </div>
+    </div> -->
 
 
 
@@ -392,8 +392,9 @@ update = function() {
            _divCont.classList.add('thumbnail_align');
            let _name = document.createElement("h3");
            _name.innerHTML = name;
-           _divCont.appendChild(_name);
            _divCont.appendChild(_img);
+           _divCont.appendChild(_name);
+
            // let _healthBarDiv = document.createElement("div");
            // let _healthBar = document.createElement("hr");
            // let _hp = 0;
@@ -430,13 +431,14 @@ update = function() {
            _name.innerHTML = "Loading..";
            let _name2 = document.createElement("p");
            _name2.innerHTML = "Plase await";
+           _divCont.appendChild(_img);
            _divCont.appendChild(_name2);
            _divCont.appendChild(_name);
-           _divCont.appendChild(_img);
+
            _div.appendChild(_divCont);
            _div.style.textAlign = "center";
            document.getElementById("nftHolder").appendChild(_div)
-           typewiterArray.push(new Typewiter(_div,"LOADING NFT DATA LOADING NFT DATA LOADING NFT DATA LOADING NFT DATA",250))
+           typewiterArray.push(new Typewiter(_div,"LOADING NFT DATA LOADING NFT DATA LOADING NFT DATA LOADING NFT DATA",100))
            // _div.style.width = "100%"
            // _div.style.height = "300px"
           // _div.style.marginLeft =  (window.innerWidth/2)-((document.getElementById("GUI_nftory").offsetWidth/4)/1.4)+"px"
