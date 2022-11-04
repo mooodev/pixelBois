@@ -1,6 +1,6 @@
 # pixelBois <a href="https://mooodev.github.io/pixelBois/">visit site</a>
 <img src="https://raw.githubusercontent.com/mooodev/pixelBois/main/breathtakingSite/logo.png">
-Collection of different NFT bois <3
+Collection of crazy NFT boiz <3
 
 
 ## Description
