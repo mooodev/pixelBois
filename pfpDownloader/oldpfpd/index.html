@@ -331,7 +331,7 @@ update = function() {
            const accounts = await ethereum.request({
                method: 'eth_requestAccounts'
            })
-           
+
              this._addLoadingCard();
              this._addLoadingCard()
              this._addLoadingCard()
@@ -395,27 +395,27 @@ update = function() {
        addCard(name,pos) {
            let _id = name.slice(5)
            let _div = document.createElement("div");
-           let _saveButton = document.createElement("button");
-           _saveButton.innerHTML = "💾<span class='tooltiptext'>Save image</span>"
-           _saveButton.id = _id;
-           _saveButton.addEventListener("click", (e) => {
-               this.savePfp(e.path[0].id)
-           });
-           _saveButton.style.position = "absolute"
-           _div.appendChild(_saveButton);
-           if(document.getElementById("hidden").children.length == 0){
-             document.getElementById("hidden").appendChild(_saveButton)
-           }
-           let _osButton = document.createElement("button");
-           _osButton.innerHTML = "🌊<span class='tooltiptext'>View on OpenSea</span>"
-           _osButton.id = _id;
-           _osButton.addEventListener("click", (e) => {
-               window.open('https://opensea.io/assets/ethereum/0x0568a87e64e65f4cc7898e08f0e57ffe2aa6241f/'+e.path[0].id);
-           });
-           _osButton.style.position = "absolute"
-           _osButton.style.marginLeft = document.getElementById("hidden").children[0].offsetWidth + "px"
-           _div.appendChild(_osButton);
-           _div.appendChild(_saveButton);
+           // let _saveButton = document.createElement("button");
+           // _saveButton.innerHTML = "💾<span class='tooltiptext'>Save image</span>"
+           // _saveButton.id = _id;
+           // _saveButton.addEventListener("click", (e) => {
+           //     this.savePfp(e.path[0].id)
+           // });
+           // _saveButton.style.position = "absolute"
+           // _div.appendChild(_saveButton);
+           // if(document.getElementById("hidden").children.length == 0){
+           //   document.getElementById("hidden").appendChild(_saveButton)
+           // }
+           // let _osButton = document.createElement("button");
+           // _osButton.innerHTML = "🌊<span class='tooltiptext'>View on OpenSea</span>"
+           // _osButton.id = _id;
+           // _osButton.addEventListener("click", (e) => {
+           //     window.open('https://opensea.io/assets/ethereum/0x0568a87e64e65f4cc7898e08f0e57ffe2aa6241f/'+e.path[0].id);
+           // });
+           // _osButton.style.position = "absolute"
+           // _osButton.style.marginLeft = document.getElementById("hidden").children[0].offsetWidth + "px"
+           // _div.appendChild(_osButton);
+           // _div.appendChild(_saveButton);
            _div.classList.add('columns');
            let _img = document.createElement("img");
            _img.src = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/" + _id + ".png"
