@@ -71,7 +71,7 @@ body{
 	display: inline-block;
 	background-color: rgba(185,185,185,0.10);
 	border: rgba(129,54,159,1.00) thin;
-		overflow: scroll;
+		border-radius: 0px 0px 50px 0px;
 }
 .row.blockDisplay {
 	display: block;
@@ -188,7 +188,7 @@ background-size: 200% 200%;
 	width: 100%;
 	padding-top: 10px;
 	padding-bottom: 10px;
-	background-color: rgba(185,185,185,0.10);
+	background-color: #131313;
 	color: gray;
 	clear: left;
 }
