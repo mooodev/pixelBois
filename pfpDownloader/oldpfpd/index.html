@@ -66,7 +66,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Pixel boi hub</title>
-<link href="https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/oldpfpd/multiColumnTemplate.css" rel="stylesheet" type="text/css">
+<link href="https://mooodev.github.io/pixelBois/pfpDownloader/oldpfpd/multiColumnTemplate.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
@@ -600,14 +600,23 @@ update = function() {
     //   controller._addStartCard();
        controller.web3 = new Web3(window.ethereum);
        controller.contractInstance = new controller.web3.eth.Contract(myAbi, Contract);
+       if(!window.ethereum){
+         let p = document.createElement('p');
+          typewiterArray.push(new Typewiter(p,"Looks like you dont have MetaMask..",70))
+          p.classList.add("thumbnail_align")
+           document.getElementById("nftHolder").appendChild(p)
+       }else{
        window.ethereum.on('accountsChanged', function (accounts) {
          controller.connectMM();
        })
+     }
    })
 
 document.getElementById("GUI_MMlogin").addEventListener('click', (event) => {
   controller.connectMM()
 });
+
+
 
 
 </script>
