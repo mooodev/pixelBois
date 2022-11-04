@@ -1,606 +1,622 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-   <head>
-     <link href="http://fonts.cdnfonts.com/css/common-pixel" rel="stylesheet">
-      <link rel="icon" type="image/x-icon" href="https://mooodev.github.io/pixelBois/breathtakingSite/favico.png">
-      <meta charset="utf-8">
-      <title>PIXEL BOIZ</title>
-      <style media="screen">
-        @import url('http://fonts.cdnfonts.com/css/common-pixel');
-         hr{
-         background-color:#50C878;
-         height:15px;
-         width:90%;
-         border-radius: 20px;
-         }
-         .hrText{
-         position:absolute;
-         margin-top:-20px;
-         color:black;
-         }
-         .flex-container {
-         display: flex;
-         flex-direction: column;
-         flex-wrap: nowrap;
-         justify-content: flex-start;
-         align-content: stretch;
-         align-items: flex-start;
-         }
-         .flex-item:nth-child(1) {
-         order: 0;
-         flex: 0 1 auto;
-         align-self: flex-end;
-         }
-         .flex-item:nth-child(2) {
-         order: 0;
-         flex: 0 1 auto;
-         align-self: center;
-         }
-         .flex-item:nth-child(3) {
-         order: 0;
-         flex: 0 1 auto;
-         align-self: center;
-         }
-         .card {
-         box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-         transition: 0.3s;
-         border-radius: 5px;
-         width: 20%;
-         position:relative;
-         display:inline-block;
-         background-color:#816797;
-         margin: auto;
-         margin: 10px;
-         filter: drop-shadow(0px 10px 10px #131921);
-         border: 10px solid #1B2430;
-         }
-         img {
-         width : 100%;
-         border-radius: 5px 5px 0 0;
-         }
-         body{
-         background-color:#1B2430;
-         color:#D6D5A8;
-         text-align:center;
-         font-family: 'Common Pixel', sans-serif;
-         }
-         button{
-         background-color:#51557E;
-         font-family: 'Common Pixel', sans-serif;
-         }
-         button .tooltiptext {
-           visibility: hidden;
-           width: 120px;
-           background-color: black;
-           color: #fff;
-           text-align: center;
-           border-radius: 6px;
-           padding: 5px 0;
-           position: absolute;
-           z-index: 1;
-           bottom: 100%;
-           left: 50%;
-           margin-left: -60px;
-         }
-         hr .tooltiptext {
-           visibility: hidden;
-           width: 120px;
-           background-color: black;
-           color: #fff;
-           text-align: center;
-           border-radius: 6px;
-           padding: 5px 0;
-           position: absolute;
-           z-index: 1;
-           bottom: 100%;
-           left: 50%;
-           margin-left: -60px;
-         }
-         hr:hover .tooltiptext {
-           visibility: visible;
-         }
-         button:hover .tooltiptext {
-           visibility: visible;
-         }
-         span{
-           pointer-events: none;
-           opacity:0.8;
-         }
-      </style>
-   </head>
-   <body>
-      <div class="flex-container">
-         <div class="flex-item">
-            <button onclick="controller.connectMM()"  type="button" name="button">🦊Connect Metamask</button>
-            <!-- <button type="button" name="button">⛵Go to OpenSea</button> -->
-            <a id="_mainStats"></a>
-         </div>
-         <div class="flex-item">BOI-ACCOUNT: <i id="_addressMain">0x</i></div>
-         <div class="flex-item" id="nftHolder">
-         </div>
+<!doctype html>
+<html>
+<head>
+  <link href="https://fonts.cdnfonts.com/css/common-pixel" rel="stylesheet">
+   <link rel="icon" type="image/x-icon" href="https://mooodev.github.io/pixelBois/breathtakingSite/favico.png">
+   <style media="screen">
+     @import url('https://fonts.cdnfonts.com/css/common-pixel');
+     body{
+       font-family: 'Common Pixel', sans-serif;
+     }
+     button{
+       background-color:#51557E;
+       font-family: 'Common Pixel', sans-serif;
+       }
+       button .tooltiptext {
+         visibility: hidden;
+         width: 120px;
+         background-color: black;
+         color: #fff;
+         text-align: center;
+         border-radius: 6px;
+         padding: 5px 0;
+         position: absolute;
+         z-index: 1;
+         bottom: 100%;
+         left: 50%;
+         margin-left: -60px;
+       }
+       hr .tooltiptext {
+         visibility: hidden;
+         width: 120px;
+         background-color: black;
+         color: #fff;
+         text-align: center;
+         border-radius: 6px;
+         padding: 5px 0;
+         position: absolute;
+         z-index: 1;
+         bottom: 100%;
+         left: 50%;
+         margin-left: -60px;
+       }
+       hr:hover .tooltiptext {
+         visibility: visible;
+       }
+       button:hover .tooltiptext {
+         visibility: visible;
+       }
+       span{
+         pointer-events: none;
+         opacity:0.8;
+       }
+       .loadingBlack{
+         background-color: black;
+         position: absolute;
+         width: 100%;
+         height: 100%;
+         z-index: 10;
+       }
+       @keyframes fadeIn {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+   </style>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pixel boi hub</title>
+<link href="https://mooodev.github.io/pixelBois/pfpDownloader/oldpfpd/multiColumnTemplate.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+  <div id="GUI_loadingBlack" class="loadingBlack"></div>
+  <div id="hidden"></div>
+  <div class="">
+  <img id="GUI_siteLogo" src="https://raw.githubusercontent.com/mooodev/pixelBois/main/breathtakingSite/logo.png" style="position: absolute;">
+  </div>
+<div class="container">
+  <header>
+    <div class="primary_header" > <div style=" width: 100%; height: 15vh;" id="particles-js"></div>
+  </div>
+    <div class="third_header" id="GUI_nftory" >
+    <p class="latest">NETWORK:PIXELBOIS</p>
+    </div>
+  </header>
+       <div class="row" >
+         <nav class="secondary_header">
+           <ul id="GUI_infoBar">
+
+           </ul>
+           <!-- <ul>
+             <li>Twitter</li>
+             <li>Discord</li>
+             <li>Telegram</li>
+           </ul> -->
+         </nav>
+<div class="" id="nftHolder">
+
+</div>
+   <!-- <div class="columns">
+      <p class="thumbnail_align"> <img src="https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/10.png" alt="" class="thumbnail"/> </p>
+      <h4>BOI #23</h4>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+    </div> -->
+
+
+
+
+
+    <!-- <div class="columns">
+      <p class="thumbnail_align"> <img src="images/bkg_06.jpg" alt="" class="thumbnail"/> </p>
+      <h4>TITLE</h4>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.</p>
+    </div>
+    <div class="columns">
+      <p class="thumbnail_align"> <img src="images/bkg_06.jpg" alt="" class="thumbnail"/> </p>
+      <h4>TITLE</h4>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.</p>
+    </div> -->
+  </div>
+
+  <div id="GUI_preLoginButtons">
+    <div class="row blockDisplay">
+   <button disabled class="column_half left_half" style="border-radius: 0px 0px 0px 50px;" >
+     <h2 class="column_title">🎮 GUEST</h2>
+   </button>
+     <button style="border-radius: 0px 0px 50px 0px;" class="column_half right_half"><h2 id="GUI_MMlogin" class="column_title">🦊 LOGIN</h2></button>
+ </div>
+  </div>
+
+  <div id="GUI_postLoginButtons" hidden>
+    <div class="row blockDisplay">
+   <div class="column_half whole_halfLeft" style="border-radius: 0px 0px 50px 50px;" >
+    <h2 class="column_title">🎮 PLAY</h2>
+   </div>
+  </div>
+  </div>
+
+  <!-- <div class="row blockDisplay">
+  <div class="column_half whole_halfLeft" style="border-radius: 0px 0px 0px 50px;" >
+   <h2 class="column_title">🎮 PLAY</h2>
+  </div>
+  </div> -->
+
+
+  <!-- <section>
+    <h2 class="noDisplay">Main Content</h2>
+    <article class="left_article">
+      <h3>craft your own reality </h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+    </article>
+    <aside class="right_article"><img src="1234.png" alt="" width="400" height="200" class="placeholder"/> </aside>
+  </section> -->
+
+      <!-- <div class="third_header">
+    <p class="latest">BEST FARMERS/HODLERS</p>
       </div>
-      <div id="hidden"></div>
-      <script src="breathtakingSite/contract_myAbi.js" type="text/javascript"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.7.1-rc.0/web3.min.js"></script>
-      <script type="text/javascript">
-        //color pallette #1B2430 #51557E #816797 #D6D5A8
-         const Contract = "0x0568A87e64E65f4cC7898E08f0e57FFe2AA6241f"
-         class PfpDownloader {
-             constructor() {
-                 this.web3 = undefined;
-                 this.myAddress = undefined;
-                 this.osResponse = undefined;
-                 this.osStats = undefined;
-                 this.contractInstance = undefined;
-                 this.myNfts = [];
-                 this.totalOwned = 12345;
-                 this._lastExtraBit = '';
+       <div class="social" onClick="if(this.children[2].style.height == '0px'){this.children[2].style.height = '400px';}else{this.children[2].style.height = '0px'};" style="overflow: hidden;">
+     <p class="social_icon"><img src="images/bkg_06.jpg" width="100" alt="" class="thumbnail"/>
+     <label style="position: absolute;margin-left: -55px;margin-top: 55px;transform: scale(2)">➕</label>
+     </p>
+  </div> -->
+<!-- <strong>Loving RPG's intensly</strong> -->
+<div>
+  <div class="copyright">pixelbois(っ◔◡◔)っ
+    <br><a href="https://opensea.io/collection/my-breathtaking-pixel-bois">OpenSea🌊</a>
+    <a href="https://twitter.com/BreathtakingNFT">Twitter🐦</a>
+    <br>NFT:0x0568a87e64e65f4cc7898e08f0e57ffe2aa6241f</div>
+</div>
+
+</div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.7.1-rc.0/web3.min.js"></script>
+<script src="https://mooodev.github.io/pixelBois/breathtakingSite/contract_myAbi.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script>
+	particlesJS("particles-js", {
+    "particles": {
+        "number": {
+            "value": 80,
+            "density": {
+                "enable": true,
+                "value_area": 800
+            }
+        },
+        "color": {
+            "value": "#ffffff"
+        },
+        "shape": {
+            "type": "edge",
+            "stroke": {
+                "width": 0,
+                "color": "#000000"
+            },
+            "polygon": {
+                "nb_sides": 4
+            },
+            "image": {
+                "src": "img/github.svg",
+                "width": 100,
+                "height": 100
+            }
+        },
+        "opacity": {
+            "value": 0.5,
+            "random": true,
+            "anim": {
+                "enable": false,
+                "speed": 1,
+                "opacity_min": 0.1,
+                "sync": false
+            }
+        },
+        "size": {
+            "value": 25,
+            "random": true,
+            "anim": {
+                "enable": false,
+                "speed": 10,
+                "size_min": 1.1,
+                "sync": false
+            }
+        },
+        "line_linked": {
+            "enable": true,
+            "distance": 200,
+            "color": "#ff00ff",
+            "opacity": 0.1,
+            "width": 10
+        },
+        "move": {
+            "enable": true,
+            "speed": 0.3,
+            "direction": "right",
+            "random": true,
+            "straight": false,
+            "out_mode": "bounce",
+            "bounce": false,
+            "attract": {
+                "enable": true,
+                "rotateX": 100,
+                "rotateY": 200
+            }
+        }
+    },
+    "interactivity": {
+        "detect_on": "canvas",
+        "events": {
+            "onhover": {
+                "enable": false,
+                "mode": "repulse"
+            },
+            "onclick": {
+                "enable": true,
+                "mode": "push"
+            },
+            "resize": true
+        },
+        "modes": {
+            "grab": {
+                "distance": 400,
+                "line_linked": {
+                    "opacity": 1
+                }
+            },
+            "bubble": {
+                "distance": 400,
+                "size": 40,
+                "duration": 2,
+                "opacity": 8,
+                "speed": 2
+            },
+            "repulse": {
+                "distance": 200,
+                "duration": 0.4
+            },
+            "push": {
+                "particles_nb": 1
+            },
+            "remove": {
+                "particles_nb": 2
+            }
+        }
+    },
+    "retina_detect": true
+});
+var update;
+update = function() {
+    requestAnimationFrame(update);
+};
+
+
+	</script>
+  <script type="text/javascript">
+
+
+
+
+  window.addEventListener('load', (event) => {
+  document.getElementById("GUI_siteLogo").style.height = (document.getElementById("GUI_nftory").offsetTop/1.6)+"px"
+  document.getElementById("GUI_siteLogo").style.left = (window.innerWidth/2)-(document.getElementById("GUI_siteLogo").offsetWidth/2)+"px"
+  document.getElementById("GUI_siteLogo").style.top = document.getElementById("GUI_nftory").offsetTop/5 + "px"
+  requestAnimationFrame(update);
+});
+
+
+  </script>
+
+<script type="text/javascript">
+  //color pallette #1B2430 #51557E #816797 #D6D5A8
+   const Contract = "0x0568A87e64E65f4cC7898E08f0e57FFe2AA6241f"
+   class PfpDownloader {
+       constructor() {
+           this.web3 = undefined;
+           this.myAddress = undefined;
+           this.osResponse = undefined;
+           this.osStats = undefined;
+           this.contractInstance = undefined;
+           this.myNfts = [];
+           this.totalOwned = 12345;
+           this._lastExtraBit = '';
+       }
+       async connectMM() {
+           this.myNfts = []
+           this.osResponse = undefined;
+           this.totalOwned = 12345;
+           this._lastExtraBit = '';
+           this.myAddress = undefined;
+           document.getElementById("nftHolder").innerHTML = ''
+
+           const accounts = await ethereum.request({
+               method: 'eth_requestAccounts'
+           })
+
+             this._addLoadingCard();
+             this._addLoadingCard()
+             this._addLoadingCard()
+             this._addLoadingCard()
+             document.getElementById("GUI_preLoginButtons").hidden = true;
+             document.getElementById("GUI_postLoginButtons").hidden = false;
+          //   document.getElementById("_addressMain").innerHTML = this.myAddress.toString()
+           const account = accounts[0];
+           this.myAddress = account;
+           this.getBalanceOf(this.myAddress)
+           this.getDataFromOS(this.myAddress)
+            const newLi = document.createElement("li");
+            newLi.textContent = this.myAddress.toString().slice(0,8)+"..."
+            document.getElementById("GUI_infoBar").appendChild(newLi)
+       }
+       getDataFromOS(address, extra) {
+           const Http = new XMLHttpRequest();
+           let url = 'https://api.opensea.io/api/v1/assets?owner=';
+           url += address;
+           url += "&limit=30"
+           if (extra) {
+               url += "&cursor=" + extra;
+           }
+           Http.open("GET", url);
+           Http.send();
+           Http.onreadystatechange = (e) => {
+               if (Http.responseText.charAt(0) == "{" && Http.responseText.charAt(Http.responseText.length - 1) == "}") {
+                   if (this._lastExtraBit !== JSON.stringify(JSON.parse(Http.responseText).next)) {
+                       this._lastExtraBit = JSON.stringify(JSON.parse(Http.responseText).next);
+                       this.osResponse = JSON.stringify(JSON.parse(Http.responseText));
+                       this.searchForOwnerNfts()
+                   }
+               }
+               return true;
+           }
+       }
+       searchForOwnerNfts() {
+           if(this.totalOwned > 0){
+             document.getElementById("nftHolder").innerHTML = ''
+           }else{
+               return false;
              }
-             async connectMM() {
-                 this.myNfts = []
-                 this.osResponse = undefined;
-                 this.totalOwned = 12345;
-                 this._lastExtraBit = '';
-                 this.myAddress = undefined;
-                 document.getElementById("nftHolder").innerHTML = ''
-                 this._addLoadingCard();
-                 const accounts = await ethereum.request({
-                     method: 'eth_requestAccounts'
-                 });
-                 const account = accounts[0];
-                 this.myAddress = account;
-                 document.getElementById("_addressMain").innerHTML = this.myAddress.toString()
-                 this.getBalanceOf(this.myAddress)
-                 this.getDataFromOS(this.myAddress)
-             }
-             getDataFromOS(address, extra) {
-                 const Http = new XMLHttpRequest();
-                 let url = 'https://api.opensea.io/api/v1/assets?owner=';
-                 url += address;
-                 url += "&limit=30"
-                 if (extra) {
-                     url += "&cursor=" + extra;
-                 }
-                 Http.open("GET", url);
-                 Http.send();
-                 Http.onreadystatechange = (e) => {
-                     if (Http.responseText.charAt(0) == "{" && Http.responseText.charAt(Http.responseText.length - 1) == "}") {
-                         if (this._lastExtraBit !== JSON.stringify(JSON.parse(Http.responseText).next)) {
-                             this._lastExtraBit = JSON.stringify(JSON.parse(Http.responseText).next);
-                             this.osResponse = JSON.stringify(JSON.parse(Http.responseText));
-                             this.searchForOwnerNfts()
-                         }
-                     }
-                     return true;
-                 }
-             }
-             searchForOwnerNfts() {
-                 if(this.totalOwned > 0){
+           for (let n = 0; n < JSON.parse(this.osResponse).assets.length; n++) {
+               let _new = true;
+               for (let n1 = 0; n1 < this.myNfts.length; n1++) {
+                   if (JSON.parse(this.osResponse).assets[n].name == this.myNfts[n1].name) _new = false;
+               }
+               if (JSON.parse(this.osResponse).assets[n].description == "My Breathtaking Pixel Bois" && _new) {
+                   this.myNfts.push(JSON.parse(this.osResponse).assets[n])
+               }
+           }
+           for (let m = 0; m < this.myNfts.length; m++) {
+               this.addCard(this.myNfts[m].name,m)
+           }
+           if (JSON.parse(this.osResponse).next !== null && this.totalOwned > this.myNfts.length) {
+               this._addLoadingCard()
+               this.getDataFromOS(this.myAddress, JSON.stringify(JSON.parse(this.osResponse).next))
+           }
+           return true;
+       }
+       addCard(name,pos) {
+           let _id = name.slice(5)
+           let _div = document.createElement("div");
+           // let _saveButton = document.createElement("button");
+           // _saveButton.innerHTML = "💾<span class='tooltiptext'>Save image</span>"
+           // _saveButton.id = _id;
+           // _saveButton.addEventListener("click", (e) => {
+           //     this.savePfp(e.path[0].id)
+           // });
+           // _saveButton.style.position = "absolute"
+           // _div.appendChild(_saveButton);
+           // if(document.getElementById("hidden").children.length == 0){
+           //   document.getElementById("hidden").appendChild(_saveButton)
+           // }
+           // let _osButton = document.createElement("button");
+           // _osButton.innerHTML = "🌊<span class='tooltiptext'>View on OpenSea</span>"
+           // _osButton.id = _id;
+           // _osButton.addEventListener("click", (e) => {
+           //     window.open('https://opensea.io/assets/ethereum/0x0568a87e64e65f4cc7898e08f0e57ffe2aa6241f/'+e.path[0].id);
+           // });
+           // _osButton.style.position = "absolute"
+           // _osButton.style.marginLeft = document.getElementById("hidden").children[0].offsetWidth + "px"
+           // _div.appendChild(_osButton);
+           // _div.appendChild(_saveButton);
+           _div.classList.add('columns');
+           let _img = document.createElement("img");
+           _img.src = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/" + _id + ".png"
+           //_img.alt = name;
+           _img.classList.add("thumbnail")
+           // _img.style.width = "100px";
+           let _divCont = document.createElement("p");
+           _divCont.classList.add('thumbnail_align');
+           let _name = document.createElement("h4");
+           _name.innerHTML = name;
+           _divCont.appendChild(_img);
+           _divCont.appendChild(_name);
+
+           // let _healthBarDiv = document.createElement("div");
+           // let _healthBar = document.createElement("hr");
+           // let _hp = 0;
+           // let _mp = 0;
+           // for(let x = 0 ; x < this.myNfts[pos].traits.length ; x++){
+           //   if(this.myNfts[pos].traits[x].trait_type == "HP"){
+           //     _hp = this.myNfts[pos].traits[x].value;
+           //   }
+           //   if(this.myNfts[pos].traits[x].trait_type == "MP"){
+           //     _mp = this.myNfts[pos].traits[x].value;
+           //   }
+           // }
+           // _healthBar.innerHTML = "<span class='tooltiptext'>HP:" + _hp+"/"+_hp  + "<br>MP:"+_mp+"/"+_mp + "</span>"
+           // _healthBarDiv.appendChild(_healthBar);
+           // _div.appendChild(_healthBarDiv);
+           _div.appendChild(_divCont);
+           document.getElementById("nftHolder").appendChild(_div)
+       }
+       _addLoadingCard() {
+           let _div = document.createElement("div");
+           _div.classList.add('columns');
+           let _img = document.createElement("img");
+           _img.src = "https://raw.githubusercontent.com/mooodev/pixelBois/main/breathtakingSite/preloader.gif"
+           //_img.style.width = "100%";
+           _img.alt = "loading nfts";
+           _img.classList.add("thumbnail")
+           // _img.style.width = "100px";
+           let _divCont = document.createElement("p");
+           _divCont.classList.add('thumbnail_align');
+           let _name = document.createElement("h4");
+           _name.innerHTML = "Loading..";
+           let _name2 = document.createElement("p");
+           _name2.innerHTML = "Plase await";
+           _divCont.appendChild(_img);
+          // _divCont.appendChild(_name2);
+           _divCont.appendChild(_name);
+           _div.appendChild(_divCont);
+           _div.style.textAlign = "center";
+           document.getElementById("nftHolder").appendChild(_div)
+           typewiterArray.push(new Typewiter(_name,"LOADING YOUR NFT DATA...",100))
+           // _div.style.width = "100%"
+           // _div.style.height = "300px"
+          // _div.style.marginLeft =  (window.innerWidth/2)-((document.getElementById("GUI_nftory").offsetWidth/4)/1.4)+"px"
+          if(this.totalOwned > document.getElementById("nftHolder").children.length && this.totalOwned !== 12345){
+            this._addLoadingCard()
+
+          }
+       }
+
+       welcomeInteraction(){
+         //document.getElementById("info_screen").textContent = "Ok fair enough, move along now."
+         typewiterArray.push(new Typewiter(document.getElementById("info_screen"),"Ok fair enough, move along now..",140))
+         document.getElementById("info_block").removeChild(document.getElementById("info_block").lastChild)
+         document.getElementById("info_block").removeChild(document.getElementById("info_block").lastChild)
+         let _chooseButton = document.createElement("button");
+         _chooseButton.textContent = "🦊Connect MetaMask"
+         _chooseButton.style.width = "100%"
+         _chooseButton.style.height = "50px";
+         _chooseButton.onclick = function(){controller.connectMM()};
+         document.getElementById("info_block").appendChild(_chooseButton)
+       }
+       async getStatsFromOS() {
+           const Http = new XMLHttpRequest();
+           let url = 'https://api.opensea.io/api/v1/collection/my-breathtaking-pixel-bois/stats';
+           await Http.open("GET", url);
+           await Http.send();
+           Http.onreadystatechange = (e) => {
+               if (Http.responseText.charAt(0) == "{") {
+                   if (this.osStats == undefined) {
+                       this.osStats = JSON.parse(Http.responseText);
+                       this.displayStats();
+                   }
+               }
+               return true;
+           }
+       }
+       displayStats() {
+           let statsText = "Floor:" + this.osStats.stats.floor_price + " ETH"
+           //statsText += "Market Cap:" + this.osStats.stats.market_cap + " ETH<br>"
+           //statsText += "Floor:" + this.osStats.stats.floor_price + " ETH<br>"
+           // statsText += "Owners:"+osstats.stats.num_owners+"<br>"
+           //statsText += "Total sales:" + this.osStats.stats.total_sales + "<br>"
+
+           const newLi = document.createElement("li");
+           newLi.textContent = statsText
+           document.getElementById("GUI_infoBar").appendChild(newLi)
+
+          // document.getElementById("_mainStats").innerHTML = statsText;
+       }
+       savePfp(id) {
+           let a = document.createElement('a');
+           a.href = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/" + id + ".png";
+           a.download = id + ".png";
+           document.body.appendChild(a);
+           a.click();
+           document.body.removeChild(a);
+       }
+       async getBalanceOf(address) {
+           await this.contractInstance.methods.balanceOf(address).call().then(function(total) {
+               controller.totalOwned = Number(total);
+               if (total == 0) {
+                   //you dont own any!
                    document.getElementById("nftHolder").innerHTML = ''
-                 }else{
-                     return false;
-                   }
-                 for (let n = 0; n < JSON.parse(this.osResponse).assets.length; n++) {
-                     let _new = true;
-                     for (let n1 = 0; n1 < this.myNfts.length; n1++) {
-                         if (JSON.parse(this.osResponse).assets[n].name == this.myNfts[n1].name) _new = false;
-                     }
-                     if (JSON.parse(this.osResponse).assets[n].description == "My Breathtaking Pixel Bois" && _new) {
-                         this.myNfts.push(JSON.parse(this.osResponse).assets[n])
-                     }
-                 }
-                 for (let m = 0; m < this.myNfts.length; m++) {
-                     this.addCard(this.myNfts[m].name,m)
-                 }
-                 if (JSON.parse(this.osResponse).next !== null && this.totalOwned > this.myNfts.length) {
-                     this._addLoadingCard()
-                     this.getDataFromOS(this.myAddress, JSON.stringify(JSON.parse(this.osResponse).next))
-                 }
-                 return true;
-             }
-             addCard(name,pos) {
-                 let _id = name.slice(5)
-                 let _div = document.createElement("div");
-                 let _saveButton = document.createElement("button");
-                 _saveButton.innerHTML = "💾<span class='tooltiptext'>Save image</span>"
-                 _saveButton.id = _id;
-                 _saveButton.addEventListener("click", (e) => {
-                     this.savePfp(e.path[0].id)
-                 });
-                 _saveButton.style.position = "absolute"
-                 _div.appendChild(_saveButton);
-                 if(document.getElementById("hidden").children.length == 0){
-                   document.getElementById("hidden").appendChild(_saveButton)
-                 }
-                 let _osButton = document.createElement("button");
-                 _osButton.innerHTML = "🌊<span class='tooltiptext'>View on OpenSea</span>"
-                 _osButton.id = _id;
-                 _osButton.addEventListener("click", (e) => {
-                     window.open('https://opensea.io/assets/ethereum/0x0568a87e64e65f4cc7898e08f0e57ffe2aa6241f/'+e.path[0].id);
-                 });
-                 _osButton.style.position = "absolute"
-                 _osButton.style.marginLeft = document.getElementById("hidden").children[0].offsetWidth + "px"
-                 _div.appendChild(_osButton);
-                 _div.appendChild(_saveButton);
-                 _div.classList.add('card');
-                 let _img = document.createElement("img");
-                 _img.src = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/" + _id + ".png"
-                 _img.alt = name;
-                 let _divCont = document.createElement("div");
-                 _divCont.classList.add('container');
-                 let _name = document.createElement("h3");
-                 _name.innerHTML = name;
-                 _divCont.appendChild(_name);
-                 _div.appendChild(_img);
-                 let _healthBarDiv = document.createElement("div");
-                 let _healthBar = document.createElement("hr");
-                 let _hp = 0;
-                 let _mp = 0;
-                 for(let x = 0 ; x < this.myNfts[pos].traits.length ; x++){
-                   if(this.myNfts[pos].traits[x].trait_type == "HP"){
-                     _hp = this.myNfts[pos].traits[x].value;
-                   }
-                   if(this.myNfts[pos].traits[x].trait_type == "MP"){
-                     _mp = this.myNfts[pos].traits[x].value;
-                   }
-                 }
-                 _healthBar.innerHTML = "<span class='tooltiptext'>HP:" + _hp+"/"+_hp  + "<br>MP:"+_mp+"/"+_mp + "</span>"
-                 _healthBarDiv.appendChild(_healthBar);
-                 _div.appendChild(_healthBarDiv);
-                 _div.appendChild(_divCont);
-                 document.getElementById("nftHolder").appendChild(_div)
-             }
-             _addLoadingCard() {
-                 let _div = document.createElement("div");
-                 _div.classList.add('card');
-                 let _img = document.createElement("img");
-                 _img.src = "https://raw.githubusercontent.com/mooodev/pixelBois/main/breathtakingSite/bookloader.gif"
-                 _img.alt = "loading nfts";
-                 let _divCont = document.createElement("div");
-                 _divCont.classList.add('container');
-                 let _name = document.createElement("h3");
-                 _name.innerHTML = "Loading..";
-                 let _name2 = document.createElement("p");
-                 _name2.innerHTML = "Plase await";
-                 _divCont.appendChild(_name2);
-                 _divCont.appendChild(_name);
-                 _div.appendChild(_img);
-                 _div.appendChild(_divCont);
-                 document.getElementById("nftHolder").appendChild(_div)
-             }
-             _addStartCard() {
-                 let _rand = 1
-                 let _div = document.createElement("div");
-                 _div.id = "info_block"
-                 _div.classList.add('card');
-                 let _img = document.createElement("img");
-                 if (_rand < 0.5) {
-                     _img.src = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/20.png"
-                 } else {
-                     _img.src = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/179.png"
-                 }
-                 _img.alt = "hello welcoming boi";
-                 let _divCont = document.createElement("div");
-                 _divCont.classList.add('container');
-                 let _name = document.createElement("p");
-                 let _name2 = document.createElement("h4");
-                 if (_rand < 0) {
-                     _name2.innerHTML = "Boi#20: Wuzza fren!";
-                     //_name.innerHTML = "Here sir you can view and save your BOI nft's.";
-                     typewiterArray.push(new Typewiter(_name,"Here sir you can view and save your BOI nft's.",70))
-                 } else {
-                     _name2.innerHTML = "Boi#179: Officer Piggson reporting!";
-                     //_name.innerHTML = "Stop right there. Show your ID this instant!";
-                     typewiterArray.push(new Typewiter(_name,"Stop right there. Show your ID this instant!",70))
-                 }
-                 _name.id = 'info_screen'
-                 _name.style.padding = "5px"
-                 _divCont.appendChild(_name2);
-                 _divCont.appendChild(_name);
-                 _div.appendChild(_img);
-                 _img.style = "-webkit-transform: scaleX(-1);transform: scaleX(-1);"
-                 _div.appendChild(_divCont);
-                 if(this.totalOwned == 12345){
-                  if(_rand < 0.5){
-                   let _chooseButton = document.createElement("button");
-                   _chooseButton.textContent = "🦊Connect MetaMask"
-                   _chooseButton.style.width = "100%"
-                   _chooseButton.style.height = "50px";
-                   _chooseButton.onclick = function(){controller.connectMM()};
-                   _div.appendChild(_chooseButton)
-                 }else{
-                   let _chooseButton = document.createElement("button");
-                   _chooseButton.textContent = "Show identification documents."
-                   _chooseButton.style.width = "100%"
-                   _chooseButton.style.height = "50px";
-                   _chooseButton.onclick = function(){controller.welcomeInteraction()};
-                   _div.appendChild(_chooseButton)
-                   let _chooseButton2 = document.createElement("button");
-                   _chooseButton2.textContent = "'Eat bacon pig!'"
-                   _chooseButton2.style.width = "100%"
-                   _chooseButton2.style.height = "50px";
-                   _chooseButton2.onclick = function(){controller.welcomeInteraction()};
-                   _div.appendChild(_chooseButton2)
-                  }
-                 }
-                 document.getElementById("nftHolder").appendChild(_div)
-             }
-             welcomeInteraction(){
-               //document.getElementById("info_screen").textContent = "Ok fair enough, move along now."
-               typewiterArray.push(new Typewiter(document.getElementById("info_screen"),"Ok fair enough, move along now..",140))
-               document.getElementById("info_block").removeChild(document.getElementById("info_block").lastChild)
-               document.getElementById("info_block").removeChild(document.getElementById("info_block").lastChild)
-               let _chooseButton = document.createElement("button");
-               _chooseButton.textContent = "🦊Connect MetaMask"
-               _chooseButton.style.width = "100%"
-               _chooseButton.style.height = "50px";
-               _chooseButton.onclick = function(){controller.connectMM()};
-               document.getElementById("info_block").appendChild(_chooseButton)
-             }
-             async getStatsFromOS() {
-                 const Http = new XMLHttpRequest();
-                 let url = 'https://api.opensea.io/api/v1/collection/my-breathtaking-pixel-bois/stats';
-                 await Http.open("GET", url);
-                 await Http.send();
-                 Http.onreadystatechange = (e) => {
-                     if (Http.responseText.charAt(0) == "{") {
-                         if (this.osStats == undefined) {
-                             this.osStats = JSON.parse(Http.responseText);
-                             this.displayStats();
-                         }
-                     }
-                     return true;
-                 }
-             }
-             displayStats() {
-                 console.log(this.osStats)
-                 let statsText = '<br>'
-                 statsText += "Market Cap:" + this.osStats.stats.market_cap + " ETH<br>"
-                 statsText += "Floor:" + this.osStats.stats.floor_price + " ETH<br>"
-                 // statsText += "Owners:"+osstats.stats.num_owners+"<br>"
-                 statsText += "Total sales:" + this.osStats.stats.total_sales + "<br>"
-                 document.getElementById("_mainStats").innerHTML = statsText;
-             }
-             savePfp(id) {
-                 let a = document.createElement('a');
-                 a.href = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/" + id + ".png";
-                 a.download = id + ".png";
-                 document.body.appendChild(a);
-                 a.click();
-                 document.body.removeChild(a);
-             }
-             async getBalanceOf(address) {
-                 await this.contractInstance.methods.balanceOf(address).call().then(function(total) {
-                     controller.totalOwned = Number(total);
-                     if (total == 0) {
-                         //you dont own any!
-                         document.getElementById("nftHolder").innerHTML = ''
-                         setTimeout(() => {
-                             controller._addStartCard();
-                             typewiterArray.push(new Typewiter(document.getElementById("info_screen"),"Oh no looks like you dont own any BOIZ D:",70))
-                             //document.getElementById("info_screen").innerHTML = "Oh no looks likt you dont own any BOIZ D:"
-                         }, "100")
-                     }
-                 })
-             }
-         }
-         class Typewiter {
-           constructor(target,text,speed) {
-             for(let tp = 0; tp < typewiterArray.length ; tp++){
-               if(typewiterArray[tp].target == target){
-                 typewiterArray.splice(tp,1)
-                 tp = typewiterArray.length;
+                   setTimeout(() => {
+                      // controller._addStartCard();
+                      let p = document.createElement('p');
+                       typewiterArray.push(new Typewiter(p,"Looks like you dont own any bois..",70))
+                       p.classList.add("thumbnail_align")
+                        document.getElementById("nftHolder").appendChild(p)
+                       //document.getElementById("info_screen").innerHTML = "Oh no looks likt you dont own any BOIZ D:"
+                   }, "100")
                }
-             }
-             this.speed = speed;
-             this.currentTimer = 100;
-             this.target = target;
-             this.text = text;
-             this.position = 0;
-             this.typing = true;
-             this.target.innerHTML = ''
-           }
-           update(delta){
-             this.currentTimer -= delta;
-             if(this.currentTimer < 0){
-               this.currentTimer = JSON.parse(JSON.stringify(this.speed));
-               this.target.innerHTML += this.text.charAt(this.position);
-               this.position += 1;
-               if(this.position >= this.text.length){
-                 this.typing = false;
-               }
-             }
-           }
+           })
+       }
+   }
+   class Typewiter {
+     constructor(target,text,speed) {
+       for(let tp = 0; tp < typewiterArray.length ; tp++){
+         if(typewiterArray[tp].target == target){
+           typewiterArray.splice(tp,1)
+           tp = typewiterArray.length;
          }
-         const typewiterArray = []
-         let timer = new Date().getTime();
-         const gameLoop = () => {
-           let newTimer = new Date().getTime();
-           let delta = newTimer - timer;
-           //typewriter
-            for(let tp = 0 ; tp < typewiterArray.length; tp++){
-              typewiterArray[tp].update(delta);
-              if(!typewiterArray[tp].typing){
-                typewiterArray.splice(tp,1)
-                tp--;
-              }
-            }
-            timer = newTimer;
-           window.requestAnimationFrame(gameLoop);
+       }
+       this.speed = speed;
+       this.currentTimer = 100;
+       this.target = target;
+       this.text = text;
+       this.position = 0;
+       this.typing = true;
+       this.target.innerHTML = ''
+     }
+     update(delta){
+       this.currentTimer -= delta;
+       if(this.currentTimer < 0){
+         this.currentTimer = JSON.parse(JSON.stringify(this.speed));
+         this.target.innerHTML += this.text.charAt(this.position);
+         this.position += 1;
+         if(this.position >= this.text.length){
+           this.typing = false;
          }
-         const controller = new PfpDownloader()
-         window.addEventListener('load', function() {
-             gameLoop();
-             document.getElementById("nftHolder").style.width = "100%";
-             controller.getStatsFromOS();
-             controller._addStartCard();
-             controller.web3 = new Web3(window.ethereum);
-             controller.contractInstance = new controller.web3.eth.Contract(myAbi, Contract);
-             window.ethereum.on('accountsChanged', function (accounts) {
-               controller.connectMM();
-             })
-         })
-      </script>
-
-
-
-      <script type="text/javascript">
-
-
-        class Dialgue{
-          constructor(){
-            this.active = true;
-            this.currentText = new StatementConstruct(0,'...');
-            this.availableQuestions = [];
-            this.replyData = [];
-          }
-          addCard(){
-            let _div = document.createElement("div");
-            _div.classList.add('card');
-            let _img = document.createElement("img");
-            _img.src = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/" + 179 + ".png"
-            _img.style = "-webkit-transform: scaleX(-1);transform: scaleX(-1);"
-            _div.appendChild(_img);
-            let _name = document.createElement("h2");
-            _name.textContent = "Boi#179: Officer Piggson";
-            _div.appendChild(_name);
-            let _text = document.createElement("p");
-            _text.id = "_dText"
-            // _text.style.color = '#131921';
-            _text.style.textAlign = "left";
-            _text.style.padding = "10px"
-            _div.appendChild(_text)
-            let _buttonDiv = document.createElement("div");
-            _buttonDiv.id = "_dButtonDiv"
-            _buttonDiv.textContent = "buttons here"
-            _div.appendChild(_buttonDiv)
-            let _cancelButton = document.createElement("Button");
-            _cancelButton.textContent = "Bye."
-            _cancelButton.addEventListener("click",(e)=>{
-              this.endConversation();
-            });
-            _div.appendChild(_cancelButton)
-            _cancelButton.style.width = "100%";
-            _cancelButton.style.height = "50px";
-            document.getElementById("nftHolder").appendChild(_div)
-            return true;
-          }
-          updateCard(){
-            document.getElementById("_dButtonDiv").innerHTML = '';
-            //document.getElementById("_dText").textContent = this.currentText.returnText();
-            typewiterArray.push(new Typewiter(document.getElementById("_dText"),this.currentText.returnText(),70))
-            for(let n = 0 ; n < this.availableQuestions.length ; n++){
-              let button = document.createElement("Button");
-              button.textContent = this.availableQuestions[n].text;
-              button.id = this.availableQuestions[n].id;
-              document.getElementById("_dButtonDiv").appendChild(button)
-              button.style.width = "100%";
-              button.style.height = "50px";
-              if(this.availableQuestions[n].pushed){
-                button.style.color = "#816797"
-              }
-              let _butRef = this.availableQuestions[n];
-              button.addEventListener("click",(e)=>{
-                _butRef.pushed = true;
-                currentDialogue.updateConversation(e.path[0].id)
-              });
-            }
-            return true;
-          }
-          updateConversation(_id){
-            if(!this.active){
-              console.log("but there is no conversation..")
-              return false;
-            }
-            for(let n = 0 ; n < this.replyData.length ; n++){
-              if(this.replyData[n].id == _id){
-                this.newCurrentText(this.replyData[n])
-                if(this.replyData[n].specialOptions){
-                  //this.availableQuestions = [];
-                  this.availableQuestions.unshift(JSON.parse(JSON.stringify(this.replyData[n].specialOptions)))
-                  this.replyData[n].specialOptions = false;
-                }
-                if(this.replyData[n].endDialogue){
-                this.stopConversation()
-                }
-                n = this.replyData.length
-              }
-            }
-            this.updateCard();
-            return true;
-          }
-          newCurrentText(statement){
-            this.currentText = statement;
-            return true;
-          }
-          makeQuestionVisible(question){
-            this.availableQuestions.push(question)
-            return true;
-          }
-          stopConversation(){
-            this.availableQuestions = [];
-            this.updateCard();
-            return true;
-          }
-          endConversation(){
-            if(!this.active){
-              return false;
-            }
-            this.currentText = new StatementConstruct(0,'Goodbye');
-            this.stopConversation()
-            this.active = false;
-            return true;
-          }
+       }
+     }
+   }
+   const typewiterArray = []
+   let timer = new Date().getTime();
+   const gameLoop = () => {
+     let newTimer = new Date().getTime();
+     let delta = newTimer - timer;
+     //typewriter
+      for(let tp = 0 ; tp < typewiterArray.length; tp++){
+        typewiterArray[tp].update(delta);
+        if(!typewiterArray[tp].typing){
+          typewiterArray.splice(tp,1)
+          tp--;
         }
-        class Question {
-          constructor(id,text) {
-            this.id = id;
-            this.text = text;
-            this.pushed = false;
-          }
-        }
-        class StatementConstruct{
-          constructor(id,text){
-            this.id = id;
-            this.text = text;
-            this.specialOptions = false;
-            this.endDialogue = false;
-          }
-          returnText(){
-            if (typeof this.text === 'string' || this.text instanceof String){
-              return this.text;
-            }else{
-              let _rand = Math.floor(Math.random()*this.text.length)
-              return this.text[_rand]
-            }
-          }
-        }
+      }
+      timer = newTimer;
+     window.requestAnimationFrame(gameLoop);
+   }
+   const controller = new PfpDownloader()
+   window.addEventListener('load', function() {
+       gameLoop();
+       document.getElementById("GUI_loadingBlack").style.animation = "fadeIn 3s"
+       setTimeout(() => {
+  document.getElementById("GUI_loadingBlack").hidden = true;
+}, "700")
+       document.getElementById("nftHolder").style.width = "100%";
+       controller.getStatsFromOS();
+    //   controller._addStartCard();
+       controller.web3 = new Web3(window.ethereum);
+       controller.contractInstance = new controller.web3.eth.Contract(myAbi, Contract);
+       if(!window.ethereum){
+         let p = document.createElement('p');
+          typewiterArray.push(new Typewiter(p,"Looks like you dont have MetaMask..",70))
+          p.classList.add("thumbnail_align")
+          document.getElementById("GUI_MMlogin").style.filter = "grayscale(1)"
+          document.getElementById("GUI_MMlogin").disabled = true;
+           document.getElementById("nftHolder").appendChild(p)
+       }else{
+       window.ethereum.on('accountsChanged', function (accounts) {
+         controller.connectMM();
+       })
+     }
+   })
 
-
-          let currentDialogue;
-          let startDialogue = new Dialgue();
-          let welcomeMessage = new StatementConstruct(0,"Stop right there. Show your ID this instant!")
-          let q0 = new Question(1,"Show identification documents.")
-          let a0 = new StatementConstruct(1,["Ok sir right this way, thank you for cooperation.","Everything looks great, please enjoy your stay."])
-          let q1 = new Question(2,'Eat bacon pig!')
-          let a1 = new StatementConstruct(2,"Ok fair enough, move along then..")
-          a1.specialOptions = new Question(3,"Me too..so where are the diamods again?")
-          let a2 = new StatementConstruct(3,"I guess I'll tell you... Its in the dragons belly!")
-          a2.endDialogue = true;
-          startDialogue.currentText = welcomeMessage;
-          startDialogue.availableQuestions = [q0,q1]
-          startDialogue.replyData = [a0,a1,a2]
-
-
-
-          currentDialogue = startDialogue;
-          // currentDialogue.addCard()
-          // currentDialogue.updateCard()
-
-
-
-
-      </script>
-
-   </body>
+document.getElementById("GUI_MMlogin").addEventListener('click', (event) => {
+  controller.connectMM()
+});
+</script>
+</body>
 </html>
