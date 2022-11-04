@@ -344,7 +344,7 @@ update = function() {
            this.getBalanceOf(this.myAddress)
            this.getDataFromOS(this.myAddress)
             const newLi = document.createElement("li");
-            newLi.textContent = this.myAddress.toString().slice(0,6)+"..."+this.myAddress.toString().slice(this.myAddress.toString().length-6,this.myAddress.toString().length-1)
+            newLi.textContent = this.myAddress.toString().slice(0,8)+"..."+this.myAddress.toString().slice(this.myAddress.toString().length-5,this.myAddress.toString().length-1)
             document.getElementById("GUI_infoBar").appendChild(newLi)
        }
        getDataFromOS(address, extra) {
@@ -533,8 +533,10 @@ update = function() {
                    //you dont own any!
                    document.getElementById("nftHolder").innerHTML = ''
                    setTimeout(() => {
-                       controller._addStartCard();
-                       typewiterArray.push(new Typewiter(document.getElementById("info_screen"),"Oh no looks like you dont own any bois..",70))
+                      // controller._addStartCard();
+                      let p = document.createElement('p');
+                       typewiterArray.push(new Typewiter(p,"Looks like you dont own any bois..",70))
+                        document.getElementById("nftHolder").appendChild(p)
                        //document.getElementById("info_screen").innerHTML = "Oh no looks likt you dont own any BOIZ D:"
                    }, "100")
                }
@@ -605,13 +607,6 @@ update = function() {
 document.getElementById("GUI_MMlogin").addEventListener('click', (event) => {
   controller.connectMM()
 });
-
-
-
-
 </script>
-
-
-
 </body>
 </html>
