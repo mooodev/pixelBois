@@ -66,7 +66,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Pixel boi hub</title>
-<link href="https://github.com/mooodev/pixelBois/blob/main/pfpDownloader/oldpfpd/multiColumnTemplate.css" rel="stylesheet" type="text/css">
+<link href="https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/oldpfpd/multiColumnTemplate.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
@@ -536,7 +536,7 @@ update = function() {
                       // controller._addStartCard();
                       let p = document.createElement('p');
                        typewiterArray.push(new Typewiter(p,"Looks like you dont own any bois..",70))
-                       p.className.add("thumbnail_align")
+                       p.classList.add("thumbnail_align")
                         document.getElementById("nftHolder").appendChild(p)
                        //document.getElementById("info_screen").innerHTML = "Oh no looks likt you dont own any BOIZ D:"
                    }, "100")
@@ -608,8 +608,6 @@ update = function() {
 document.getElementById("GUI_MMlogin").addEventListener('click', (event) => {
   controller.connectMM()
 });
-
-
 
 
 </script>
