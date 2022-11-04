@@ -80,11 +80,11 @@
   </header>
        <div class="row" id="nftHolder">
 
-   <!-- <div class="columns">
+   <div class="columns">
       <p class="thumbnail_align"> <img src="https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/10.png" alt="" class="thumbnail"/> </p>
       <h4>BOI #23</h4>
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-    </div> -->
+    </div>
 
 
 
@@ -393,7 +393,7 @@ update = function() {
            let _name = document.createElement("h3");
            _name.innerHTML = name;
            _divCont.appendChild(_name);
-           _div.appendChild(_img);
+           _divCont.appendChild(_img);
            // let _healthBarDiv = document.createElement("div");
            // let _healthBar = document.createElement("hr");
            // let _hp = 0;
@@ -419,19 +419,21 @@ update = function() {
            let _img = document.createElement("img");
            _img.src = "https://raw.githubusercontent.com/mooodev/pixelBois/main/breathtakingSite/loading2.gif"
            _img.style.width = "100%";
-           // _img.alt = "loading nfts";
-           // _img.classList.add("thumbnail")
-           // // _img.style.width = "100px";
-           // let _divCont = document.createElement("p");
-           // _divCont.classList.add('thumbnail_align');
-           // let _name = document.createElement("h4");
-           // _name.innerHTML = "Loading..";
-           // let _name2 = document.createElement("p");
-           // _name2.innerHTML = "Plase await";
-           // _divCont.appendChild(_name2);
-           // _divCont.appendChild(_name);
-           // _div.appendChild(_img);
-           // _div.appendChild(_divCont);
+
+
+           _img.alt = "loading nfts";
+           _img.classList.add("thumbnail")
+           // _img.style.width = "100px";
+           let _divCont = document.createElement("p");
+           _divCont.classList.add('thumbnail_align');
+           let _name = document.createElement("h4");
+           _name.innerHTML = "Loading..";
+           let _name2 = document.createElement("p");
+           _name2.innerHTML = "Plase await";
+           _divCont.appendChild(_name2);
+           _divCont.appendChild(_name);
+           _divCont.appendChild(_img);
+           _div.appendChild(_divCont);
            _div.style.textAlign = "center";
            document.getElementById("nftHolder").appendChild(_div)
            typewiterArray.push(new Typewiter(_div,"LOADING NFT DATA LOADING NFT DATA LOADING NFT DATA LOADING NFT DATA",250))
