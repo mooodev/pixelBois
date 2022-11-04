@@ -95,11 +95,14 @@ body{
 	padding-right: 0px;
 	margin-left: 0px;
 	margin-right: 0px;
+	border: solid 2px #131313;
 }
 .columns:hover {
 	background-color:#353535;
 	width: 25%;
 	float: left;
+	border-radius: 25px;
+	border: solid 2px rgba(211, 220, 50, .6);
 	/* font-family: "Source Sans Pro"; */
 	/* color: #A5A5A5;
 	line-height: 24px;
