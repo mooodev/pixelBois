@@ -50,15 +50,27 @@
          pointer-events: none;
          opacity:0.8;
        }
+       .loadingBlack{
+         background-color: black;
+         position: absolute;
+         width: 100%;
+         height: 100%;
+         z-index: 10;
+       }
+       @keyframes fadeIn {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
    </style>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Simple Theme</title>
+<title>Pixel boi hub</title>
 <link href="multiColumnTemplate.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
+  <div id="GUI_loadingBlack" class="loadingBlack"></div>
   <div id="hidden"></div>
   <div class="">
   <img id="GUI_siteLogo" src="https://raw.githubusercontent.com/mooodev/pixelBois/main/breathtakingSite/logo.png" style="position: absolute;">
@@ -68,18 +80,23 @@
     <div class="primary_header" > <div style=" width: 100%; height: 15vh;" id="particles-js"></div>
   </div>
     <div class="third_header" id="GUI_nftory" >
-    <p class="latest">NFTORY:PIXELBOIS</p>
+    <p class="latest">NETWORK:PIXELBOIS</p>
     </div>
-    <!-- <nav class="secondary_header" id="menu">
-      <ul>
-        <li>Twitter</li>
-        <li>Discord</li>
-        <li>Telegram</li>
-      </ul>
-    </nav> -->
   </header>
-       <div class="row" id="nftHolder">
+       <div class="row" >
+         <nav class="secondary_header">
+           <ul id="GUI_infoBar">
 
+           </ul>
+           <!-- <ul>
+             <li>Twitter</li>
+             <li>Discord</li>
+             <li>Telegram</li>
+           </ul> -->
+         </nav>
+<div class="" id="nftHolder">
+
+</div>
    <!-- <div class="columns">
       <p class="thumbnail_align"> <img src="https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/10.png" alt="" class="thumbnail"/> </p>
       <h4>BOI #23</h4>
@@ -102,23 +119,30 @@
     </div> -->
   </div>
 
-     <!-- <div class="row blockDisplay">
-    <div class="column_half left_half" style="border-radius: 0px 0px 0px 50px;" >
-      <h2 class="column_title">🎮 GUEST</h2>
-    </div>
-    <div class="column_half right_half" style="border-radius: 0px 0px 50px 0px;">
-      <h2 class="column_title">🦊 LOGIN</h2>
-    </div>
+  <div id="GUI_preLoginButtons">
+    <div class="row blockDisplay">
+   <button disabled class="column_half left_half" style="border-radius: 0px 0px 0px 50px;" >
+     <h2 class="column_title">🎮 GUEST</h2>
+   </button>
+     <button style="border-radius: 0px 0px 50px 0px;" class="column_half right_half"><h2 id="GUI_MMlogin" class="column_title">🦊 LOGIN</h2></button>
+ </div>
+  </div>
+
+  <div id="GUI_postLoginButtons" hidden>
+    <div class="row blockDisplay">
+   <div class="column_half whole_halfLeft" style="border-radius: 0px 0px 50px 50px;" >
+    <h2 class="column_title">🎮 PLAY</h2>
+   </div>
+  </div>
+  </div>
+
+  <!-- <div class="row blockDisplay">
+  <div class="column_half whole_halfLeft" style="border-radius: 0px 0px 0px 50px;" >
+   <h2 class="column_title">🎮 PLAY</h2>
+  </div>
   </div> -->
 
 
-
-  <div class="row blockDisplay">
- <div class="column_half whole_half" style="border-radius: 0px 0px 50px 50px;" >
-   <h2 id="GUI_MMlogin" class="column_title">🦊 LOGIN</h2>
-
- </div>
-</div>
   <!-- <section>
     <h2 class="noDisplay">Main Content</h2>
     <article class="left_article">
@@ -132,7 +156,7 @@
       <!-- <div class="third_header">
     <p class="latest">BEST FARMERS/HODLERS</p>
       </div>
-       <div class="social" onClick="if(this.children[2].style.height == '0px'){this.children[2].style.height = '400px';console.log('lol');}else{this.children[2].style.height = '0px'};" style="overflow: hidden;">
+       <div class="social" onClick="if(this.children[2].style.height == '0px'){this.children[2].style.height = '400px';}else{this.children[2].style.height = '0px'};" style="overflow: hidden;">
      <p class="social_icon"><img src="images/bkg_06.jpg" width="100" alt="" class="thumbnail"/>
      <label style="position: absolute;margin-left: -55px;margin-top: 55px;transform: scale(2)">➕</label>
      </p>
@@ -273,7 +297,6 @@ update = function() {
 
 
   window.addEventListener('load', (event) => {
-  console.log('page is fully loaded',document.getElementById("GUI_nftory").offsetTop,document.getElementById("GUI_siteLogo").offsetWidth);
   document.getElementById("GUI_siteLogo").style.height = (document.getElementById("GUI_nftory").offsetTop/1.6)+"px"
   document.getElementById("GUI_siteLogo").style.left = (window.innerWidth/2)-(document.getElementById("GUI_siteLogo").offsetWidth/2)+"px"
   document.getElementById("GUI_siteLogo").style.top = document.getElementById("GUI_nftory").offsetTop/5 + "px"
@@ -304,15 +327,26 @@ update = function() {
            this._lastExtraBit = '';
            this.myAddress = undefined;
            document.getElementById("nftHolder").innerHTML = ''
-           this._addLoadingCard();
+
            const accounts = await ethereum.request({
                method: 'eth_requestAccounts'
-           });
-           const account = accounts[0];
-           this.myAddress = account;
-        //   document.getElementById("_addressMain").innerHTML = this.myAddress.toString()
-           this.getBalanceOf(this.myAddress)
-           this.getDataFromOS(this.myAddress)
+           }).then(()=>{
+             this._addLoadingCard();
+             this._addLoadingCard()
+             this._addLoadingCard()
+             this._addLoadingCard()
+             document.getElementById("GUI_preLoginButtons").hidden = true;
+             document.getElementById("GUI_postLoginButtons").hidden = false;
+             const account = accounts[0];
+             this.myAddress = account;
+          //   document.getElementById("_addressMain").innerHTML = this.myAddress.toString()
+             this.getBalanceOf(this.myAddress)
+             this.getDataFromOS(this.myAddress)
+              const newLi = document.createElement("li");
+              newLi.textContent = this.myAddress.toString()
+              document.getElementById("GUI_infoBar").appendChild(newLi)
+           })
+
        }
        getDataFromOS(address, extra) {
            const Http = new XMLHttpRequest();
@@ -362,27 +396,27 @@ update = function() {
        addCard(name,pos) {
            let _id = name.slice(5)
            let _div = document.createElement("div");
-           // let _saveButton = document.createElement("button");
-           // _saveButton.innerHTML = "💾<span class='tooltiptext'>Save image</span>"
-           // _saveButton.id = _id;
-           // _saveButton.addEventListener("click", (e) => {
-           //     this.savePfp(e.path[0].id)
-           // });
-           // _saveButton.style.position = "absolute"
-           // _div.appendChild(_saveButton);
-           // if(document.getElementById("hidden").children.length == 0){
-           //   document.getElementById("hidden").appendChild(_saveButton)
-           // }
-           // let _osButton = document.createElement("button");
-           // _osButton.innerHTML = "🌊<span class='tooltiptext'>View on OpenSea</span>"
-           // _osButton.id = _id;
-           // _osButton.addEventListener("click", (e) => {
-           //     window.open('https://opensea.io/assets/ethereum/0x0568a87e64e65f4cc7898e08f0e57ffe2aa6241f/'+e.path[0].id);
-           // });
-           // _osButton.style.position = "absolute"
-           // _osButton.style.marginLeft = document.getElementById("hidden").children[0].offsetWidth + "px"
-           // _div.appendChild(_osButton);
-           // _div.appendChild(_saveButton);
+           let _saveButton = document.createElement("button");
+           _saveButton.innerHTML = "💾<span class='tooltiptext'>Save image</span>"
+           _saveButton.id = _id;
+           _saveButton.addEventListener("click", (e) => {
+               this.savePfp(e.path[0].id)
+           });
+           _saveButton.style.position = "absolute"
+           _div.appendChild(_saveButton);
+           if(document.getElementById("hidden").children.length == 0){
+             document.getElementById("hidden").appendChild(_saveButton)
+           }
+           let _osButton = document.createElement("button");
+           _osButton.innerHTML = "🌊<span class='tooltiptext'>View on OpenSea</span>"
+           _osButton.id = _id;
+           _osButton.addEventListener("click", (e) => {
+               window.open('https://opensea.io/assets/ethereum/0x0568a87e64e65f4cc7898e08f0e57ffe2aa6241f/'+e.path[0].id);
+           });
+           _osButton.style.position = "absolute"
+           _osButton.style.marginLeft = document.getElementById("hidden").children[0].offsetWidth + "px"
+           _div.appendChild(_osButton);
+           _div.appendChild(_saveButton);
            _div.classList.add('columns');
            let _img = document.createElement("img");
            _img.src = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/" + _id + ".png"
@@ -417,12 +451,9 @@ update = function() {
        _addLoadingCard() {
            let _div = document.createElement("div");
            _div.classList.add('columns');
-
            let _img = document.createElement("img");
            _img.src = "https://raw.githubusercontent.com/mooodev/pixelBois/main/breathtakingSite/preloader.gif"
            //_img.style.width = "100%";
-
-
            _img.alt = "loading nfts";
            _img.classList.add("thumbnail")
            // _img.style.width = "100px";
@@ -433,9 +464,8 @@ update = function() {
            let _name2 = document.createElement("p");
            _name2.innerHTML = "Plase await";
            _divCont.appendChild(_img);
-           _divCont.appendChild(_name2);
+          // _divCont.appendChild(_name2);
            _divCont.appendChild(_name);
-
            _div.appendChild(_divCont);
            _div.style.textAlign = "center";
            document.getElementById("nftHolder").appendChild(_div)
@@ -443,64 +473,12 @@ update = function() {
            // _div.style.width = "100%"
            // _div.style.height = "300px"
           // _div.style.marginLeft =  (window.innerWidth/2)-((document.getElementById("GUI_nftory").offsetWidth/4)/1.4)+"px"
+          if(this.totalOwned > document.getElementById("nftHolder").children.length && this.totalOwned !== 12345){
+            this._addLoadingCard()
+
+          }
        }
-       _addStartCard() {
-           let _rand = 1
-           let _div = document.createElement("div");
-           _div.id = "info_block"
-           _div.classList.add('card');
-           let _img = document.createElement("img");
-           if (_rand < 0.5) {
-               _img.src = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/20.png"
-           } else {
-               _img.src = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/179.png"
-           }
-           _img.alt = "hello welcoming boi";
-           let _divCont = document.createElement("div");
-           _divCont.classList.add('container');
-           let _name = document.createElement("p");
-           let _name2 = document.createElement("h4");
-           if (_rand < 0) {
-               _name2.innerHTML = "Boi#20: Wuzza fren!";
-               //_name.innerHTML = "Here sir you can view and save your BOI nft's.";
-               typewiterArray.push(new Typewiter(_name,"Here sir you can view and save your BOI nft's.",70))
-           } else {
-               _name2.innerHTML = "Boi#179: Officer Piggson reporting!";
-               //_name.innerHTML = "Stop right there. Show your ID this instant!";
-               typewiterArray.push(new Typewiter(_name,"Stop right there. Show your ID this instant!",70))
-           }
-           _name.id = 'info_screen'
-           _name.style.padding = "5px"
-           _divCont.appendChild(_name2);
-           _divCont.appendChild(_name);
-           _div.appendChild(_img);
-           _img.style = "-webkit-transform: scaleX(-1);transform: scaleX(-1);"
-           _div.appendChild(_divCont);
-           if(this.totalOwned == 12345){
-            if(_rand < 0.5){
-             let _chooseButton = document.createElement("button");
-             _chooseButton.textContent = "🦊Connect MetaMask"
-             _chooseButton.style.width = "100%"
-             _chooseButton.style.height = "50px";
-             _chooseButton.onclick = function(){controller.connectMM()};
-             _div.appendChild(_chooseButton)
-           }else{
-             let _chooseButton = document.createElement("button");
-             _chooseButton.textContent = "Show identification documents."
-             _chooseButton.style.width = "100%"
-             _chooseButton.style.height = "50px";
-             _chooseButton.onclick = function(){controller.welcomeInteraction()};
-             _div.appendChild(_chooseButton)
-             let _chooseButton2 = document.createElement("button");
-             _chooseButton2.textContent = "'Eat bacon pig!'"
-             _chooseButton2.style.width = "100%"
-             _chooseButton2.style.height = "50px";
-             _chooseButton2.onclick = function(){controller.welcomeInteraction()};
-             _div.appendChild(_chooseButton2)
-            }
-           }
-           document.getElementById("nftHolder").appendChild(_div)
-       }
+
        welcomeInteraction(){
          //document.getElementById("info_screen").textContent = "Ok fair enough, move along now."
          typewiterArray.push(new Typewiter(document.getElementById("info_screen"),"Ok fair enough, move along now..",140))
@@ -529,13 +507,17 @@ update = function() {
            }
        }
        displayStats() {
-           console.log(this.osStats)
-           let statsText = '<br>'
-           statsText += "Market Cap:" + this.osStats.stats.market_cap + " ETH<br>"
-           statsText += "Floor:" + this.osStats.stats.floor_price + " ETH<br>"
+           let statsText = "Floor:" + this.osStats.stats.floor_price + " ETH"
+           //statsText += "Market Cap:" + this.osStats.stats.market_cap + " ETH<br>"
+           //statsText += "Floor:" + this.osStats.stats.floor_price + " ETH<br>"
            // statsText += "Owners:"+osstats.stats.num_owners+"<br>"
-           statsText += "Total sales:" + this.osStats.stats.total_sales + "<br>"
-        //   document.getElementById("_mainStats").innerHTML = statsText;
+           //statsText += "Total sales:" + this.osStats.stats.total_sales + "<br>"
+
+           const newLi = document.createElement("li");
+           newLi.textContent = statsText
+           document.getElementById("GUI_infoBar").appendChild(newLi)
+
+          // document.getElementById("_mainStats").innerHTML = statsText;
        }
        savePfp(id) {
            let a = document.createElement('a');
@@ -553,7 +535,7 @@ update = function() {
                    document.getElementById("nftHolder").innerHTML = ''
                    setTimeout(() => {
                        controller._addStartCard();
-                       typewiterArray.push(new Typewiter(document.getElementById("info_screen"),"Oh no looks like you dont own any BOIZ D:",70))
+                       typewiterArray.push(new Typewiter(document.getElementById("info_screen"),"Oh no looks like you dont own any bois..",70))
                        //document.getElementById("info_screen").innerHTML = "Oh no looks likt you dont own any BOIZ D:"
                    }, "100")
                }
@@ -607,6 +589,10 @@ update = function() {
    const controller = new PfpDownloader()
    window.addEventListener('load', function() {
        gameLoop();
+       document.getElementById("GUI_loadingBlack").style.animation = "fadeIn 3s"
+       setTimeout(() => {
+  document.getElementById("GUI_loadingBlack").hidden = true;
+}, "700")
        document.getElementById("nftHolder").style.width = "100%";
        controller.getStatsFromOS();
     //   controller._addStartCard();
