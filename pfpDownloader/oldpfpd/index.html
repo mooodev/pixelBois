@@ -330,17 +330,15 @@ update = function() {
 
            const accounts = await ethereum.request({
                method: 'eth_requestAccounts'
-           }).then(()=>{
+           })
+           
              this._addLoadingCard();
              this._addLoadingCard()
              this._addLoadingCard()
              this._addLoadingCard()
              document.getElementById("GUI_preLoginButtons").hidden = true;
              document.getElementById("GUI_postLoginButtons").hidden = false;
-
           //   document.getElementById("_addressMain").innerHTML = this.myAddress.toString()
-
-           })
            const account = accounts[0];
            this.myAddress = account;
            this.getBalanceOf(this.myAddress)
