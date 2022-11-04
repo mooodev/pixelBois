@@ -8,6 +8,48 @@
      body{
        font-family: 'Common Pixel', sans-serif;
      }
+     button{
+       background-color:#51557E;
+       font-family: 'Common Pixel', sans-serif;
+       }
+       button .tooltiptext {
+         visibility: hidden;
+         width: 120px;
+         background-color: black;
+         color: #fff;
+         text-align: center;
+         border-radius: 6px;
+         padding: 5px 0;
+         position: absolute;
+         z-index: 1;
+         bottom: 100%;
+         left: 50%;
+         margin-left: -60px;
+       }
+       hr .tooltiptext {
+         visibility: hidden;
+         width: 120px;
+         background-color: black;
+         color: #fff;
+         text-align: center;
+         border-radius: 6px;
+         padding: 5px 0;
+         position: absolute;
+         z-index: 1;
+         bottom: 100%;
+         left: 50%;
+         margin-left: -60px;
+       }
+       hr:hover .tooltiptext {
+         visibility: visible;
+       }
+       button:hover .tooltiptext {
+         visibility: visible;
+       }
+       span{
+         pointer-events: none;
+         opacity:0.8;
+       }
    </style>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -352,21 +394,21 @@ update = function() {
            _name.innerHTML = name;
            _divCont.appendChild(_name);
            _div.appendChild(_img);
-           let _healthBarDiv = document.createElement("div");
-           let _healthBar = document.createElement("hr");
-           let _hp = 0;
-           let _mp = 0;
-           for(let x = 0 ; x < this.myNfts[pos].traits.length ; x++){
-             if(this.myNfts[pos].traits[x].trait_type == "HP"){
-               _hp = this.myNfts[pos].traits[x].value;
-             }
-             if(this.myNfts[pos].traits[x].trait_type == "MP"){
-               _mp = this.myNfts[pos].traits[x].value;
-             }
-           }
-           _healthBar.innerHTML = "<span class='tooltiptext'>HP:" + _hp+"/"+_hp  + "<br>MP:"+_mp+"/"+_mp + "</span>"
-           _healthBarDiv.appendChild(_healthBar);
-           _div.appendChild(_healthBarDiv);
+           // let _healthBarDiv = document.createElement("div");
+           // let _healthBar = document.createElement("hr");
+           // let _hp = 0;
+           // let _mp = 0;
+           // for(let x = 0 ; x < this.myNfts[pos].traits.length ; x++){
+           //   if(this.myNfts[pos].traits[x].trait_type == "HP"){
+           //     _hp = this.myNfts[pos].traits[x].value;
+           //   }
+           //   if(this.myNfts[pos].traits[x].trait_type == "MP"){
+           //     _mp = this.myNfts[pos].traits[x].value;
+           //   }
+           // }
+           // _healthBar.innerHTML = "<span class='tooltiptext'>HP:" + _hp+"/"+_hp  + "<br>MP:"+_mp+"/"+_mp + "</span>"
+           // _healthBarDiv.appendChild(_healthBar);
+           // _div.appendChild(_healthBarDiv);
            _div.appendChild(_divCont);
            document.getElementById("nftHolder").appendChild(_div)
        }
