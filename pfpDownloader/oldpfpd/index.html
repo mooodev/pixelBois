@@ -604,6 +604,8 @@ update = function() {
          let p = document.createElement('p');
           typewiterArray.push(new Typewiter(p,"Looks like you dont have MetaMask..",70))
           p.classList.add("thumbnail_align")
+          document.getElementById("GUI_MMlogin").style.filter = "grayscale(1)"
+          document.getElementById("GUI_MMlogin").disabled = true;
            document.getElementById("nftHolder").appendChild(p)
        }else{
        window.ethereum.on('accountsChanged', function (accounts) {
