@@ -66,7 +66,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Pixel boi hub</title>
-<link href="https://mooodev.github.io/pixelBois/pfpDownloader/oldpfpd/multiColumnTemplate.css" rel="stylesheet" type="text/css">
+<link href="multiColumnTemplate.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
@@ -124,7 +124,7 @@
    <button disabled class="column_half left_half" style="border-radius: 0px 0px 0px 50px;" >
      <h2 class="column_title">🎮 GUEST</h2>
    </button>
-     <button style="border-radius: 0px 0px 50px 0px;" class="column_half right_half"><h2 id="GUI_MMlogin" class="column_title">🦊 LOGIN</h2></button>
+     <button id="GUI_MM_login" style="border-radius: 0px 0px 50px 0px;" class="column_half right_half"><h2 id="GUI_MMlogin" class="column_title">🦊 LOGIN</h2></button>
  </div>
   </div>
 
@@ -604,8 +604,8 @@ update = function() {
          let p = document.createElement('p');
           typewiterArray.push(new Typewiter(p,"Looks like you dont have MetaMask..",70))
           p.classList.add("thumbnail_align")
-          document.getElementById("GUI_MMlogin").style.filter = "grayscale(1)"
-          document.getElementById("GUI_MMlogin").disabled = true;
+          document.getElementById("GUI_MM_login").style.filter = "grayscale(1)"
+          document.getElementById("GUI_MM_login").disabled = true;
            document.getElementById("nftHolder").appendChild(p)
        }else{
        window.ethereum.on('accountsChanged', function (accounts) {
@@ -614,9 +614,9 @@ update = function() {
      }
    })
 
-document.getElementById("GUI_MMlogin").addEventListener('click', (event) => {
-  controller.connectMM()
-});
+// document.getElementById("GUI_MMlogin").addEventListener('click', (event) => {
+//   controller.connectMM()
+// });
 </script>
 </body>
 </html>
