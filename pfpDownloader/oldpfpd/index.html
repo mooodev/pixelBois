@@ -103,7 +103,7 @@
 </div>
 
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/particlesjs/2.2.3/particles.min.js"></script>
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 <script>
 	particlesJS("particles-js", {
     "particles": {
@@ -265,7 +265,7 @@ update = function() {
            });
            const account = accounts[0];
            this.myAddress = account;
-           document.getElementById("_addressMain").innerHTML = this.myAddress.toString()
+        //   document.getElementById("_addressMain").innerHTML = this.myAddress.toString()
            this.getBalanceOf(this.myAddress)
            this.getDataFromOS(this.myAddress)
        }
@@ -484,7 +484,7 @@ update = function() {
            statsText += "Floor:" + this.osStats.stats.floor_price + " ETH<br>"
            // statsText += "Owners:"+osstats.stats.num_owners+"<br>"
            statsText += "Total sales:" + this.osStats.stats.total_sales + "<br>"
-           document.getElementById("_mainStats").innerHTML = statsText;
+        //   document.getElementById("_mainStats").innerHTML = statsText;
        }
        savePfp(id) {
            let a = document.createElement('a');
