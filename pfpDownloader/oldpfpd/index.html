@@ -344,7 +344,7 @@ update = function() {
            this.getBalanceOf(this.myAddress)
            this.getDataFromOS(this.myAddress)
             const newLi = document.createElement("li");
-            newLi.textContent = this.myAddress.toString()
+            newLi.textContent = this.myAddress.toString().slice(0,6)+"..."+this.myAddress.toString().slice(this.myAddress.toString().length-6,this.myAddress.toString().length-1)
             document.getElementById("GUI_infoBar").appendChild(newLi)
        }
        getDataFromOS(address, extra) {
