@@ -341,12 +341,13 @@ update = function() {
            _osButton.style.marginLeft = document.getElementById("hidden").children[0].offsetWidth + "px"
            _div.appendChild(_osButton);
            _div.appendChild(_saveButton);
-           _div.classList.add('card');
+           _div.classList.add('columns');
            let _img = document.createElement("img");
            _img.src = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/" + _id + ".png"
            _img.alt = name;
+           _img.classList.add("thumbnail")
            let _divCont = document.createElement("div");
-           _divCont.classList.add('container');
+           _divCont.classList.add('thumbnail_align');
            let _name = document.createElement("h3");
            _name.innerHTML = name;
            _divCont.appendChild(_name);
