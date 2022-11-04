@@ -17,6 +17,7 @@
 </head>
 
 <body>
+  <div id="hidden"></div>
   <div class="">
   <img id="GUI_siteLogo" src="https://raw.githubusercontent.com/mooodev/pixelBois/main/breathtakingSite/logo.png" style="position: absolute;">
   </div>
@@ -558,19 +559,26 @@ update = function() {
    const controller = new PfpDownloader()
    window.addEventListener('load', function() {
        gameLoop();
-       // document.getElementById("nftHolder").style.width = "100%";
-       // controller.getStatsFromOS();
-       // controller._addStartCard();
-       // controller.web3 = new Web3(window.ethereum);
-       // controller.contractInstance = new controller.web3.eth.Contract(myAbi, Contract);
-       // window.ethereum.on('accountsChanged', function (accounts) {
-       //   controller.connectMM();
-       // })
+       document.getElementById("nftHolder").style.width = "100%";
+       controller.getStatsFromOS();
+    //   controller._addStartCard();
+       controller.web3 = new Web3(window.ethereum);
+       controller.contractInstance = new controller.web3.eth.Contract(myAbi, Contract);
+       window.ethereum.on('accountsChanged', function (accounts) {
+         controller.connectMM();
+       })
    })
 
 document.getElementById("GUI_MMlogin").addEventListener('click', (event) => {
   controller.connectMM()
 });
+
+
+
+
 </script>
+
+
+
 </body>
 </html>
