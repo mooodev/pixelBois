@@ -9,7 +9,7 @@ Collection of crazy NFT boiz <3
 -adding gamefied minting and staking process  <br>
 -game prototyping  <br>
 
-<img src="https://raw.githubusercontent.com/mooodev/pixelBois/main/breathtakingSite/images/prototypeGifStart.gif">
+<img src="https://raw.githubusercontent.com/mooodev/pixelBois/main/breathtakingSite/images/farinGif.gif">
 
 ## Protogame 
 -Peer-to-peer connection between players via WEB-RTC
