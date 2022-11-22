@@ -7,11 +7,12 @@ Collection of crazy NFT boiz <3
 -adding pixel bois soon = new stlye > new NFT > free mint to only BOIS <br>
 -adding youtube informational videos  <br>
 -adding gamefied minting and staking process  <br>
--adding game  <br>
+-game prototyping  <br>
 
 <img src="https://raw.githubusercontent.com/mooodev/pixelBois/main/breathtakingSite/images/prototypeGifStart.gif">
 
 ## Protogame 
+-Peer-to-peer connection between players via WEB-RTC
 -2.5D graphics with lightning and reflections etc.<br>
 -Farming  <br>
 -Pathfinding<br>
