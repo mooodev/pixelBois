@@ -596,6 +596,7 @@ let gameOn = false;
 const switchScreen = () => {
 
 if(!gameOn && exampleSocket.readyState !== 1){
+  exampleSocket = new WebSocket(onlineadr)
   return;
 }
 
