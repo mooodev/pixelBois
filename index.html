@@ -487,7 +487,7 @@ margin-bottom: 10px;
   </button>
   </div>
   </div>
-  <section hidden>
+  <section >
     <h2 class="noDisplay">Main Content</h2>
     <article class="left_article">
       <h3>Breathtaking Pixel Bois</h3>
@@ -496,10 +496,10 @@ margin-bottom: 10px;
     <aside class="right_article"><img src="https://raw.githubusercontent.com/mooodev/pixelBois/main/webGame/images/boizplacer.png" alt="" width="400" height="200" class="placeholder"/> </aside>
   </section>
 
-      <div class="third_header" hidden>
+      <div class="third_header" >
         <p class="latest">TOP #5 of BEST BOIZ</p>
       </div>
-       <div class="social" style="color:white;overflow: hidden;" id="GUI_top5" hidden>
+       <div class="social" style="color:white;overflow: hidden;" id="GUI_top5" >
        </div>
 <!-- <strong>Loving RPG's intensly</strong> -->
 <div>
@@ -2711,9 +2711,9 @@ function animate() {
     renderer.render(scene, camera);
     _framesPerSecond++;
     if (Date.now() - _framesPerSecondStartTime > 1000) {
-        if (Math.round(_framesPerSecond) < _framesPerSecondConst && _framesPerSecondVar < 120) {
+        if (Math.round(_framesPerSecond) < _framesPerSecondConst && _framesPerSecondVar < 100) {
             _framesPerSecondVar++;
-        } else if (Math.round(_framesPerSecond) > _framesPerSecondConst && _framesPerSecondVar > 10) {
+        } else if (Math.round(_framesPerSecond) > _framesPerSecondConst && _framesPerSecondVar > 20) {
             _framesPerSecondVar--;
         }
         _framesPerSecond = 0;
