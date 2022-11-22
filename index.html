@@ -594,6 +594,11 @@ onmousedown="return false;">
 (function () {
 let gameOn = false;
 const switchScreen = () => {
+
+if(!gameOn && exampleSocket.readyState !== 1){
+  return;
+}
+
     _turnAllMusicOff();
     this.selectedItem = null;
     document.getElementById("GUI_itemSelector").hidden = true;
@@ -1100,6 +1105,14 @@ class GameController {
         createInventory(this.inventory)
     }
     update() {
+
+      if(gameOn){
+        intervalID = setTimeout(() => {
+            if (document.hidden && gameOn) {
+                switchScreen();
+            }
+        }, 3000);
+      }
 
         if (ladyquest !== undefined) {
             if (!gameController.firstQuest) {
@@ -2034,11 +2047,6 @@ class Player {
                 sound_walking.play();
                 sound_walking.stop();
                 sound_walking.play();
-                intervalID = setTimeout(() => {
-                    if (document.hidden && gameOn) {
-                        switchScreen();
-                    }
-                }, 25000);
             }
             this.obj.material.map = this._texW;
         }
@@ -3772,9 +3780,9 @@ let sendMessageWS = (msg) => {
             sound_walking.stop();
             switchScreen()
         } else {
-            // connectingTemp = setTimeout(() => {
-            //   _sendHelloMessage();
-            // }, 3000)
+            connectingTemp = setTimeout(() => {
+              _sendHelloMessage();
+            }, 1000)
         }
     }
     return true;
@@ -4135,11 +4143,7 @@ const locatePlayerByObjId = (id) => {
     }
 }
 
-let intervalID = setTimeout(() => {
-    if (document.hidden && gameOn) {
-        switchScreen();
-    }
-}, 25000);
+let intervalID;
 
 let boiSkinArr = [{"skin":"pale"},{"skin":"choko"},{"skin":"Zombie"},{"skin":"Vampire"},{"skin":"choko"},{"skin":"pink"},{"skin":"Vampire"},{"skin":"pink"},{"skin":"pink"},{"skin":"pink"},{"skin":"choko"},{"skin":"Demon"},{"skin":"choko"},{"skin":"pink"},{"skin":"pale"},{"skin":"pink"},{"skin":"pink"},{"skin":"pink"},{"skin":"pale"},{"skin":"pink"},{"skin":"Skeleton"},{"skin":"Skeleton"},{"skin":"choko"},{"skin":"choko"},{"skin":"pink"},{"skin":"Zombie"},{"skin":"pink"},{"skin":"Demon"},{"skin":"Zombie"},{"skin":"Demon"},{"skin":"pink"},{"skin":"pale"},{"skin":"choko"},{"skin":"pale"},{"skin":"pink"},{"skin":"Vampire"},{"skin":"pink"},{"skin":"choko"},{"skin":"pink"},{"skin":"pink"},{"skin":"pink"},{"skin":"choko"},{"skin":"Skeleton"},{"skin":"choko"},{"skin":"pale"},{"skin":"choko"},{"skin":"Demon"},{"skin":"pink"},{"skin":"choko"},{"skin":"pink"},{"skin":"choko"},{"skin":"pale"},{"skin":"pink"},{"skin":"pink"},{"skin":"Vampire"},{"skin":"Vampire"},{"skin":"choko"},{"skin":"Skeleton"},{"skin":"choko"},{"skin":"Zombie"},{"skin":"Vampire"},{"skin":"pink"},{"skin":"choko"},{"skin":"Vampire"},{"skin":"pink"},{"skin":"pale"},{"skin":"pink"},{"skin":"pale"},{"skin":"pink"},{"skin":"pale"},{"skin":"pale"},{"skin":"Demon"},{"skin":"pink"},{"skin":"pale"},{"skin":"pale"},{"skin":"pink"},{"skin":"Skeleton"},{"skin":"pale"},{"skin":"pale"},{"skin":"pink"},{"skin":"Demon"},{"skin":"pale"},{"skin":"choko"},{"skin":"pink"},{"skin":"pink"},{"skin":"choko"},{"skin":"Vampire"},{"skin":"choko"},{"skin":"pale"},{"skin":"choko"},{"skin":"choko"},{"skin":"pale"},{"skin":"Demon"},{"skin":"Demon"},{"skin":"Demon"},{"skin":"Demon"},{"skin":"Vampire"},{"skin":"pink"},{"skin":"pink"},{"skin":"pale"},{"skin":"Vampire"},{"skin":"pale"},{"skin":"pink"},{"skin":"choko"},{"skin":"choko"},{"skin":"pink"},{"skin":"pale"},{"skin":"pink"},{"skin":"Vampire"},{"skin":"choko"},{"skin":"choko"},{"skin":"pink"},{"skin":"Zombie"},{"skin":"pink"},{"skin":"pink"},{"skin":"Demon"},{"skin":"choko"},{"skin":"Zombie"},{"skin":"pale"},{"skin":"pale"},{"skin":"pink"},{"skin":"choko"},{"skin":"pale"},{"skin":"pale"},{"skin":"pink"},{"skin":"Demon"},{"skin":"pale"},{"skin":"pink"},{"skin":"choko"},{"skin":"pink"},{"skin":"Demon"},{"skin":"pink"},{"skin":"Zombie"},{"skin":"pale"},{"skin":"pale"},{"skin":"pink"},{"skin":"choko"},{"skin":"pink"},{"skin":"Zombie"},{"skin":"pale"},{"skin":"choko"},{"skin":"Demon"},{"skin":"pale"},{"skin":"Vampire"},{"skin":"pink"},{"skin":"pink"},{"skin":"choko"},{"skin":"Demon"},{"skin":"pink"},{"skin":"pink"},{"skin":"pink"},{"skin":"pink"},{"skin":"Skeleton"},{"skin":"choko"},{"skin":"choko"},{"skin":"Demon"},{"skin":"pale"},{"skin":"Skeleton"},{"skin":"choko"},{"skin":"Demon"},{"skin":"pink"},{"skin":"pale"},{"skin":"pale"},{"skin":"pale"},{"skin":"pale"},{"skin":"pink"},{"skin":"Vampire"},{"skin":"choko"},{"skin":"Zombie"},{"skin":"choko"},{"skin":"pale"},{"skin":"pink"},{"skin":"choko"},{"skin":"pink"},{"skin":"choko"},{"skin":"pink"},{"skin":"Zombie"},{"skin":"pale"},{"skin":"pink"},{"skin":"Zombie"},{"skin":"choko"},{"skin":"Vampire"},{"skin":"pink"},{"skin":"choko"},{"skin":"pink"},{"skin":"Vampire"},{"skin":"pink"},{"skin":"pale"},{"skin":"pink"},{"skin":"pink"},{"skin":"choko"},{"skin":"pink"},{"skin":"Skeleton"},{"skin":"pale"},{"skin":"pale"},{"skin":"choko"},{"skin":"pink"},{"skin":"pale"},{"skin":"pale"},{"skin":"pink"},{"skin":"pink"},{"skin":"pink"},{"skin":"pink"},{"skin":"Zombie"},{"skin":"choko"},{"skin":"pale"},{"skin":"pink"},{"skin":"pink"},{"skin":"pink"},{"skin":"pink"},{"skin":"choko"},{"skin":"Demon"},{"skin":"choko"},{"skin":"pale"},{"skin":"pink"},{"skin":"Vampire"},{"skin":"pale"},{"skin":"choko"},{"skin":"pink"},{"skin":"choko"},{"skin":"pink"},{"skin":"pink"},{"skin":"pink"},{"skin":"choko"},{"skin":"pale"},{"skin":"choko"},{"skin":"choko"},{"skin":"choko"},{"skin":"pink"},{"skin":"Demon"},{"skin":"Zombie"},{"skin":"pale"},{"skin":"pink"},{"skin":"choko"},{"skin":"Demon"},{"skin":"pale"},{"skin":"pale"},{"skin":"pale"},{"skin":"choko"},{"skin":"pink"},{"skin":"pink"},{"skin":"pale"},{"skin":"pink"},{"skin":"choko"},{"skin":"pink"},{"skin":"pink"},{"skin":"pink"},{"skin":"pale"},{"skin":"pale"},{"skin":"pale"},{"skin":"Zombie"},{"skin":"pale"},{"skin":"pale"},{"skin":"pink"},{"skin":"pink"},{"skin":"pale"},{"skin":"Vampire"},{"skin":"pale"},{"skin":"pink"},{"skin":"pale"},{"skin":"Vampire"},{"skin":"choko"},{"skin":"pale"},{"skin":"pink"},{"skin":"pink"},{"skin":"choko"},{"skin":"Vampire"},{"skin":"pink"},{"skin":"pale"},{"skin":"pink"},{"skin":"pale"},{"skin":"Zombie"},{"skin":"pale"},{"skin":"pink"},{"skin":"pink"},{"skin":"pink"},{"skin":"Vampire"},{"skin":"pink"},{"skin":"Demon"},{"skin":"Vampire"},{"skin":"pink"},{"skin":"choko"},{"skin":"pale"},{"skin":"pink"},{"skin":"choko"},{"skin":"pink"},{"skin":"Demon"},{"skin":"pale"},{"skin":"Demon"},{"skin":"pink"},{"skin":"choko"},{"skin":"pink"},{"skin":"Demon"},{"skin":"pink"},{"skin":"choko"},{"skin":"pink"},{"skin":"Skeleton"},{"skin":"choko"},{"skin":"pink"},{"skin":"Demon"},{"skin":"pink"},{"skin":"choko"},{"skin":"Skeleton"},{"skin":"Zombie"},{"skin":"pale"},{"skin":"Vampire"},{"skin":"pale"},{"skin":"Vampire"},{"skin":"choko"},{"skin":"pale"},{"skin":"pale"},{"skin":"Skeleton"},{"skin":"Vampire"},{"skin":"pink"},{"skin":"pale"},{"skin":"Demon"},{"skin":"pale"},{"skin":"pink"},{"skin":"pink"},{"skin":"Vampire"},{"skin":"choko"},{"skin":"pink"},{"skin":"pale"},{"skin":"pink"},{"skin":"pink"},{"skin":"pink"},{"skin":"pink"},{"skin":"pale"},{"skin":"pink"},{"skin":"Vampire"},{"skin":"Skeleton"},{"skin":"choko"},{"skin":"Demon"},{"skin":"pale"},{"skin":"pink"},{"skin":"choko"},{"skin":"pale"},{"skin":"pink"},{"skin":"pale"},{"skin":"pink"},{"skin":"pink"},{"skin":"pink"},{"skin":"pink"},{"skin":"Zombie"},{"skin":"pink"},{"skin":"pink"},{"skin":"pink"},{"skin":"choko"},{"skin":"pink"},{"skin":"pink"},{"skin":"pink"},{"skin":"pink"},{"skin":"pink"},{"skin":"Zombie"},{"skin":"pink"},{"skin":"pink"},{"skin":"pale"},{"skin":"choko"},{"skin":"pink"},{"skin":"choko"},{"skin":"Demon"},{"skin":"choko"},{"skin":"pink"},{"skin":"pink"},{"skin":"pink"},{"skin":"pink"},{"skin":"choko"},{"skin":"choko"},{"skin":"pale"},{"skin":"pink"},{"skin":"choko"},{"skin":"choko"},{"skin":"choko"},{"skin":"pale"},{"skin":"Demon"},{"skin":"pink"},{"skin":"Zombie"},{"skin":"pink"},{"skin":"Vampire"},{"skin":"Zombie"},{"skin":"pale"},{"skin":"pink"},{"skin":"Vampire"},{"skin":"pink"},{"skin":"pink"},{"skin":"Vampire"},{"skin":"pink"},{"skin":"pink"},{"skin":"pink"},{"skin":"Zombie"},{"skin":"pink"},{"skin":"choko"},{"skin":"Demon"},{"skin":"pink"},{"skin":"pink"},{"skin":"pink"},{"skin":"pale"},{"skin":"choko"},{"skin":"choko"},{"skin":"pink"},{"skin":"pale"},{"skin":"pink"},{"skin":"Vampire"},{"skin":"choko"},{"skin":"pink"},{"skin":"pink"},{"skin":"pink"},{"skin":"pink"},{"skin":"Skeleton"},{"skin":"pale"},{"skin":"choko"},{"skin":"pale"},{"skin":"pale"},{"skin":"Demon"},{"skin":"pale"},{"skin":"pale"},{"skin":"pink"},{"skin":"pale"},{"skin":"pink"},{"skin":"pink"}]
 
