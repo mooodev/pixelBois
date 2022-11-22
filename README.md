@@ -9,12 +9,10 @@ Collection of crazy NFT boiz <3
 -adding gamefied minting and staking process  <br>
 -game prototyping  <br>
 
-<img src="https://raw.githubusercontent.com/mooodev/pixelBois/main/breathtakingSite/images/farinGif.gif">
-
 ## Protogame 
--Peer-to-peer connection between players via WEB-RTC
 -2.5D graphics with lightning and reflections etc.<br>
 -Farming  <br>
+-Peer-to-peer chat connection between players via WEB-RTC <br>
 -Pathfinding<br>
 -Day/Night & weather cycles  <br>
 
