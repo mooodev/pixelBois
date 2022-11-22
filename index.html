@@ -487,7 +487,7 @@ margin-bottom: 10px;
   </button>
   </div>
   </div>
-  <section >
+  <section hidden>
     <h2 class="noDisplay">Main Content</h2>
     <article class="left_article">
       <h3>Breathtaking Pixel Bois</h3>
@@ -496,10 +496,10 @@ margin-bottom: 10px;
     <aside class="right_article"><img src="https://raw.githubusercontent.com/mooodev/pixelBois/main/webGame/images/boizplacer.png" alt="" width="400" height="200" class="placeholder"/> </aside>
   </section>
 
-      <div class="third_header" >
+      <div class="third_header" hidden>
         <p class="latest">TOP #5 of BEST BOIZ</p>
       </div>
-       <div class="social" style="color:white;overflow: hidden;" id="GUI_top5" >
+       <div class="social" style="color:white;overflow: hidden;" id="GUI_top5" hidden>
        </div>
 <!-- <strong>Loving RPG's intensly</strong> -->
 <div>
@@ -591,7 +591,7 @@ onmousedown="return false;">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/javascript-astar/0.4.1/astar.min.js"></script>
 <script>
 
-//(function () {
+(function () {
 let gameOn = false;
 const switchScreen = () => {
     _turnAllMusicOff();
@@ -1299,7 +1299,7 @@ class GameController {
                 button.id = n;
                 button.style.width = Math.floor((document.getElementById("GUI_InventoryScreen").offsetWidth) / 7) + "px";
                 document.getElementById("GUI_InventoryScreen").children[n].innerHTML = '';
-                document.getElementById("GUI_InventoryScreen").children[n].appendChild(button);
+            //    document.getElementById("GUI_InventoryScreen").children[n].appendChild(button);
             } else {
                 let button = document.createElement("button")
                 button.height = 50;
@@ -3759,9 +3759,9 @@ let sendMessageWS = (msg) => {
         exampleSocket.send(_msg)
     } else {
         if (exampleSocket.readyState == 0) {
-            console.log("connection in progress please wait")
+          //  console.log("connection in progress please wait")
         } else {
-            console.log("not connected, trying to reconnect")
+          //  console.log("not connected, trying to reconnect")
             exampleSocket = ''
             exampleSocket = new WebSocket(onlineadr);
         }
@@ -3943,7 +3943,6 @@ const _showTop5 = (data) => {
         newLi.style.width = "20%";
         const newi = document.createElement("img");
         newi.style = "width:100px;height:100px;border-radius:50px;"
-        console.log(_boid)
         newi.src = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/" + _boid.slice(5, _boid.length) + ".png"
         newLi.appendChild(newi)
         newLi.innerHTML += "<br> <p>" + _boid + "</p>"
@@ -4426,7 +4425,7 @@ const _decreasePlayerEnergy = (player, e) => {
     return true;
 }
 //document.addEventListener('contextmenu', event => event.preventDefault());
-//})();
+})();
 </script>
 </body>
 </html>
