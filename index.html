@@ -1295,10 +1295,10 @@ class GameController {
             if (!item || item.amount <= 0 && item.name !== "Water") {
                 let button = document.createElement("button")
                 //  button.innerHTML = '<img src="https://mooodev.github.io/pixelBois/breathtakingSite/favico.png" draggable="true" ondragstart="drag(event)" id="xxx" width="100%" height="100%">'
-                // button.height = 50;
-                // button.id = n;
-                // button.style.width = Math.floor((document.getElementById("GUI_InventoryScreen").offsetWidth) / 7) + "px";
-                // document.getElementById("GUI_InventoryScreen").children[n].innerHTML = '';
+                button.height = 50;
+                button.id = n;
+                button.style.width = Math.floor((document.getElementById("GUI_InventoryScreen").offsetWidth) / 7) + "px";
+                document.getElementById("GUI_InventoryScreen").children[n].innerHTML = '';
                 document.getElementById("GUI_InventoryScreen").children[n].appendChild(button);
             } else {
                 let button = document.createElement("button")
@@ -4424,7 +4424,7 @@ const _decreasePlayerEnergy = (player, e) => {
     }
     return true;
 }
-//document.addEventListener('contextmenu', event => event.preventDefault());
+document.addEventListener('contextmenu', event => event.preventDefault());
 })();
 </script>
 </body>
