@@ -3172,7 +3172,7 @@ let connectingTemp;
 let sendMessageWS = (msg) => {
     if (isOpen(exampleSocket)) {
         let _msg = JSON.stringify(msg)
-        console.log("sending " + _msg)
+        //console.log("sending " + _msg)
         exampleSocket.send(_msg)
     } else {
         if (exampleSocket.readyState == 0) {
