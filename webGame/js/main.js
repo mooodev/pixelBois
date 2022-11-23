@@ -1218,7 +1218,7 @@ class GameMap {
     }
     addPlayer(activeControl, x, y, _boid) {
         document.getElementById("GUI_boiName").textContent = _boid + " : lvl" + gameController.lvl
-        document.getElementById("GUI_boiAvatar").src = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/" + _boid.slice(5, _boid.length) + ".png"
+        //document.getElementById("GUI_boiAvatar").src = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/" + _boid.slice(5, _boid.length) + ".png"
         let _player = new Player()
         _player.boid = _boid;
         _player.activeControl = activeControl;
