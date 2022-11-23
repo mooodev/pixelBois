@@ -4,7 +4,7 @@ let gameOn = false;
 const switchScreen = () => {
 
 if(!gameOn && exampleSocket.readyState !== 1){
-  exampleSocket = new WebSocket(onlineadr)
+  //exampleSocket = new WebSocket(onlineadr)
   return;
 }
 
@@ -3180,7 +3180,8 @@ let sendMessageWS = (msg) => {
         } else {
           //  console.log("not connected, trying to reconnect")
             exampleSocket = ''
-            exampleSocket = new WebSocket(onlineadr);
+            return;
+            //exampleSocket = new WebSocket(onlineadr);
         }
         if (gameOn) {
             soundSea.stop();
