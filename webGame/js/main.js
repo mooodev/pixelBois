@@ -3224,10 +3224,45 @@ let recivePublicFarm = (farm) => {
     let x = 5;
     for (let n = _y; n < y + _y; n++) {
         for (let m = _x; m < x + _x; m++) {
+
+
+          if(gameController.map.map[n][m].farm.planted && !farm[n - _y][m - _x].planted){
+            let x = m
+            let y = n
+            if (gameController.map.map[y][x].farm.planted.name == "Berry") {
+                _prepareObjTexture("berry3")
+            } else if (gameController.map.map[y][x].farm.planted.name == "Carrot") {
+                _prepareObjTexture("carrot3")
+            } else {
+                _prepareObjTexture("sunflower3")
+            }
+            gameController.map.map[y][x].farm.obj.position.y = y * 16;
+            let _tex = new THREE.TextureLoader().load(tileCanvas.toDataURL());
+            gameController.map.map[y][x].farm.obj.material.map = _tex
+            gameController.map.map[y][x].farm.obj.geometry = new THREE.PlaneGeometry(globalX, globalY);
+            gameController.map.map[y][x].farm.planted = false;
+            gameController.map.map[y][x].farm.watered = false;
+            setTimeout(function() {
+                _prepareObjTexture("rock")
+                let _tex = new THREE.TextureLoader().load(tileCanvas.toDataURL());
+                gameController.map.map[y][x].farm.obj.material.map = _tex
+            }, 2000);
+          }
+
+          // if(gameController.map.map[n][m].farm.planted.name == farm[n - _y][m - _x].planted &&   gameController.map.map[n][m].farm.watered !== farm[n - _y][m - _x].watered){
+          //   gameController.map.map[n][m].farm.watered = farm[n - _y][m - _x].watered
+          // }else if(gameController.map.map[n][m].farm.planted.name !== farm[n - _y][m - _x].planted){
+          //   gameController.map.map[n][m].farm.planted = farm[n - _y][m - _x].planted
+          //   gameController.map.map[n][m].farm.watered = farm[n - _y][m - _x].watered
+          // }
+
+          if(gameController.map.map[n][m].farm.planted.name !== farm[n - _y][m - _x].planted.name){
             gameController.map.map[n][m].farm.planted = farm[n - _y][m - _x].planted
-            //  gameController.map.map[n][m].farm.planted.ripeTime++;
-            //gameController.map.map[n][m].farm.active = farm[n-_y][m-_x].active
             gameController.map.map[n][m].farm.watered = farm[n - _y][m - _x].watered
+          }
+
+            //gameController.map.map[n][m].farm.planted = farm[n - _y][m - _x].planted
+            //gameController.map.map[n][m].farm.watered = farm[n - _y][m - _x].watered
         }
     }
 }
@@ -3254,7 +3289,7 @@ let recivePlayerList = (data) => {
                     cameraPosition = m;
                     gameController.inventory = [];
                     gameController.inventory = JSON.parse(JSON.stringify(newOnlineArray[n].inventory));
-                    document.getElementById("GUI_boiAvatar").src = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/" + _boid.slice(5, _boid.length) + ".png"
+                    document.getElementById("GUI_boiAvatar").src = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/" + gameController.boid.slice(5, gameController.boid.length) + ".png"
                     gameController.firstQuest = newOnlineArray[n].firstQuest;
                     _addXpToMe(gameController.xp)
 
@@ -3271,6 +3306,7 @@ let recivePlayerList = (data) => {
                 gameController.xp = newOnlineArray[n].xp
                 gameController.inventory = JSON.parse(JSON.stringify(newOnlineArray[n].inventory));
                 cameraPosition = gameController.map.players.length - 1;
+                document.getElementById("GUI_boiAvatar").src = "https://raw.githubusercontent.com/mooodev/pixelBois/main/pfpDownloader/images/" + gameController.boid.slice(5,gameController.boid.length) + ".png"
                 _addXpToMe(gameController.xp)
                 if (newOnlineArray[n].lastPosition.x == 14 && newOnlineArray[n].lastPosition.y == 17) {
                     setTimeout(() => {
