@@ -449,10 +449,10 @@ let a2 = new StatementConstruct(3, "")
 a1.endDialogue = true;
 a2.shop = true;
 startDialogue.currentText = welcomeMessage;
-//startDialogue.availableQuestions = [q0,q1,q2]
-startDialogue.availableQuestions = [q0, q1]
-startDialogue.replyData = [a0, a1]
-//startDialogue.replyData = [a0,a1,a2]
+//startDialogue.availableQuestions = [q0, q1]
+//startDialogue.replyData = [a0, a1]
+startDialogue.replyData = [a0,a1,a2]
+startDialogue.availableQuestions = [q0,q1,q2]
 currentDialogue = startDialogue;
 
 
@@ -2971,11 +2971,11 @@ window.addEventListener('load', async (event) => {
     createInventory(gameController.inventory)
     let testMap = new GameMap()
     testMap.newMap(21, 21)
-    //testMap.addFarm(5, 5, 8, 8)
-    //await addLayer2(36)
-    //_addFence(8, 6)
-    //testMap.addWater(6, 7)
+    testMap.addFarm(5, 5, 8, 8)
     gameController.map = testMap;
+    await addLayer2(36)
+    _addFence(8, 6)
+    testMap.addWater(6, 7)
     gameController.map.addTree(18, 18, "tree")
     const weather = new WeatherControl()
     gameController.weather = weather;
@@ -3013,7 +3013,7 @@ window.addEventListener('load', async (event) => {
     addGoose(5, 5)
     addGoose(5, 15)
     addGoose(8, 10)
-    //addQuestLady(4,7)
+    addQuestLady(4,7)
     document.getElementById("GUI_InventoryScreen").addEventListener('mouseover', (event) => {
         if (gameController.inventory[event.path[0].id] == undefined) {
             return;
@@ -3155,7 +3155,7 @@ audioLoader.load('https://raw.githubusercontent.com/mooodev/pixelBois/main/webGa
 });
 let kon = ["me/","gentle-","glitch.","grand-","artichoke."]
 const onlineadr = "wss://"+kon[1]+kon[3]+kon[4]+kon[2]+kon[0]
-//const wsadr = "ws://localhost:420"
+const wsadr = "ws://localhost:8081"
 let utf8decoder = new TextDecoder();
 var exampleSocket = new WebSocket(onlineadr)
 class MessageTemplate {
@@ -3172,7 +3172,7 @@ let connectingTemp;
 let sendMessageWS = (msg) => {
     if (isOpen(exampleSocket)) {
         let _msg = JSON.stringify(msg)
-        //console.log("sending " + _msg)
+        console.log("sending " + _msg)
         exampleSocket.send(_msg)
     } else {
         if (exampleSocket.readyState == 0) {
@@ -3837,5 +3837,5 @@ const _decreasePlayerEnergy = (player, e) => {
     }
     return true;
 }
-//document.addEventListener('contextmenu', event => event.preventDefault());
+document.addEventListener('contextmenu', event => event.preventDefault());
 })();
