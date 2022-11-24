@@ -9,9 +9,9 @@ Collection of crazy NFT boiz <3
 -adding gamefied minting and staking process  <br>
 -game prototyping  <br>
 
-## Protogame 
+## Protogame Uno
 -2.5D graphics with lightning and reflections etc.<br>
--Farming  <br>
+-Farming, trading, questing  <br>
 -Peer-to-peer chat connection between players via WEB-RTC <br>
 -Pathfinding<br>
 -Day/Night & weather cycles  <br>
