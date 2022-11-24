@@ -11,7 +11,7 @@ Collection of crazy NFT boiz <3
 
 ## Protogame Uno
 -2.5D graphics with lightning and reflections etc.<br>
--Farming, trading, questing  <br>
+-Blockchain Farming, trading, questing  <br>
 -Peer-to-peer chat connection between players via WEB-RTC <br>
 -Pathfinding<br>
 -Day/Night & weather cycles  <br>
