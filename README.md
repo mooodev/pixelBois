@@ -16,6 +16,6 @@ Collection of crazy NFT boiz <3
 -Pathfinding<br>
 -Day/Night & weather cycles  <br>
 
-<img src="https://raw.githubusercontent.com/mooodev/pixelBois/main/breathtakingSite/images/nighGif.gif">
+<img src="https://raw.githubusercontent.com/mooodev/pixelBois/main/breathtakingSite/images/cycleGif1.gif">
 
 Github lit af
