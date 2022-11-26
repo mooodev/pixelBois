@@ -3804,5 +3804,78 @@ const shareMessageWithWorld = () => {
     sendMessageWS(_helloMsg)
 }
 
+
 const reciveNewChatMessage = (data) => {
     if (data.msg.text.length > 256 || data.msg.boid.length > 10) return;
+    let _text = data.msg.boid + ":" + " " + JSON.stringify(data.msg.text);
+    _postChatMessage(_text)
+}
+
+const _saySiteHello = () => {
+    let _siteMsg = new MessageTemplate
+    _siteMsg.type = 'site:hello'
+    sendMessageWS(_siteMsg)
+}
+
+const _requestWaterBucket = () => {
+    let _siteMsg = new MessageTemplate
+    _siteMsg.type = 'game:waterbucket'
+    _siteMsg.msg = {
+        boid: gameController.boid
+    }
+    sendMessageWS(_siteMsg)
+}
+const _requestWaterRefill = () => {
+    let _siteMsg = new MessageTemplate
+    _siteMsg.type = 'game:waterRefill'
+    _siteMsg.msg = {
+        boid: gameController.boid
+    }
+    sendMessageWS(_siteMsg)
+}
+
+
+const _startQuest = () => {
+    let _siteMsg = new MessageTemplate
+    _siteMsg.type = 'game:quest'
+    _siteMsg.msg = {
+        boid: gameController.boid
+    }
+    gameController.firstQuest = false;
+    //  planeShopKeep.material.map = _texQuestAwait;
+    sendMessageWS(_siteMsg)
+}
+
+const _getTime = () => {
+    let _siteMsg = new MessageTemplate
+    _siteMsg.type = 'game:time'
+    _siteMsg.msg = {
+        boid: gameController.boid
+    }
+    sendMessageWS(_siteMsg)
+}
+
+const _secondsToMinutes = (seconds) => {
+    let _minutes = Math.floor(seconds / 60)
+    let leftOver = ((seconds / 60) - Math.floor(seconds / 60)) * 60
+    let time = _minutes + ":" + Math.round(leftOver)
+    return time;
+}
+
+
+const _decreasePlayerEnergy = (player, e) => {
+    player.energy -= e;
+    if (player.energy <= 0) {
+        sound_fail.play();
+        player.energy = 0
+        return false;
+    }
+    if (!player.energy) {
+        sound_fail.play();
+        player.energy = 0
+        return false;
+    }
+    return true;
+}
+document.addEventListener('contextmenu', event => event.preventDefault());
+})();
