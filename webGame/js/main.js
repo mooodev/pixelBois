@@ -172,10 +172,11 @@ class PfpDownloader {
             console.log(ev)
             
          let _arrtest = ev.composedPath()
-         let _boiidtest = _arrtest[3]
+         let _boiidtest = _arrtest[2]
+         
           console.log(_boiidtest )
            testvar1 = ev.composedPath()
-            selectBoi(ev.path[2].id, ev.path[2])
+            selectBoi(_boiidtest.id , _boiidtest)
         });
 
         // let _healthBarDiv = document.createElement("div");
