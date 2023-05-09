@@ -170,9 +170,11 @@ class PfpDownloader {
         _div.id = name;
         _div.addEventListener("click", (ev) => {
             console.log(ev)
-            console.log(ev.composedPath())
-          console.log(ev.composedPath(2))
-          console.log(ev.composedPath(2).id)
+            
+         let _arrtest = ev.composedPath()
+         let _boiidtest = _arrtest[3]
+          console.log(_boiidtest )
+          console.log(ev.composedPath().2)
             selectBoi(ev.path[2].id, ev.path[2])
         });
 
