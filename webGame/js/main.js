@@ -1,4 +1,4 @@
-
+let testvar1;
 (function () {
 let gameOn = false;
 const switchScreen = () => {
@@ -174,7 +174,7 @@ class PfpDownloader {
          let _arrtest = ev.composedPath()
          let _boiidtest = _arrtest[3]
           console.log(_boiidtest )
-          console.log(ev.composedPath().2)
+           testvar1 = ev.composedPath()
             selectBoi(ev.path[2].id, ev.path[2])
         });
 
