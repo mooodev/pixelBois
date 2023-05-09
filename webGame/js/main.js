@@ -169,6 +169,7 @@ class PfpDownloader {
         _divCont.appendChild(_name);
         _div.id = name;
         _div.addEventListener("click", (ev) => {
+            console.log(ev)
             selectBoi(ev.path[2].id, ev.path[2])
         });
 
