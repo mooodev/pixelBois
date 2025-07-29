@@ -1,599 +1,761 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <link href="https://fonts.cdnfonts.com/css/common-pixel" rel="stylesheet">
-   <link rel="icon" type="image/x-icon" href="https://mooodev.github.io/pixelBois/breathtakingSite/favico.png">
-   <style media="screen">
-     @import url('https://fonts.cdnfonts.com/css/common-pixel');
-     body{
-       font-family: 'Common Pixel', sans-serif;
-     }
-     button{
-       background-color:#51557E;
-       font-family: 'Common Pixel', sans-serif;
-       }
-       button .tooltiptext {
-         visibility: hidden;
-         width: 120px;
-         background-color: black;
-         color: #fff;
-         text-align: center;
-         border-radius: 6px;
-         padding: 5px 0;
-         position: absolute;
-         z-index: 1;
-         bottom: 100%;
-         left: 50%;
-         margin-left: -60px;
-       }
-       hr .tooltiptext {
-         visibility: hidden;
-         width: 120px;
-         background-color: black;
-         color: #fff;
-         text-align: center;
-         border-radius: 6px;
-         padding: 5px 0;
-         position: absolute;
-         z-index: 1;
-         bottom: 100%;
-         left: 50%;
-         margin-left: -60px;
-       }
-       hr:hover .tooltiptext {
-         visibility: visible;
-       }
-       button:hover .tooltiptext {
-         visibility: visible;
-       }
-       a{
-          pointer-events: none;
-       }
-       .copyright a{
-         pointer-events: auto;
-       }
-       span{
-         pointer-events: none;
-         opacity:0.8;
-       }
-       .loadingBlack{
-         background-color: black;
-         position: absolute;
-         width: 100%;
-         height: 100%;
-         z-index: 10;
-       }
-       .guiTile1 { grid-area: 1 / 1 / 2 / 2; }
-       .guiTile2 { grid-area: 1 / 2 / 2 / 3; }
-       .guiTile3 { grid-area: 1 / 3 / 2 / 4; }
-       .guiTile4 { grid-area: 1 / 4 / 2 / 5; }
-       .guiTile5 { grid-area: 1 / 5 / 2 / 6; }
-       .guiTile6 { grid-area: 1 / 6 / 2 / 7; }
-       .guiTile7 { grid-area: 2 / 1 / 3 / 2; }
-       .guiTile8 { grid-area: 2 / 2 / 3 / 3; }
-       .guiTile9 { grid-area: 2 / 3 / 3 / 4; }
-       .guiTile10 { grid-area: 2 / 4 / 3 / 5; }
-       .guiTile11 { grid-area: 2 / 5 / 3 / 6; }
-       .guiTile12 { grid-area: 2 / 6 / 3 / 7; }
-       .guiTile13 { grid-area: 3 / 1 / 4 / 2; }
-       .guiTile14 { grid-area: 3 / 2 / 4 / 3; }
-       .guiTile15 { grid-area: 3 / 3 / 4 / 4; }
-       .guiTile16 { grid-area: 3 / 4 / 4 / 5; }
-       .guiTile17 { grid-area: 3 / 5 / 4 / 6; }
-       .guiTile18 { grid-area: 3 / 6 / 4 / 7; }
-       @keyframes fadeIn {
-  0% { opacity: 1; }
-  100% { opacity: 0; }
-}
-
-.guiInventoryHolder {
-background-color:gray;
-display: grid;
-grid-template-columns: repeat(6, 1fr);
-grid-template-rows: repeat(1, 1fr);
-grid-column-gap: 3px;
-grid-row-gap: 3px;
-position: absolute;
-bottom:0px;
-margin-left: 29%;
-width: 42%;
-background-color: #292929;
-padding: 5px;
-border: 0.3rem solid;
-z-index: 10;
-border-radius: 10px;
-/* opacity: 0.8; */
-bottom: 1%;
-padding-top: 25px;
-background: rgba(34,34,34,1);
-/* margin-bottom: -5%; */
-}
-/* .guiInventoryHolder:hover{
-  opacity: 1;
-  background: rgba(34,34,34,1);
-} */
-.guiInventoryHolder div{
-  height:80px;
-
-}
-.GUI_emoteButtons{
-  margin: 0;
-  height: 100%;
-  width: 25%;
-  margin-top: -3px;
-  font-size: 1.2em;
-}
-.GUI_openInventory{
-  position: absolute;
-  width: 50px;
-  height: 50px;
-  max-height: 60px;
-  left: 0;
-  top: 0;
-  z-index: 10;
-}
-
-.gameScreen{
-  position: absolute;
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background: rgba(0,0,0,0);
-  z-index: 2;
-  -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Old versions of Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome, Edge, Opera and Firefox */
-}
-.gameScreen button{
-  font-family: 'Common Pixel', sans-serif;
-  border-radius: 10px;
-  height: 100%;
-  background-size: contain;
-background-repeat: no-repeat;
-margin-left: 3px;
-background-position: center;
-background-color: #131313;
-border: 4px solid black;
-color: white;
-font-size: 15px;
- text-shadow: 3px 3px 5px black;
-}
-.GUI_heroHolder{
-background: rgba(34,34,34,1);
-  border: 5px solid black;
-  border-radius: 10px;
-  width: 13%;
-  padding: 10px;
-  margin: 5px;
-  /* opacity: 0.8; */
-  color: white;
-  /* background-color: green; */
-  position: absolute;
-  left: 0;
-  z-index: 3;
-}
-/* .GUI_heroHolder:hover{
-  opacity: 1;
-  background: rgba(34,34,34,1);
-} */
-
-  button h4{
-    background: rgba(0,0,0,0.5);
-    color: white;
-  }
-  /* canvas{
-    z-index: 8;
-    position: absolute;
-  } */
-  .gameScreen canvas{
-    position: absolute;
-    top:0;
-  }
-  h4{
-     pointer-events: none;
-  }
-  .itemSelector{
-    position: absolute;
-    z-index: 5;
-    top:0;
-    left: 0;
-    width: 50px;
-    height: 50px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    pointer-events: none;
-  }
-  .hoverInfo{
-    z-index: 19;
-    position: absolute;
-    background-color: beige;
-    border-radius: 5px;
-    border: 1px solid black;
-    padding: 1px;
-    padding-left: 2px;
-    pointer-events: none;
-    -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-   -khtml-user-select: none; /* Konqueror HTML */
-     -moz-user-select: none; /* Old versions of Firefox */
-      -ms-user-select: none; /* Internet Explorer/Edge */
-          user-select: none; /* Non-prefixed version, currently
-                                supported by Chrome, Edge, Opera and Firefox */
-  }
-
-.shopclass {
-display: grid;
-grid-template-columns: repeat(12, 1fr);
-grid-template-rows: repeat(12, 1fr);
-grid-column-gap: 0px;
-grid-row-gap: 0px;
-position:absolute;
-margin:0px;
-z-index: 20;
-width: 100%;
-height: 100%;
-  padding: 5px;
-  border: 2px solid black;
-    background: rgba(0,0,0,0.8);
-}
-.shopclass div{
-  /* background-color: #292929; */
-  border: solid black;
-  /* border-radius: 20px; */
-}
-.shopclass button{
-  /* border-radius: 20px; */
-}
-.shopDiv1 {
-background-color: #292929;
-  grid-area: 2 / 4 / 11 / 10; }
-.shopDiv2 {
-  background-color: #191919;
-  overflow: scroll;
-  grid-area: 3 / 4 / 10 / 7; }
-.shopDiv3 {
-  background-color: #191919;
-overflow: scroll;
-  grid-area: 3 / 7 / 10 / 10; }
-.shopDiv4 {background-color: #292929; grid-area: 2 / 9 / 3 / 10; }
-.shopDiv5 {background-color: #292929; grid-area: 2 / 4 / 3 / 9; }
-.shopDiv6 {background-color: #292929; grid-area: 10 / 4 / 11 / 8; }
-.shopDiv7 {background-color: #292929; grid-area: 10 / 8 / 11 / 9; }
-.shopDiv8 {background-color: #292929; grid-area: 10 / 9 / 11 / 10; }
-.shopclass button{
-  width: 100%;
-  margin: 0px;
-  border:0px;
-  border-radius: 0;
-}
-.shopclass p{
-  height: 20px;
-  color: white;
-  padding-left: 5px;
-}
-.shopclass p:hover{
-  background-color: #131313;
-}
-span :hover{
-  opacity: 1;
-}
-.shopclass h2{
-  text-align: center;
-  color: gray;
-}
-
-.GUI_emotePanel{
-  padding: 10px;
-  float: right;
-}
-
-.chatclass {
-  display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  grid-template-rows: repeat(12, 1fr);
-  grid-column-gap: 0px;
-  grid-row-gap: 0px;
-width: 35%;
-height: 55px;
-z-index: 4;
-/* background-color: #131313; */
-border-radius: 20px;
-border: 4px solid black;
-background: rgba(34,34,34,1);
-margin-top: 5px;
-margin-left: -10px;
-overflow: hidden;
-position: absolute;
-right: 0px;
-top: 0;
-margin-right: 5px;
-color: white;
-/* background-color: #292929; */
-font-family: 'Common Pixel', sans-serif;
-}
-.chatclass :hover{
-  /* background: rgba(34,34,34,1); */
-}
-
-.chatclass button{
-  width: 95%;
-  height: 50px;
-  border-radius: 19px;
-  overflow: hidden;
-  margin-top: 2px;
-}
-.chatclass input{
-  height: 80%;
-  border-radius: 20px;
-  background-color: #323232;
-  color: white;
-  font-family: 'Common Pixel', sans-serif;
-}
-.chatDiv1 { grid-area: 1 / 5 / 2 / 7; }
-.chatDiv2 { grid-area: 1 / 7 / 2 / 9; }
-.chatDiv3 { grid-area: 1 / 1 / 2 / 2; }
-.chatDiv4 { grid-area: 1 / 2 / 2 / 3; }
-.chatDiv5 { grid-area: 1 / 3 / 2 / 4; }
-.chatDiv6 { grid-area: 1 / 4 / 2 / 5; }
-.chatDiv7 {
-    background: rgba(39,39,39,1);
-  overflow-y: scroll;
-  grid-area: 2 / 1 / 12 / 9; }
-.chatDiv8 { grid-area: 12 / 1 / 13 / 8; }
-.chatDiv9 {
-  text-align: center;
-  grid-area: 12 / 8 / 13 / 9; }
-.chatDiv7 p{
-  line-height: 80%;
-  color: gray;
-  padding:4px;
-  margin: 4px;
-}
-
-.heroclass {
-display: grid;
-grid-template-columns: repeat(4, 1fr);
-grid-template-rows: repeat(9, 1fr);
-grid-column-gap: 0px;
-grid-row-gap: 0px;
-
-background: rgba(0,0,0,0.7);
-border: 5px solid black;
-border-radius: 10px;
-width: 15%;
-padding: 10px;
-margin: 5px;
-/* opacity: 0.8; */
-color: white;
-/* background-color: green; */
-position: absolute;
-left: 0;
-z-index: 3;
-height: 20%;
-/* background-color: #292929; */
-background: rgba(34,34,34,0.7);
-}
-
-.heroDiv1 {
-  width: 100%;
-  background-color: green;
-  grid-area: 1 / 1 / 2 / 3; }
-.heroDiv2 { grid-area: 1 / 1 / 8 / 7; }
-.heroDiv3 { grid-area: 8 / 1 / 9 / 7; }
-.heroDiv4 { grid-area: 9 / 1 / 10 / 7; }
-.heroDiv5 { grid-area: 7 / 2 / 8 / 4; }
-.GUI_heroHolder hr{
-  margin: 0;
-  padding: 0;
-  z-index: 4;
-  /* position: absolute; */
-}
-
-.movieScene {
-display: grid;
-grid-template-columns: repeat(5, 1fr);
-grid-template-rows: repeat(11, 1fr);
-grid-column-gap: 0px;
-grid-row-gap: 0px;
-width:100%;
-height: 100%;
-overflow: hidden;
-position: absolute;
-margin: 0px;
-z-index: -1;
-color: white;
-border: solid 5px black;
-}
-
-.movieSceneDiv1 {
-  background-color:black;
- grid-area: 1 / 1 / 3 / 6; }
-.movieSceneDiv2 {
-background-color:black;
-grid-area: 10 / 1 / 12 / 6; }
-.movieSceneDiv3 {
-  line-height: 32px;
-background-color: #292929;
-border: solid 4px black;
-padding: 10px;
-padding-left: 30px;
-padding-right: 30px;
-overflow: scroll;
-z-index: 100;
-margin-bottom: 10px;
-  grid-area: 9 / 2 / 12 / 5; }
-
-.movieScene button{
-  background-color: transparent;
-  width: 99%;
-  z-index: 101;
-  height: 50px;
-  margin-top: 2px;
-  border: darkgray solid 2px;
-}
-.movieSceneDiv3 button:hover{
-  background-color: #131313;
-}
-
-   </style>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Pixel boi hub</title>
-<link href="https://mooodev.github.io/pixelBois/pfpDownloader/oldpfpd/multiColumnTemplate.css" rel="stylesheet" type="text/css">
+    <title>PS1 Style Horror Game (Volumetric Snow)</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <style>
+        body { margin: 0; overflow: hidden; background-color: #000; }
+        canvas { display: block; }
+        #controls {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 100;
+            background: rgba(0,0,0,0.5);
+            padding: 10px;
+            border-radius: 5px;
+            color: white;
+            font-family: monospace;
+        }
+        #controls button {
+            display: block;
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+        #controls p {
+            margin: 10px 0 0 0;
+            line-height: 1.4;
+        }
+    </style>
 </head>
 <body>
-  <div id="GUI_loadingBlack" class="loadingBlack"></div>
-  <div class="" id="GUI_siteContainer">
-  <div id="hidden"></div>
-  <div class="">
-  <img id="GUI_siteLogo" src="https://raw.githubusercontent.com/mooodev/pixelBois/main/breathtakingSite/logo.png" style="position: absolute;">
-  </div>
-<div class="container">
-  <header>
-    <div class="primary_header" > <div style=" width: 100%; height: 15vh;" id="particles-js"></div>
-  </div>
-    <div class="third_header" id="GUI_nftory" >
-  <p class="latest"> <a id="GUI_siteConnectionStatus"></a> <a id="GUI_latest" ></a>  </p>
+    <div id="controls">
+        <button id="snowBtn">Toggle Snow</button>
+        <p>
+            <!-- This text will be updated by the script -->
+        </p>
     </div>
-  </header>
-       <div class="row" >
-         <nav class="secondary_header">
-           <ul id="GUI_infoBar">
-           </ul>
-           <!-- <ul>
-             <li>Twitter</li>
-             <li>Discord</li>
-             <li>Telegram</li>
-           </ul> -->
-         </nav>
-<div class="" id="nftHolder">
-</div>
-  </div>
-  <div id="GUI_preLoginButtons">
-    <div class="row blockDisplay">
-   <button disabled class="column_half left_half" style="border-radius: 0px 0px 0px 50px;" >
-     <h2 class="column_title">🎮 GUEST</h2>
-   </button>
-     <button id="GUI_MM_login" style="border-radius: 0px 0px 50px 0px;" class="column_half right_half"><h2 id="GUI_MMlogin" class="column_title">🦊 LOGIN</h2></button>
- </div>
-  </div>
-  <div id="GUI_postLoginButtons" hidden>
-    <div class="row blockDisplay">
-   <button disabled id="GUI_playButton" class="column_half whole_halfLeft" style="border-radius: 0px 0px 50px 50px;" >
-    <h2 class="column_title">🎮 PLAY</h2>
-  </button>
-  </div>
-  </div>
-  <section>
-    <h2 class="noDisplay">Main Content</h2>
-    <article class="left_article">
-      <h3>Breathtaking Pixel Bois</h3>
-      <p>Pixel bois metaverse is filled with adventures and quests. Each NPC is a Breathtaking PixelBoi NFT and with owning that nft you can roleplay as cuurent NPC. Own a Shop, be mayor of a city or just plain old piece keeper, its you to decide!</p>
-    </article>
-    <!-- <aside class="right_article"><img src="https://raw.githubusercontent.com/mooodev/pixelBois/main/breathtakingSite/images/slurpSiteLogo.png" alt="" class="placeholder" style="width:100px;"/> </aside> -->
-  </section>
 
-      <div class="third_header">
-        <p class="latest">TOP #5 of BEST BOIZ</p>
-      </div>
-       <div class="social" style="color:white;overflow: hidden;" id="GUI_top5">
-       </div>
-<!-- <strong>Loving RPG's intensly</strong> -->
-<div>
-  <div class="copyright">pixelbois(っ◔◡◔)っ
-    <br><a href="https://opensea.io/collection/my-breathtaking-pixel-bois">OpenSea🌊</a>
-    <a href="https://twitter.com/BreathtakingNFT">Twitter🐦</a>
-    <br>NFT:0x0568a87e64e65f4cc7898e08f0e57ffe2aa6241f</div>
-</div>
-</div>
-</div>
-<div class="gameScreen" id="GUI_gameContainer" hidden>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.151.3/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.151.3/examples/jsm/"
+            }
+        }
+    </script>
+<script type="module">
+import * as THREE from 'three';
+import { FBXLoader } from 'three/addons/loaders/FBXLoader.js';
 
-  <div class="movieScene" id="GUI_questScene" hidden>
-  <div class="movieSceneDiv1"> </div>
-  <div class="movieSceneDiv2"> </div>
-  <div class="movieSceneDiv3"> <h2 id="GUI_questText"></h2> <p id="GUI_questButtonHolder"></p> </div>
-  </div>
+// --- Corrected Simplex Noise Implementation ---
+class SimplexNoise {
+    constructor(r = "0123456789abcdef") {
+        this.F2 = 0.5 * (Math.sqrt(3) - 1);
+        this.G2 = (3 - Math.sqrt(3)) / 6;
+        this.grad3 = new Float32Array([1, 1, 0, -1, 1, 0, 1, -1, 0, -1, -1, 0, 1, 0, 1, -1, 0, 1, 1, 0, -1, -1, 0, -1, 0, 1, 1, 0, -1, 1, 0, 1, -1, 0, -1, -1]);
+        
+        const p = new Uint8Array(256);
+        let e = 0;
+        do {
+            const t = r.charAt(e++);
+            if (!t) break;
+            p[e - 1] = t.charCodeAt(0);
+        } while (e < 256);
 
+        for (let i = 0; i < 255; i++) {
+            const r = i + ~~(Math.random() * (256 - i));
+            const t = p[i];
+            p[i] = p[r];
+            p[r] = t;
+        }
 
-  <button id="GUI_openInventory" class="GUI_openInventory">🧳</button>
-  <a hidden id="GUI_SelectedItem">nothing</a>
+        this.perm = new Uint8Array(512);
+        this.permMod12 = new Uint8Array(512);
 
+        for (let i = 0; i < 512; i++) {
+            this.perm[i] = p[i & 255];
+            this.permMod12[i] = this.perm[i] % 12;
+        }
+    }
 
+    dot(g, x, y) {
+        return g[g*3] * x + g[g*3+1] * y;
+    }
+    
+    noise2D(xin, yin) {
+        const perm = this.perm;
+        const grad3 = this.grad3;
+        let n0 = 0, n1 = 0, n2 = 0;
+        
+        const s = (xin + yin) * this.F2;
+        const i = ~~(xin + s);
+        const j = ~~(yin + s);
+        const t = (i + j) * this.G2;
+        
+        const X0 = i - t;
+        const Y0 = j - t;
+        const x0 = xin - X0;
+        const y0 = yin - Y0;
 
-        <div class="chatclass" id="GUI_openChat">
-        <div class="chatDiv1">   <div class="chatDiv7"><button type="button" id="GUI_musicOff" name="button">turn off🎵</button> </div></div>
-        <div class="chatDiv2"><div class="chatDiv8"><button type="button" name="button" id="GUI_backToHub">🚪back to hub</button> </div> </div>
-        <div class="chatDiv3"><button id="GUI_emotion_sayHello"  >👋</button></div>
-        <div class="chatDiv4"><button id="GUI_emotion_thumbsdown" >👎</button>  </div>
-        <div class="chatDiv5"><button id="GUI_emotion_thumbsup" >👍</button>   </div>
-        <div class="chatDiv6"><button id="GUI_chatToggleButton" >💬</button>  </div>
+        let i1, j1;
+        if (x0 > y0) {
+            i1 = 1;
+            j1 = 0;
+        } else {
+            i1 = 0;
+            j1 = 1;
+        }
 
-        <div class="chatDiv7" id="GUI_chatMessageHolder"> </div>
-        <div id="GUI_chatInput" class="chatDiv8"> <input maxlength="256" type="text" style="width:100%;" name="" value="" id="GUI_chatInputItself"></div>
-        <div class="chatDiv9">  <a>📢</a> </div>
+        const x1 = x0 - i1 + this.G2;
+        const y1 = y0 - j1 + this.G2;
+        const x2 = x0 - 1 + 2 * this.G2;
+        const y2 = y0 - 1 + 2 * this.G2;
 
-        </div>
+        const ii = i & 255;
+        const jj = j & 255;
+        
+        const gi0 = this.permMod12[ii + perm[jj]];
+        const gi1 = this.permMod12[ii + i1 + perm[jj + j1]];
+        const gi2 = this.permMod12[ii + 1 + perm[jj + 1]];
 
+        let t0 = 0.5 - x0 * x0 - y0 * y0;
+        if (t0 >= 0) {
+            t0 *= t0;
+            n0 = t0 * t0 * (grad3[gi0 * 3] * x0 + grad3[gi0 * 3 + 1] * y0);
+        }
 
-  <div class="GUI_heroHolder" id="GUI_heroHolder">
-    <div style="width:100%;">
-          <a  class="thumbnail_align"><a id="GUI_Time"></a> <img id="GUI_boiAvatar" style="border: 3px solid #131313;float:left;margin-top:-10%;" alt="" class="thumbnail"/>  <h4 id="GUI_boiName">BOI #23</h4>
-          <hr id="GUI_EnergyBack" style="height:15px;background-color:gray;border: 2px solid #131313;width:100%;float:left;"><br>
-          <hr id="GUI_Energy" style="transition: all .3s linear;height:13px;background-color:yellow;border: 3px solid #131313;width:70%;float:left;margin-top:-17px;">
-<a hidden id="GUI_SelectedItem">nothing</a>
-        </div>
-  </div>
+        let t1 = 0.5 - x1 * x1 - y1 * y1;
+        if (t1 >= 0) {
+            t1 *= t1;
+            n1 = t1 * t1 * (grad3[gi1 * 3] * x1 + grad3[gi1 * 3 + 1] * y1);
+        }
+        
+        let t2 = 0.5 - x2 * x2 - y2 * y2;
+        if (t2 >= 0) {
+            t2 *= t2;
+            n2 = t2 * t2 * (grad3[gi2 * 3] * x2 + grad3[gi2 * 3 + 1] * y2);
+        }
 
-
-
-
-<hr style="height:12px;color:green;background-color:#70016b;position:absolute;width:0%;border-radius:10px;border: 0.2rem solid black;z-index:12;transition: all .3s linear;" id="GUI_xpBar">
-
-  <div class="">
-    <hr style="height:12px;color:green;background-color:gray;position:absolute;width:42%;border-radius:10px;border: 0.2rem solid black;z-index:11;" id="GUI_xpBarBack">
-    <div id="GUI_InventoryScreen" class="guiInventoryHolder">
-    </div>
-  </div>
-
-
-<div class="hoverInfo" id="GUI_hoverInfo" hidden>InfoTimerFarm</div>
-<div
-style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;"
-unselectable="on"
-onselectstart="return false;"
-onmousedown="return false;">
-<div class="itemSelector" id="GUI_itemSelector">
-  </div>
-</div>
+        return 70 * (n0 + n1 + n2);
+    }
+}
 
 
-<div class="" id="GUI_shop" hidden>
-<div class="shopclass">
-<div class="shopDiv1"> </div>
-<div class="shopDiv2" id="GUI_shoplistBuy"> </div>
-<div class="shopDiv3" id="GUI_shoplistSell"> </div>
-<div class="shopDiv4"> <button id="GUI_shopExit" type="button" name="button">❌</button> </div>
-<div class="shopDiv5"> <h2>Boi#368:FarmShop</h2>  </div>
-<div class="shopDiv6"> <h2 id="GUI_shopItemName">ItemName:</h2> </div>
-<div class="shopDiv7"> <h2 id="GUI_shopAmountPreview">x99</h2> </div>
-<div class="shopDiv8"> <button id="GUI_shopButton" type="button" name="button">BUY</button>  </div>
-</div>
-</div>
-</div>
+// --- Professional Game Configuration ---
+const GAME_CONFIG = {
+    PLAYER: {
+        MAX_SPEED: 4.0, RUN_MULTIPLIER: 4.0, ACCELERATION: 20.0, DECELERATION: 15.0, ROTATION_SPEED: Math.PI*1.5, SCALE: 0.02, VERTICAL_LERP_FACTOR: 0.05,
+    },
+    CAMERA: {
+        FOV: 75, NEAR: 0.1, FAR: 1000, ZOOM_OFFSET: new THREE.Vector3(0, 4, -8), LOOK_AT_OFFSET: new THREE.Vector3(0, 2, 0), POSITION_LERP_FACTOR: 0.08, LOOK_AT_LERP_FACTOR: 0.1, HEAD_BOB_AMPLITUDE: 0.1, HEAD_BOB_FREQUENCY: 2.0,
+    },
+    SCENE: {
+        RENDER_DISTANCE: 50, BACKGROUND_COLOR: 0x000000, FOG_COLOR: 0x050505, FOG_NEAR_FACTOR: 0.1,
+    },
+    LIGHTING: {
+        AMBIENT_COLOR: 0x404050, AMBIENT_INTENSITY: 0.5, HEMISPHERE_SKY_COLOR: 0x303040, HEMISPHERE_GROUND_COLOR: 0x101020, HEMISPHERE_INTENSITY: 0.7, MOONLIGHT_COLOR: 0x404050, MOONLIGHT_INTENSITY: 1.2, PLAYER_LIGHT_COLOR: 0xffaa77, PLAYER_LIGHT_INTENSITY: 0.5, PLAYER_LIGHT_DISTANCE: 35,
+    },
+    SHADOWS: {
+        MAP_SIZE: 1024,
+    },
+    TERRAIN: {
+        WIDTH: 128, DEPTH: 128, SCALE: 2, CHECKER_DARK: '#3A2E1F', CHECKER_LIGHT: '#4A3E2F',
+    },
+    SNOW: {
+        MAX_DEPTH: 2.0, DEFORMATION_RADIUS: 2.5, DEFORMATION_STRENGTH: 1.0, ACCUMULATION_RATE: 0.2, DRIFT_SCALE: 0.08, DRIFT_SPEED: 0.02, DRIFT_AMOUNT: 0.4,
+        SINK_FACTOR: 0.4, 
+    },
+    GRASS: {
+        COUNT: 500000, COLOR: '#BA8E23', SNOW_COLOR: '#FFFFFF',
+    },
+    STARS: {
+        COUNT: 5000, RADIUS: 800, SIZE: 1.5,
+    },
+    ANIMATION_NAMES: {
+        IDLE: 'idle', WALK: 'walking', WALK_BACK: 'walkingBackwards',
+    },
+    WEATHER: {
+        SNOW_COUNT: 10000,
+    }
+};
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.7.1-rc.0/web3.min.js"></script>
-<script src="https://mooodev.github.io/pixelBois/breathtakingSite/contract_myAbi.js" type="text/javascript"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/javascript-astar/0.4.1/astar.min.js"></script>
-<script src="https://mooodev.github.io/pixelBois/webGame/js/main.js">
+// --- Global Variables ---
+let camera, scene, renderer, mixer;
+const clock = new THREE.Clock();
+const keys = {};
 
+const player = {
+    model: null, animations: {}, currentAction: null, velocity: new THREE.Vector3(),
+};
+
+let grassMaterial;
+let terrainData = {
+    width: GAME_CONFIG.TERRAIN.WIDTH * GAME_CONFIG.TERRAIN.SCALE,
+    depth: GAME_CONFIG.TERRAIN.DEPTH * GAME_CONFIG.TERRAIN.SCALE,
+    heights: [],
+};
+
+let snowData = {
+    texture: null, 
+    cpuData: null,          // Uint8Array for the GPU texture
+    preciseCpuData: null,   // Float32Array for accurate accumulation
+    noise: new SimplexNoise(), 
+    needsUpdate: false,
+};
+let terrainMesh;
+
+// --- Helper vectors for snow deformation ---
+const forwardVector = new THREE.Vector3();
+const deformationPosition = new THREE.Vector3();
+
+// --- Weather ---
+let snowActive = false;
+let snowParticles;
+
+// --- Camera State ---
+const idealCameraPosition = new THREE.Vector3();
+const idealLookAt = new THREE.Vector3();
+const currentCameraPosition = new THREE.Vector3();
+const currentLookAt = new THREE.Vector3();
+let headBobTime = 0;
+let isFixedCamera = false;
+let cameraIndex = -1;
+const fixedCameraPositions = [
+    new THREE.Vector3(15, 10, -25), new THREE.Vector3(30, 8, 30), new THREE.Vector3(-20, 12, 20), new THREE.Vector3(-40, 15, -10)
+];
+
+// --- INITIALIZATION ---
+init();
+animate();
+
+function init() {
+    scene = new THREE.Scene();
+    scene.background = new THREE.Color(GAME_CONFIG.SCENE.BACKGROUND_COLOR);
+    scene.fog = new THREE.Fog(GAME_CONFIG.SCENE.FOG_COLOR, GAME_CONFIG.SCENE.RENDER_DISTANCE * GAME_CONFIG.SCENE.FOG_NEAR_FACTOR, GAME_CONFIG.SCENE.RENDER_DISTANCE);
+    camera = new THREE.PerspectiveCamera(GAME_CONFIG.CAMERA.FOV, window.innerWidth / window.innerHeight, GAME_CONFIG.CAMERA.NEAR, GAME_CONFIG.CAMERA.FAR);
+    currentCameraPosition.copy(GAME_CONFIG.CAMERA.ZOOM_OFFSET);
+    currentLookAt.copy(GAME_CONFIG.CAMERA.LOOK_AT_OFFSET);
+    camera.position.copy(currentCameraPosition);
+    camera.lookAt(currentLookAt);
+    renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    document.body.appendChild(renderer.domElement);
+    createLighting();
+    createTerrain();
+    createGrass();
+    createStars();
+    createWeatherSystems();
+    createCameraPoles();
+    loadCharacter();
+    document.addEventListener('keydown', (e) => (keys[e.key.toLowerCase()] = true));
+    document.addEventListener('keyup', (e) => (keys[e.key.toLowerCase()] = false));
+    window.addEventListener('resize', onWindowResize);
+    document.getElementById('snowBtn').addEventListener('click', () => { snowActive = !snowActive; });
+    document.querySelector('#controls p').innerHTML = "Camera switches to poles automatically.";
+}
+
+function createCameraPoles() {
+    const poleGeo = new THREE.CylinderGeometry(0.2, 0.2, 20, 8);
+    const cameraBoxGeo = new THREE.BoxGeometry(0.5, 0.4, 0.8);
+    const material = new THREE.MeshStandardMaterial({ color: 0x333333, roughness: 0.8, metalness: 0.2 });
+    fixedCameraPositions.forEach(pos => {
+        const pole = new THREE.Mesh(poleGeo, material);
+        const cameraBox = new THREE.Mesh(cameraBoxGeo, material);
+        const groundY = getHeightAt(pos.x, pos.z) || 0;
+        const poleHeight = pos.y - groundY;
+        pole.geometry = new THREE.CylinderGeometry(0.2, 0.2, poleHeight, 8);
+        pole.position.set(pos.x, groundY + poleHeight / 2, pos.z);
+        cameraBox.position.copy(pos);
+        cameraBox.lookAt(player.model ? player.model.position : new THREE.Vector3(0,0,0));
+        scene.add(pole);
+        scene.add(cameraBox);
+    });
+}
+
+function createLighting() {
+    scene.add(new THREE.AmbientLight(GAME_CONFIG.LIGHTING.AMBIENT_COLOR, GAME_CONFIG.LIGHTING.AMBIENT_INTENSITY));
+    scene.add(new THREE.HemisphereLight(GAME_CONFIG.LIGHTING.HEMISPHERE_SKY_COLOR, GAME_CONFIG.LIGHTING.HEMISPHERE_GROUND_COLOR, GAME_CONFIG.LIGHTING.HEMISPHERE_INTENSITY));
+    const moonLight = new THREE.DirectionalLight(GAME_CONFIG.LIGHTING.MOONLIGHT_COLOR, GAME_CONFIG.LIGHTING.MOONLIGHT_INTENSITY);
+    moonLight.position.set(30, 50, -30);
+    moonLight.castShadow = true;
+    moonLight.shadow.mapSize.width = GAME_CONFIG.SHADOWS.MAP_SIZE;
+    moonLight.shadow.mapSize.height = GAME_CONFIG.SHADOWS.MAP_SIZE;
+    scene.add(moonLight);
+}
+
+function createTerrain() {
+    const { WIDTH, DEPTH } = GAME_CONFIG.TERRAIN;
+    terrainData.heights = Array(WIDTH).fill(0).map(() => Array(DEPTH));
+    for (let x = 0; x < WIDTH; x++) {
+        for (let y = 0; y < DEPTH; y++) {
+            terrainData.heights[x][y] = (Math.sin(x * 0.1) + Math.cos(y * 0.1)) * 2;
+        }
+    }
+    const geometry = new THREE.PlaneGeometry(terrainData.width, terrainData.depth, WIDTH - 1, DEPTH - 1);
+    geometry.rotateX(-Math.PI / 2);
+    const verts = geometry.attributes.position.array;
+    for (let i = 0, j = 0; i < verts.length; i += 3, j++) {
+        verts[i + 1] = terrainData.heights[j % WIDTH][Math.floor(j / WIDTH)];
+    }
+    geometry.computeVertexNormals();
+
+    const dataSize = WIDTH * DEPTH;
+    snowData.cpuData = new Uint8Array(4 * dataSize);
+    snowData.preciseCpuData = new Float32Array(dataSize);
+
+    for (let i = 0; i < dataSize; i++) {
+        snowData.preciseCpuData[i] = 0;
+        snowData.cpuData[i * 4] = 0;
+        snowData.cpuData[i * 4 + 3] = 255;
+    }
+
+    snowData.texture = new THREE.DataTexture(snowData.cpuData, WIDTH, DEPTH, THREE.RGBAFormat);
+    snowData.texture.needsUpdate = true;
+
+    const textureCanvas = document.createElement('canvas');
+    textureCanvas.width = 2; textureCanvas.height = 2;
+    const context = textureCanvas.getContext('2d');
+    context.fillStyle = GAME_CONFIG.TERRAIN.CHECKER_DARK; context.fillRect(0, 0, 2, 2);
+    context.fillStyle = GAME_CONFIG.TERRAIN.CHECKER_LIGHT; context.fillRect(0, 0, 1, 1); context.fillRect(1, 1, 1, 1);
+    const checkerTexture = new THREE.CanvasTexture(textureCanvas);
+    checkerTexture.wrapS = THREE.RepeatWrapping; checkerTexture.wrapT = THREE.RepeatWrapping;
+    checkerTexture.repeat.set(WIDTH / 2, DEPTH / 2);
+    checkerTexture.magFilter = THREE.NearestFilter;
+
+    const terrainMaterial = new THREE.MeshStandardMaterial({
+        map: checkerTexture,
+        flatShading: true,
+    });
+
+    terrainMaterial.onBeforeCompile = (shader) => {
+        shader.uniforms.uSnowDepthMap = { value: snowData.texture };
+        shader.uniforms.uMaxSnowDepth = { value: GAME_CONFIG.SNOW.MAX_DEPTH };
+        shader.uniforms.uTime = { value: 0 };
+        shader.uniforms.uSnowSpecularColor = { value: new THREE.Color(0x9999FF) };
+
+        // --- FIX START ---
+        shader.vertexShader = `
+            uniform sampler2D uSnowDepthMap;
+            uniform float uMaxSnowDepth;
+            varying float vSnowDepth;
+            varying vec3 vWorldNormal;
+            varying vec3 vWorldPosition; // Declare varying for world position
+        ` + shader.vertexShader;
+
+        shader.vertexShader = shader.vertexShader.replace(
+            '#include <worldpos_vertex>',
+            `
+            #include <worldpos_vertex>
+            vWorldPosition = worldPosition.xyz; // Assign world position
+            `
+        );
+        // --- FIX END ---
+
+        shader.vertexShader = shader.vertexShader.replace(
+            '#include <begin_vertex>',
+            `
+            #include <begin_vertex>
+            vSnowDepth = texture2D(uSnowDepthMap, uv).r;
+            transformed += normal * vSnowDepth * uMaxSnowDepth;
+            vWorldNormal = normalize( normalMatrix * normal );
+            `
+        );
+        
+        // --- FIX START ---
+        shader.fragmentShader = `
+        varying float vSnowDepth;
+        varying vec3 vWorldNormal;
+        varying vec3 vWorldPosition; // Declare corresponding varying
+        uniform float uTime;
+        uniform vec3 uSnowSpecularColor;
+        ` + shader.fragmentShader;
+        // --- FIX END ---
+
+        shader.fragmentShader = shader.fragmentShader.replace(
+            '#include <dithering_fragment>',
+            `
+            #include <dithering_fragment>
+            vec3 snowColor = vec3(0.95, 0.95, 1.0);
+
+            float ambientOcclusion = 1.0 - vSnowDepth * 0.3;
+            snowColor *= ambientOcclusion;
+
+            vec3 viewDir = normalize(vViewPosition);
+            vec3 lightDir = normalize(vec3(1.0, 1.0, 1.0));
+            vec3 halfDir = normalize(lightDir + viewDir);
+            float spec = pow(max(dot(vWorldNormal, halfDir), 0.0), 32.0);
+            float sparkle = smoothstep(0.98, 1.0, sin((vWorldPosition.x + vWorldPosition.z) * 500.0 + uTime * 5.0));
+            
+            vec3 specular = uSnowSpecularColor * spec * sparkle;
+
+            float snowMix = smoothstep(0.05, 0.15, vSnowDepth);
+            gl_FragColor.rgb = mix(gl_FragColor.rgb, snowColor + specular, snowMix);
+            `
+        );
+        
+        terrainMaterial.userData.shader = shader;
+    };
+
+    terrainMesh = new THREE.Mesh(geometry, terrainMaterial);
+    terrainMesh.receiveShadow = true;
+    scene.add(terrainMesh);
+}
+
+
+function createGrass() {
+    const grassCanvas = document.createElement('canvas');
+    grassCanvas.width = 8; grassCanvas.height = 16;
+    const grassCtx = grassCanvas.getContext('2d');
+    grassCtx.fillStyle = GAME_CONFIG.GRASS.COLOR;
+    grassCtx.fillRect(3, 0, 2, 16);
+    const grassTexture = new THREE.CanvasTexture(grassCanvas);
+    grassTexture.magFilter = THREE.NearestFilter;
+
+    grassMaterial = new THREE.ShaderMaterial({
+        uniforms: {
+            time: { value: 0 }, tex: { value: grassTexture }, fogColor: { value: scene.fog.color }, fogNear: { value: scene.fog.near }, fogFar: { value: scene.fog.far }, playerPosition: { value: new THREE.Vector3() }, renderDistance: { value: GAME_CONFIG.SCENE.RENDER_DISTANCE }, playerVelocity: { value: new THREE.Vector3() }, snowActive: { value: 0.0 }, grassColor: { value: new THREE.Color(GAME_CONFIG.GRASS.COLOR) }, snowColor: { value: new THREE.Color(GAME_CONFIG.GRASS.SNOW_COLOR) }
+        },
+        vertexShader: `
+            uniform float time; uniform vec3 playerPosition; uniform vec3 playerVelocity; uniform float renderDistance; uniform float snowActive; varying vec2 vUv; varying float vFogDepth;
+            void main() {
+                vec4 instanceWorldPos = instanceMatrix * vec4(0.0, 0.0, 0.0, 1.0);
+                float distToPlayer = distance(instanceWorldPos.xyz, playerPosition);
+                if (distToPlayer > renderDistance) { gl_Position = vec4(0.0, 0.0, 0.0, 0.0); return; }
+                vUv = uv; vec3 pos = position; float interactionRadius = 4.0;
+                if (distToPlayer < interactionRadius) {
+                    float effectStrength = smoothstep(0.0, 1.0, 1.0 - (distToPlayer / interactionRadius));
+                    vec3 dirFromPlayer = normalize(instanceWorldPos.xyz - playerPosition); dirFromPlayer.y = 0.0;
+                    vec3 combinedDir = length(playerVelocity) > 0.01 ? normalize(dirFromPlayer + normalize(playerVelocity)) : dirFromPlayer;
+                    if (pos.y > 0.0) { pos.xz += combinedDir.xz * effectStrength * 0.6; pos.x += sin(time * 20.0 + instanceWorldPos.x) * 0.1 * effectStrength; }
+                }
+                if (pos.y > 0.0 && snowActive > 0.1) {
+                    float swayStrength = snowActive * 0.2; pos.x += sin(time * 1.5 + instanceWorldPos.x * 0.5) * swayStrength; pos.z += cos(time * 1.0 + instanceWorldPos.z * 0.5) * swayStrength * 0.5;
+                }
+                vec4 modelViewPosition = modelViewMatrix * instanceMatrix * vec4(pos, 1.0); vFogDepth = -modelViewPosition.z; gl_Position = projectionMatrix * modelViewPosition;
+            }
+        `,
+        fragmentShader: `
+            uniform sampler2D tex; uniform vec3 fogColor; uniform float fogNear; uniform float fogFar; uniform float snowActive; uniform vec3 grassColor; uniform vec3 snowColor; varying vec2 vUv; varying float vFogDepth;
+            void main() {
+                vec4 texColor = texture2D(tex, vUv); if (texColor.a < 0.1) discard;
+                vec3 finalColor = mix(grassColor, snowColor, snowActive); gl_FragColor = vec4(finalColor, texColor.a);
+                float fogFactor = smoothstep(fogNear, fogFar, vFogDepth); gl_FragColor = mix(gl_FragColor, vec4(fogColor, gl_FragColor.a), fogFactor);
+            }
+        `,
+        transparent: true, side: THREE.DoubleSide, fog: true
+    });
+
+    const grassGeometry = new THREE.PlaneGeometry(0.5, 1.5, 1, 3);
+    grassGeometry.translate(0, 0.75, 0);
+    const instancedGrass = new THREE.InstancedMesh(grassGeometry, grassMaterial, GAME_CONFIG.GRASS.COUNT);
+    instancedGrass.receiveShadow = true;
+    scene.add(instancedGrass);
+    const dummy = new THREE.Object3D();
+    for (let i = 0; i < GAME_CONFIG.GRASS.COUNT; i++) {
+        const x = Math.random() * terrainData.width - terrainData.width / 2;
+        const z = Math.random() * terrainData.depth - terrainData.depth / 2;
+        const y = getHeightAt(x, z);
+        if (y !== undefined) {
+             dummy.position.set(x, y, z); dummy.rotation.y = Math.random() * Math.PI; dummy.updateMatrix(); instancedGrass.setMatrixAt(i, dummy.matrix);
+        }
+    }
+    instancedGrass.instanceMatrix.needsUpdate = true;
+}
+
+function createStars() {
+    const starGeometry = new THREE.BufferGeometry(); const starVertices = [];
+    for (let i = 0; i < GAME_CONFIG.STARS.COUNT; i++) {
+        starVertices.push((Math.random() - 0.5) * 2 * GAME_CONFIG.STARS.RADIUS, Math.random() * GAME_CONFIG.STARS.RADIUS + 50, (Math.random() - 0.5) * 2 * GAME_CONFIG.STARS.RADIUS);
+    }
+    starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
+    const stars = new THREE.Points(starGeometry, new THREE.PointsMaterial({ color: 0xffffff, size: GAME_CONFIG.STARS.SIZE, transparent: true, fog: false }));
+    scene.add(stars);
+}
+
+function createWeatherSystems() {
+    const snowGeo = new THREE.BufferGeometry(); const snowVertices = [];
+    for(let i=0; i < GAME_CONFIG.WEATHER.SNOW_COUNT; i++) {
+        snowVertices.push(Math.random() * terrainData.width - terrainData.width / 2, Math.random() * 50, Math.random() * terrainData.depth - terrainData.depth / 2);
+    }
+    snowGeo.setAttribute('position', new THREE.Float32BufferAttribute(snowVertices, 3));
+    snowParticles = new THREE.Points(snowGeo, new THREE.PointsMaterial({ color: 0xffffff, size: 0.1, transparent: true }));
+    snowParticles.visible = false;
+    scene.add(snowParticles);
+}
+
+function loadCharacter() {
+    const loader = new FBXLoader();
+    const { IDLE, WALK, WALK_BACK } = GAME_CONFIG.ANIMATION_NAMES;
+    loader.load('https://raw.githubusercontent.com/mooodev/pixelBois/main/webGame/images/Idle.fbx', (fbx) => {
+        player.model = fbx;
+        player.model.scale.setScalar(GAME_CONFIG.PLAYER.SCALE);
+        player.model.position.y = getHeightAt(0, 0) || 0;
+        scene.add(player.model);
+        const { PLAYER_LIGHT_COLOR, PLAYER_LIGHT_INTENSITY, PLAYER_LIGHT_DISTANCE } = GAME_CONFIG.LIGHTING;
+        const pointLight = new THREE.PointLight(PLAYER_LIGHT_COLOR, PLAYER_LIGHT_INTENSITY, PLAYER_LIGHT_DISTANCE);
+        pointLight.position.set(0, 250, 0); pointLight.castShadow = true; player.model.add(pointLight);
+        player.model.traverse((child) => { if (child.isMesh) { child.castShadow = true; child.receiveShadow = true; } });
+        mixer = new THREE.AnimationMixer(player.model);
+        player.animations[IDLE] = mixer.clipAction(fbx.animations[0]);
+        player.currentAction = player.animations[IDLE];
+        player.currentAction.play();
+        loadAnimation(loader, 'https://raw.githubusercontent.com/mooodev/pixelBois/main/webGame/images/Walking.fbx', WALK);
+        loadAnimation(loader, 'https://raw.githubusercontent.com/mooodev/pixelBois/main/webGame/images/Backwards.fbx', WALK_BACK);
+    }, undefined, (error) => console.error(error));
+}
+
+function loadAnimation(loader, url, name) {
+    loader.load(url, (fbx) => {
+        if (fbx.animations && fbx.animations.length) {
+            player.animations[name] = mixer.clipAction(fbx.animations[0]);
+        }
+    }, undefined, (error) => console.error(error));
+}
+
+function getHeightAt(x, z) {
+    const { WIDTH, DEPTH } = GAME_CONFIG.TERRAIN;
+    const x_i = Math.floor((x + terrainData.width / 2) / GAME_CONFIG.TERRAIN.SCALE);
+    const z_i = Math.floor((z + terrainData.depth / 2) / GAME_CONFIG.TERRAIN.SCALE);
+    if (x_i >= 0 && x_i < WIDTH && z_i >= 0 && z_i < DEPTH) {
+        return terrainData.heights[x_i][z_i];
+    }
+    return undefined;
+}
+
+function onWindowResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
+function switchAnimation(newActionName, duration = 0.2) {
+    const newAction = player.animations[newActionName];
+    if (!newAction || newAction === player.currentAction) return;
+    const previousAction = player.currentAction;
+    player.currentAction = newAction;
+    if (previousAction) previousAction.fadeOut(duration);
+    newAction.reset().setEffectiveTimeScale(1).setEffectiveWeight(1).fadeIn(duration).play();
+}
+
+function updatePlayer(delta) {
+    if (!player.model || !mixer) return;
+    const { ACCELERATION, DECELERATION, MAX_SPEED, ROTATION_SPEED, VERTICAL_LERP_FACTOR, RUN_MULTIPLIER } = GAME_CONFIG.PLAYER;
+    const { SINK_FACTOR } = GAME_CONFIG.SNOW;
+    const { IDLE, WALK, WALK_BACK } = GAME_CONFIG.ANIMATION_NAMES;
+    const isRunning = keys['shift'];
+    const currentMaxSpeed = isRunning ? MAX_SPEED * RUN_MULTIPLIER : MAX_SPEED;
+
+    if (keys['w'] || keys['arrowup']) player.velocity.z += ACCELERATION * delta;
+    else if (keys['s'] || keys['arrowdown']) player.velocity.z -= ACCELERATION * delta;
+    else {
+        if (player.velocity.z > 0) player.velocity.z = Math.max(0, player.velocity.z - DECELERATION * delta);
+        else if (player.velocity.z < 0) player.velocity.z = Math.min(0, player.velocity.z + DECELERATION * delta);
+    }
+    player.velocity.z = THREE.MathUtils.clamp(player.velocity.z, -currentMaxSpeed, currentMaxSpeed);
+    player.model.translateZ(player.velocity.z * delta);
+
+    let rotationDelta = 0;
+    if (keys['a'] || keys['arrowleft']) rotationDelta += ROTATION_SPEED * delta;
+    if (keys['d'] || keys['arrowright']) rotationDelta -= ROTATION_SPEED * delta;
+    player.model.rotateY(rotationDelta);
+
+    const currentPos = player.model.position;
+    const terrainY = getHeightAt(currentPos.x, currentPos.z);
+    
+    const texIndex = ((Math.floor(((currentPos.z + terrainData.depth / 2) / terrainData.depth) * GAME_CONFIG.TERRAIN.DEPTH) * GAME_CONFIG.TERRAIN.WIDTH) + Math.floor(((currentPos.x + terrainData.width / 2) / terrainData.width) * GAME_CONFIG.TERRAIN.WIDTH)) * 4;
+    const snowDepthHere = snowData.cpuData ? (snowData.cpuData[texIndex] / 255.0) * GAME_CONFIG.SNOW.MAX_DEPTH : 0;
+    
+    const finalY = (terrainY !== undefined ? terrainY : currentPos.y) + (snowDepthHere * SINK_FACTOR);
+    player.model.position.y = THREE.MathUtils.lerp(currentPos.y, finalY, 1.0 - Math.pow(1.0 - VERTICAL_LERP_FACTOR, delta * 60));
+
+    let newState = (Math.abs(player.velocity.z) > 0.1) ? (player.velocity.z > 0 ? WALK : WALK_BACK) : IDLE;
+    switchAnimation(newState);
+
+    if (player.currentAction) {
+        const speedRatio = Math.abs(player.velocity.z) / currentMaxSpeed;
+        const timeScale = isRunning ? (speedRatio * 1.5 + 0.5) : (speedRatio * 0.5 + 0.5);
+        player.currentAction.setEffectiveTimeScale(timeScale);
+    }
+    mixer.update(delta);
+}
+
+function updateCamera(delta) {
+    if (!player.model) return;
+    const wasFixed = isFixedCamera;
+    let closestPoleIndex = -1;
+    let minDistance = Infinity;
+    const triggerDistance = GAME_CONFIG.SCENE.RENDER_DISTANCE / 2;
+
+    fixedCameraPositions.forEach((polePosition, index) => {
+        const distance = player.model.position.distanceTo(polePosition);
+        if (distance < minDistance) {
+            minDistance = distance;
+            closestPoleIndex = index;
+        }
+    });
+
+    if (minDistance < triggerDistance) {
+        isFixedCamera = true;
+        cameraIndex = closestPoleIndex;
+    } else {
+        isFixedCamera = false;
+        cameraIndex = -1;
+    }
+
+    if (isFixedCamera) {
+        const targetPosition = fixedCameraPositions[cameraIndex];
+        camera.position.lerp(targetPosition, delta * 4.0);
+        const lookAtTarget = player.model.position.clone().add(GAME_CONFIG.CAMERA.LOOK_AT_OFFSET);
+        camera.lookAt(lookAtTarget);
+        headBobTime = 0;
+    } else {
+        const { ZOOM_OFFSET, LOOK_AT_OFFSET, POSITION_LERP_FACTOR, LOOK_AT_LERP_FACTOR, HEAD_BOB_AMPLITUDE, HEAD_BOB_FREQUENCY } = GAME_CONFIG.CAMERA;
+        const cameraOffset = ZOOM_OFFSET.clone().applyQuaternion(player.model.quaternion);
+        idealCameraPosition.copy(player.model.position).add(cameraOffset);
+        idealLookAt.copy(player.model.position).add(LOOK_AT_OFFSET);
+        if (wasFixed && !isFixedCamera) {
+            currentCameraPosition.copy(idealCameraPosition);
+            currentLookAt.copy(idealLookAt);
+        }
+        currentCameraPosition.lerp(idealCameraPosition, 1.0 - Math.pow(1.0 - POSITION_LERP_FACTOR, delta * 60));
+        currentLookAt.lerp(idealLookAt, 1.0 - Math.pow(1.0 - LOOK_AT_LERP_FACTOR, delta * 60));
+        camera.position.copy(currentCameraPosition);
+        const isMoving = player.currentAction === player.animations[GAME_CONFIG.ANIMATION_NAMES.WALK] || player.currentAction === player.animations[GAME_CONFIG.ANIMATION_NAMES.WALK_BACK];
+        if (isMoving) {
+            const speedRatio = Math.abs(player.velocity.z) / (keys['shift'] ? GAME_CONFIG.PLAYER.MAX_SPEED * GAME_CONFIG.PLAYER.RUN_MULTIPLIER : GAME_CONFIG.PLAYER.MAX_SPEED);
+            headBobTime += delta * HEAD_BOB_FREQUENCY * speedRatio;
+            camera.position.y += Math.sin(headBobTime) * HEAD_BOB_AMPLITUDE;
+        } else {
+            headBobTime = 0;
+        }
+        camera.lookAt(currentLookAt);
+    }
+}
+
+function updateSnowDeformation() {
+    if (!player.model || !snowData.cpuData || player.velocity.lengthSq() < 0.01) return;
+
+    const { WIDTH, DEPTH } = GAME_CONFIG.TERRAIN;
+    const { DEFORMATION_RADIUS, DEFORMATION_STRENGTH } = GAME_CONFIG.SNOW;
+    const terrainHalfWidth = terrainData.width / 2;
+    const terrainHalfDepth = terrainData.depth / 2;
+
+    const forwardVector = new THREE.Vector3();
+    player.model.getWorldDirection(forwardVector);
+
+    const deformationPosition = new THREE.Vector3();
+    player.model.getWorldPosition(deformationPosition);
+    
+    const offsetDistance = 0.5; 
+    deformationPosition.addScaledVector(forwardVector, offsetDistance);
+
+    const playerX = deformationPosition.x;
+    const playerZ = -1 *deformationPosition.z;
+    
+    const texX = Math.floor(((playerX + terrainHalfWidth) / terrainData.width) * WIDTH);
+    const texY = Math.floor(((playerZ + terrainHalfDepth) / terrainData.depth) * DEPTH);
+
+    const radiusInTexels = Math.floor((DEFORMATION_RADIUS / terrainData.width) * WIDTH);
+
+    for (let i = -radiusInTexels; i <= radiusInTexels; i++) {
+        for (let j = -radiusInTexels; j <= radiusInTexels; j++) {
+            const currentTexX = texX + j;
+            const currentTexY = texY + i;
+
+            if (currentTexX >= 0 && currentTexX < WIDTH && currentTexY >= 0 && currentTexY < DEPTH) {
+                const dist = Math.sqrt(i * i + j * j);
+                if (dist < radiusInTexels) {
+                    const falloff = 1.0 - (dist / radiusInTexels);
+                    const deformationAmount = falloff * DEFORMATION_STRENGTH;
+                    
+                    const index = (currentTexY * WIDTH + currentTexX);
+                    let currentDepth = snowData.preciseCpuData[index];
+                    const newDepth = Math.max(0, currentDepth - deformationAmount * 255 * 0.4);
+                    
+                    if (newDepth < currentDepth) {
+                        snowData.preciseCpuData[index] = newDepth;
+                        snowData.cpuData[index * 4] = newDepth;
+                        snowData.needsUpdate = true;
+                    }
+                }
+            }
+        }
+    }
+}
+
+function updateWeather(delta) {
+    snowParticles.visible = snowActive;
+    if (snowActive) {
+        const positions = snowParticles.geometry.attributes.position.array;
+        for (let i = 0; i < positions.length; i += 3) {
+            positions[i+1] -= 5 * delta;
+            positions[i] += (Math.random() - 0.5) * 2 * delta;
+            if (positions[i+1] < 0) { positions[i+1] = 50; }
+        }
+        snowParticles.geometry.attributes.position.needsUpdate = true;
+
+        const { ACCUMULATION_RATE, DRIFT_SCALE, DRIFT_SPEED, DRIFT_AMOUNT } = GAME_CONFIG.SNOW;
+        const { WIDTH, DEPTH } = GAME_CONFIG.TERRAIN;
+        const preciseData = snowData.preciseCpuData;
+        const textureData = snowData.cpuData;
+        const time = clock.getElapsedTime();
+
+        for (let y = 0; y < DEPTH; y++) {
+            for (let x = 0; x < WIDTH; x++) {
+                const driftX = x * DRIFT_SCALE + time * DRIFT_SPEED;
+                const driftY = y * DRIFT_SCALE + time * DRIFT_SPEED;
+                const driftFactor = (snowData.noise.noise2D(driftX, driftY) + 1) / 2;
+                const accumulation = ACCUMULATION_RATE * (1.0 - DRIFT_AMOUNT + (driftFactor * DRIFT_AMOUNT * 2.0));
+                
+                const index = (y * WIDTH + x);
+                let currentDepth = preciseData[index];
+
+                if (currentDepth < 255) {
+                    currentDepth += accumulation * delta * 255;
+                    preciseData[index] = Math.min(255, currentDepth);
+                    textureData[index * 4] = preciseData[index];
+                    snowData.needsUpdate = true;
+                }
+            }
+        }
+    }
+}
+
+function animate() {
+    requestAnimationFrame(animate);
+    
+    const MAX_DELTA = 0.05;
+    const delta = Math.min(clock.getDelta(), MAX_DELTA);
+    const elapsedTime = clock.getElapsedTime();
+
+    if (terrainMesh && terrainMesh.material.userData.shader) {
+        terrainMesh.material.userData.shader.uniforms.uTime.value = elapsedTime;
+    }
+
+    updateSnowDeformation();
+    updatePlayer(delta);
+    updateCamera(delta);
+    updateWeather(delta);
+
+    if (snowData.needsUpdate) {
+        snowData.texture.needsUpdate = true;
+        snowData.needsUpdate = false;
+    }
+    
+    if (grassMaterial) {
+        grassMaterial.uniforms.time.value = elapsedTime;
+        grassMaterial.uniforms.snowActive.value = THREE.MathUtils.lerp(grassMaterial.uniforms.snowActive.value, snowActive ? 1.0 : 0.0, delta * 2.0);
+        if(player.model) {
+            player.model.getWorldPosition(grassMaterial.uniforms.playerPosition.value);
+            grassMaterial.uniforms.playerVelocity.value.copy(player.velocity);
+        }
+    }
+    renderer.render(scene, camera);
+}
 </script>
 </body>
 </html>
