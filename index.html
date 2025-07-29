@@ -1,184 +1,599 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
 <head>
-    <title>PS1 Style Third-Person Game</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-    <style>
-        body { margin: 0; overflow: hidden; }
-        canvas { width: 100%; height: 100% }
-    </style>
+  <link href="https://fonts.cdnfonts.com/css/common-pixel" rel="stylesheet">
+   <link rel="icon" type="image/x-icon" href="https://mooodev.github.io/pixelBois/breathtakingSite/favico.png">
+   <style media="screen">
+     @import url('https://fonts.cdnfonts.com/css/common-pixel');
+     body{
+       font-family: 'Common Pixel', sans-serif;
+     }
+     button{
+       background-color:#51557E;
+       font-family: 'Common Pixel', sans-serif;
+       }
+       button .tooltiptext {
+         visibility: hidden;
+         width: 120px;
+         background-color: black;
+         color: #fff;
+         text-align: center;
+         border-radius: 6px;
+         padding: 5px 0;
+         position: absolute;
+         z-index: 1;
+         bottom: 100%;
+         left: 50%;
+         margin-left: -60px;
+       }
+       hr .tooltiptext {
+         visibility: hidden;
+         width: 120px;
+         background-color: black;
+         color: #fff;
+         text-align: center;
+         border-radius: 6px;
+         padding: 5px 0;
+         position: absolute;
+         z-index: 1;
+         bottom: 100%;
+         left: 50%;
+         margin-left: -60px;
+       }
+       hr:hover .tooltiptext {
+         visibility: visible;
+       }
+       button:hover .tooltiptext {
+         visibility: visible;
+       }
+       a{
+          pointer-events: none;
+       }
+       .copyright a{
+         pointer-events: auto;
+       }
+       span{
+         pointer-events: none;
+         opacity:0.8;
+       }
+       .loadingBlack{
+         background-color: black;
+         position: absolute;
+         width: 100%;
+         height: 100%;
+         z-index: 10;
+       }
+       .guiTile1 { grid-area: 1 / 1 / 2 / 2; }
+       .guiTile2 { grid-area: 1 / 2 / 2 / 3; }
+       .guiTile3 { grid-area: 1 / 3 / 2 / 4; }
+       .guiTile4 { grid-area: 1 / 4 / 2 / 5; }
+       .guiTile5 { grid-area: 1 / 5 / 2 / 6; }
+       .guiTile6 { grid-area: 1 / 6 / 2 / 7; }
+       .guiTile7 { grid-area: 2 / 1 / 3 / 2; }
+       .guiTile8 { grid-area: 2 / 2 / 3 / 3; }
+       .guiTile9 { grid-area: 2 / 3 / 3 / 4; }
+       .guiTile10 { grid-area: 2 / 4 / 3 / 5; }
+       .guiTile11 { grid-area: 2 / 5 / 3 / 6; }
+       .guiTile12 { grid-area: 2 / 6 / 3 / 7; }
+       .guiTile13 { grid-area: 3 / 1 / 4 / 2; }
+       .guiTile14 { grid-area: 3 / 2 / 4 / 3; }
+       .guiTile15 { grid-area: 3 / 3 / 4 / 4; }
+       .guiTile16 { grid-area: 3 / 4 / 4 / 5; }
+       .guiTile17 { grid-area: 3 / 5 / 4 / 6; }
+       .guiTile18 { grid-area: 3 / 6 / 4 / 7; }
+       @keyframes fadeIn {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.guiInventoryHolder {
+background-color:gray;
+display: grid;
+grid-template-columns: repeat(6, 1fr);
+grid-template-rows: repeat(1, 1fr);
+grid-column-gap: 3px;
+grid-row-gap: 3px;
+position: absolute;
+bottom:0px;
+margin-left: 29%;
+width: 42%;
+background-color: #292929;
+padding: 5px;
+border: 0.3rem solid;
+z-index: 10;
+border-radius: 10px;
+/* opacity: 0.8; */
+bottom: 1%;
+padding-top: 25px;
+background: rgba(34,34,34,1);
+/* margin-bottom: -5%; */
+}
+/* .guiInventoryHolder:hover{
+  opacity: 1;
+  background: rgba(34,34,34,1);
+} */
+.guiInventoryHolder div{
+  height:80px;
+
+}
+.GUI_emoteButtons{
+  margin: 0;
+  height: 100%;
+  width: 25%;
+  margin-top: -3px;
+  font-size: 1.2em;
+}
+.GUI_openInventory{
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  max-height: 60px;
+  left: 0;
+  top: 0;
+  z-index: 10;
+}
+
+.gameScreen{
+  position: absolute;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: rgba(0,0,0,0);
+  z-index: 2;
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+.gameScreen button{
+  font-family: 'Common Pixel', sans-serif;
+  border-radius: 10px;
+  height: 100%;
+  background-size: contain;
+background-repeat: no-repeat;
+margin-left: 3px;
+background-position: center;
+background-color: #131313;
+border: 4px solid black;
+color: white;
+font-size: 15px;
+ text-shadow: 3px 3px 5px black;
+}
+.GUI_heroHolder{
+background: rgba(34,34,34,1);
+  border: 5px solid black;
+  border-radius: 10px;
+  width: 13%;
+  padding: 10px;
+  margin: 5px;
+  /* opacity: 0.8; */
+  color: white;
+  /* background-color: green; */
+  position: absolute;
+  left: 0;
+  z-index: 3;
+}
+/* .GUI_heroHolder:hover{
+  opacity: 1;
+  background: rgba(34,34,34,1);
+} */
+
+  button h4{
+    background: rgba(0,0,0,0.5);
+    color: white;
+  }
+  /* canvas{
+    z-index: 8;
+    position: absolute;
+  } */
+  .gameScreen canvas{
+    position: absolute;
+    top:0;
+  }
+  h4{
+     pointer-events: none;
+  }
+  .itemSelector{
+    position: absolute;
+    z-index: 5;
+    top:0;
+    left: 0;
+    width: 50px;
+    height: 50px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    pointer-events: none;
+  }
+  .hoverInfo{
+    z-index: 19;
+    position: absolute;
+    background-color: beige;
+    border-radius: 5px;
+    border: 1px solid black;
+    padding: 1px;
+    padding-left: 2px;
+    pointer-events: none;
+    -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+     -moz-user-select: none; /* Old versions of Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+          user-select: none; /* Non-prefixed version, currently
+                                supported by Chrome, Edge, Opera and Firefox */
+  }
+
+.shopclass {
+display: grid;
+grid-template-columns: repeat(12, 1fr);
+grid-template-rows: repeat(12, 1fr);
+grid-column-gap: 0px;
+grid-row-gap: 0px;
+position:absolute;
+margin:0px;
+z-index: 20;
+width: 100%;
+height: 100%;
+  padding: 5px;
+  border: 2px solid black;
+    background: rgba(0,0,0,0.8);
+}
+.shopclass div{
+  /* background-color: #292929; */
+  border: solid black;
+  /* border-radius: 20px; */
+}
+.shopclass button{
+  /* border-radius: 20px; */
+}
+.shopDiv1 {
+background-color: #292929;
+  grid-area: 2 / 4 / 11 / 10; }
+.shopDiv2 {
+  background-color: #191919;
+  overflow: scroll;
+  grid-area: 3 / 4 / 10 / 7; }
+.shopDiv3 {
+  background-color: #191919;
+overflow: scroll;
+  grid-area: 3 / 7 / 10 / 10; }
+.shopDiv4 {background-color: #292929; grid-area: 2 / 9 / 3 / 10; }
+.shopDiv5 {background-color: #292929; grid-area: 2 / 4 / 3 / 9; }
+.shopDiv6 {background-color: #292929; grid-area: 10 / 4 / 11 / 8; }
+.shopDiv7 {background-color: #292929; grid-area: 10 / 8 / 11 / 9; }
+.shopDiv8 {background-color: #292929; grid-area: 10 / 9 / 11 / 10; }
+.shopclass button{
+  width: 100%;
+  margin: 0px;
+  border:0px;
+  border-radius: 0;
+}
+.shopclass p{
+  height: 20px;
+  color: white;
+  padding-left: 5px;
+}
+.shopclass p:hover{
+  background-color: #131313;
+}
+span :hover{
+  opacity: 1;
+}
+.shopclass h2{
+  text-align: center;
+  color: gray;
+}
+
+.GUI_emotePanel{
+  padding: 10px;
+  float: right;
+}
+
+.chatclass {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(12, 1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+width: 35%;
+height: 55px;
+z-index: 4;
+/* background-color: #131313; */
+border-radius: 20px;
+border: 4px solid black;
+background: rgba(34,34,34,1);
+margin-top: 5px;
+margin-left: -10px;
+overflow: hidden;
+position: absolute;
+right: 0px;
+top: 0;
+margin-right: 5px;
+color: white;
+/* background-color: #292929; */
+font-family: 'Common Pixel', sans-serif;
+}
+.chatclass :hover{
+  /* background: rgba(34,34,34,1); */
+}
+
+.chatclass button{
+  width: 95%;
+  height: 50px;
+  border-radius: 19px;
+  overflow: hidden;
+  margin-top: 2px;
+}
+.chatclass input{
+  height: 80%;
+  border-radius: 20px;
+  background-color: #323232;
+  color: white;
+  font-family: 'Common Pixel', sans-serif;
+}
+.chatDiv1 { grid-area: 1 / 5 / 2 / 7; }
+.chatDiv2 { grid-area: 1 / 7 / 2 / 9; }
+.chatDiv3 { grid-area: 1 / 1 / 2 / 2; }
+.chatDiv4 { grid-area: 1 / 2 / 2 / 3; }
+.chatDiv5 { grid-area: 1 / 3 / 2 / 4; }
+.chatDiv6 { grid-area: 1 / 4 / 2 / 5; }
+.chatDiv7 {
+    background: rgba(39,39,39,1);
+  overflow-y: scroll;
+  grid-area: 2 / 1 / 12 / 9; }
+.chatDiv8 { grid-area: 12 / 1 / 13 / 8; }
+.chatDiv9 {
+  text-align: center;
+  grid-area: 12 / 8 / 13 / 9; }
+.chatDiv7 p{
+  line-height: 80%;
+  color: gray;
+  padding:4px;
+  margin: 4px;
+}
+
+.heroclass {
+display: grid;
+grid-template-columns: repeat(4, 1fr);
+grid-template-rows: repeat(9, 1fr);
+grid-column-gap: 0px;
+grid-row-gap: 0px;
+
+background: rgba(0,0,0,0.7);
+border: 5px solid black;
+border-radius: 10px;
+width: 15%;
+padding: 10px;
+margin: 5px;
+/* opacity: 0.8; */
+color: white;
+/* background-color: green; */
+position: absolute;
+left: 0;
+z-index: 3;
+height: 20%;
+/* background-color: #292929; */
+background: rgba(34,34,34,0.7);
+}
+
+.heroDiv1 {
+  width: 100%;
+  background-color: green;
+  grid-area: 1 / 1 / 2 / 3; }
+.heroDiv2 { grid-area: 1 / 1 / 8 / 7; }
+.heroDiv3 { grid-area: 8 / 1 / 9 / 7; }
+.heroDiv4 { grid-area: 9 / 1 / 10 / 7; }
+.heroDiv5 { grid-area: 7 / 2 / 8 / 4; }
+.GUI_heroHolder hr{
+  margin: 0;
+  padding: 0;
+  z-index: 4;
+  /* position: absolute; */
+}
+
+.movieScene {
+display: grid;
+grid-template-columns: repeat(5, 1fr);
+grid-template-rows: repeat(11, 1fr);
+grid-column-gap: 0px;
+grid-row-gap: 0px;
+width:100%;
+height: 100%;
+overflow: hidden;
+position: absolute;
+margin: 0px;
+z-index: -1;
+color: white;
+border: solid 5px black;
+}
+
+.movieSceneDiv1 {
+  background-color:black;
+ grid-area: 1 / 1 / 3 / 6; }
+.movieSceneDiv2 {
+background-color:black;
+grid-area: 10 / 1 / 12 / 6; }
+.movieSceneDiv3 {
+  line-height: 32px;
+background-color: #292929;
+border: solid 4px black;
+padding: 10px;
+padding-left: 30px;
+padding-right: 30px;
+overflow: scroll;
+z-index: 100;
+margin-bottom: 10px;
+  grid-area: 9 / 2 / 12 / 5; }
+
+.movieScene button{
+  background-color: transparent;
+  width: 99%;
+  z-index: 101;
+  height: 50px;
+  margin-top: 2px;
+  border: darkgray solid 2px;
+}
+.movieSceneDiv3 button:hover{
+  background-color: #131313;
+}
+
+   </style>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pixel boi hub</title>
+<link href="https://mooodev.github.io/pixelBois/pfpDownloader/oldpfpd/multiColumnTemplate.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-    <script type="importmap">
-        {
-            "imports": {
-                "three": "https://unpkg.com/three@0.151.3/build/three.module.js",
-                "three/addons/": "https://unpkg.com/three@0.151.3/examples/jsm/"
-            }
-        }
-    </script>
-    <script type="module">
-        import * as THREE from 'three';
-        import { FBXLoader } from 'three/addons/loaders/FBXLoader.js';
-        import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
-        import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
-        import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
+  <div id="GUI_loadingBlack" class="loadingBlack"></div>
+  <div class="" id="GUI_siteContainer">
+  <div id="hidden"></div>
+  <div class="">
+  <img id="GUI_siteLogo" src="https://raw.githubusercontent.com/mooodev/pixelBois/main/breathtakingSite/logo.png" style="position: absolute;">
+  </div>
+<div class="container">
+  <header>
+    <div class="primary_header" > <div style=" width: 100%; height: 15vh;" id="particles-js"></div>
+  </div>
+    <div class="third_header" id="GUI_nftory" >
+  <p class="latest"> <a id="GUI_siteConnectionStatus"></a> <a id="GUI_latest" ></a>  </p>
+    </div>
+  </header>
+       <div class="row" >
+         <nav class="secondary_header">
+           <ul id="GUI_infoBar">
+           </ul>
+           <!-- <ul>
+             <li>Twitter</li>
+             <li>Discord</li>
+             <li>Telegram</li>
+           </ul> -->
+         </nav>
+<div class="" id="nftHolder">
+</div>
+  </div>
+  <div id="GUI_preLoginButtons">
+    <div class="row blockDisplay">
+   <button disabled class="column_half left_half" style="border-radius: 0px 0px 0px 50px;" >
+     <h2 class="column_title">🎮 GUEST</h2>
+   </button>
+     <button id="GUI_MM_login" style="border-radius: 0px 0px 50px 0px;" class="column_half right_half"><h2 id="GUI_MMlogin" class="column_title">🦊 LOGIN</h2></button>
+ </div>
+  </div>
+  <div id="GUI_postLoginButtons" hidden>
+    <div class="row blockDisplay">
+   <button disabled id="GUI_playButton" class="column_half whole_halfLeft" style="border-radius: 0px 0px 50px 50px;" >
+    <h2 class="column_title">🎮 PLAY</h2>
+  </button>
+  </div>
+  </div>
+  <section>
+    <h2 class="noDisplay">Main Content</h2>
+    <article class="left_article">
+      <h3>Breathtaking Pixel Bois</h3>
+      <p>Pixel bois metaverse is filled with adventures and quests. Each NPC is a Breathtaking PixelBoi NFT and with owning that nft you can roleplay as cuurent NPC. Own a Shop, be mayor of a city or just plain old piece keeper, its you to decide!</p>
+    </article>
+    <!-- <aside class="right_article"><img src="https://raw.githubusercontent.com/mooodev/pixelBois/main/breathtakingSite/images/slurpSiteLogo.png" alt="" class="placeholder" style="width:100px;"/> </aside> -->
+  </section>
 
-        // --- Shader Definition ---
-        // By defining the shader object here, we remove the need
-        // for an external file that doesn't exist on the CDN.
-        const PixelShader = {
-            uniforms: {
-                'tDiffuse': { value: null },
-                'resolution': { value: new THREE.Vector2() },
-                'pixelSize': { value: 1 },
-            },
-            vertexShader: /* glsl */`
-                varying highp vec2 vUv;
-                void main() {
-                    vUv = uv;
-                    gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
-                }`,
-            fragmentShader: /* glsl */`
-                uniform sampler2D tDiffuse;
-                uniform float pixelSize;
-                uniform vec2 resolution;
-                varying highp vec2 vUv;
-                void main(){
-                    vec2 dxy = pixelSize / resolution;
-                    vec2 coord = dxy * floor( vUv / dxy );
-                    gl_FragColor = texture2D(tDiffuse, coord);
-                }`
-        };
+      <div class="third_header">
+        <p class="latest">TOP #5 of BEST BOIZ</p>
+      </div>
+       <div class="social" style="color:white;overflow: hidden;" id="GUI_top5">
+       </div>
+<!-- <strong>Loving RPG's intensly</strong> -->
+<div>
+  <div class="copyright">pixelbois(っ◔◡◔)っ
+    <br><a href="https://opensea.io/collection/my-breathtaking-pixel-bois">OpenSea🌊</a>
+    <a href="https://twitter.com/BreathtakingNFT">Twitter🐦</a>
+    <br>NFT:0x0568a87e64e65f4cc7898e08f0e57ffe2aa6241f</div>
+</div>
+</div>
+</div>
+<div class="gameScreen" id="GUI_gameContainer" hidden>
 
-        let camera, scene, renderer, composer;
-        let mixer;
-        const clock = new THREE.Clock();
-        let player = { model: null, speed: 5, rotationSpeed: Math.PI / 2, state: 'idle' };
-        const keys = {};
+  <div class="movieScene" id="GUI_questScene" hidden>
+  <div class="movieSceneDiv1"> </div>
+  <div class="movieSceneDiv2"> </div>
+  <div class="movieSceneDiv3"> <h2 id="GUI_questText"></h2> <p id="GUI_questButtonHolder"></p> </div>
+  </div>
 
-        init();
-        animate();
 
-        function init() {
-            // Scene
-            scene = new THREE.Scene();
-            scene.background = new THREE.Color(0xa0a0a0);
-            scene.fog = new THREE.Fog(0xa0a0a0, 20, 100);
+  <button id="GUI_openInventory" class="GUI_openInventory">🧳</button>
+  <a hidden id="GUI_SelectedItem">nothing</a>
 
-            // Camera
-            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.set(0, 5, 10);
 
-            // Renderer
-            renderer = new THREE.WebGLRenderer({ antialias: false }); // No antialiasing for PS1 look
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            document.body.appendChild(renderer.domElement);
 
-            // PS1 Style Post-Processing
-            composer = new EffectComposer(renderer);
-            const renderPass = new RenderPass(scene, camera);
-            composer.addPass(renderPass);
+        <div class="chatclass" id="GUI_openChat">
+        <div class="chatDiv1">   <div class="chatDiv7"><button type="button" id="GUI_musicOff" name="button">turn off🎵</button> </div></div>
+        <div class="chatDiv2"><div class="chatDiv8"><button type="button" name="button" id="GUI_backToHub">🚪back to hub</button> </div> </div>
+        <div class="chatDiv3"><button id="GUI_emotion_sayHello"  >👋</button></div>
+        <div class="chatDiv4"><button id="GUI_emotion_thumbsdown" >👎</button>  </div>
+        <div class="chatDiv5"><button id="GUI_emotion_thumbsup" >👍</button>   </div>
+        <div class="chatDiv6"><button id="GUI_chatToggleButton" >💬</button>  </div>
 
-            const pixelPass = new ShaderPass(PixelShader);
-            pixelPass.uniforms["resolution"].value = new THREE.Vector2(window.innerWidth, window.innerHeight);
-            pixelPass.uniforms["resolution"].value.multiplyScalar(window.devicePixelRatio);
-            pixelPass.uniforms["pixelSize"].value = 8; // Adjust this for a more or less pixelated look
-            composer.addPass(pixelPass);
+        <div class="chatDiv7" id="GUI_chatMessageHolder"> </div>
+        <div id="GUI_chatInput" class="chatDiv8"> <input maxlength="256" type="text" style="width:100%;" name="" value="" id="GUI_chatInputItself"></div>
+        <div class="chatDiv9">  <a>📢</a> </div>
 
-            // Lights
-            const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444);
-            hemiLight.position.set(0, 20, 0);
-            scene.add(hemiLight);
+        </div>
 
-            const dirLight = new THREE.DirectionalLight(0xffffff);
-            dirLight.position.set(0, 20, 10);
-            scene.add(dirLight);
 
-            // Ground
-            const ground = new THREE.Mesh(new THREE.PlaneGeometry(200, 200), new THREE.MeshPhongMaterial({ color: 0x999999, depthWrite: false }));
-            ground.rotation.x = -Math.PI / 2;
-            scene.add(ground);
+  <div class="GUI_heroHolder" id="GUI_heroHolder">
+    <div style="width:100%;">
+          <a  class="thumbnail_align"><a id="GUI_Time"></a> <img id="GUI_boiAvatar" style="border: 3px solid #131313;float:left;margin-top:-10%;" alt="" class="thumbnail"/>  <h4 id="GUI_boiName">BOI #23</h4>
+          <hr id="GUI_EnergyBack" style="height:15px;background-color:gray;border: 2px solid #131313;width:100%;float:left;"><br>
+          <hr id="GUI_Energy" style="transition: all .3s linear;height:13px;background-color:yellow;border: 3px solid #131313;width:70%;float:left;margin-top:-17px;">
+<a hidden id="GUI_SelectedItem">nothing</a>
+        </div>
+  </div>
 
-            // Load Character
-            const loader = new FBXLoader();
-            loader.load('https://github.com/mooodev/pixelBois/raw/refs/heads/main/webGame/images/Running.fbx', function (object) {
-                mixer = new THREE.AnimationMixer(object);
-                const action = mixer.clipAction(object.animations[0]);
-                action.play();
-                player.model = object;
-                player.model.scale.set(0.02, 0.02, 0.02);
-                scene.add(player.model);
-            });
 
-            // Controls
-            document.addEventListener('keydown', (e) => (keys[e.key] = true));
-            document.addEventListener('keyup', (e) => (keys[e.key] = false));
 
-            window.addEventListener('resize', onWindowResize);
-        }
 
-        function onWindowResize() {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            composer.setSize(window.innerWidth, window.innerHeight);
-            const pixelPass = composer.passes[1];
-            pixelPass.uniforms["resolution"].value.set(window.innerWidth * window.devicePixelRatio, window.innerHeight * window.devicePixelRatio);
-        }
+<hr style="height:12px;color:green;background-color:#70016b;position:absolute;width:0%;border-radius:10px;border: 0.2rem solid black;z-index:12;transition: all .3s linear;" id="GUI_xpBar">
 
-        function updatePlayer(delta) {
-            if (!player.model) return;
+  <div class="">
+    <hr style="height:12px;color:green;background-color:gray;position:absolute;width:42%;border-radius:10px;border: 0.2rem solid black;z-index:11;" id="GUI_xpBarBack">
+    <div id="GUI_InventoryScreen" class="guiInventoryHolder">
+    </div>
+  </div>
 
-            let isMoving = false;
 
-            if (keys['w'] || keys['W'] || keys['ArrowUp']) {
-                player.model.translateZ(player.speed * delta);
-                isMoving = true;
-            }
-            if (keys['s'] || keys['S'] || keys['ArrowDown']) {
-                player.model.translateZ(-player.speed * delta);
-                isMoving = true;
-            }
-            if (keys['a'] || keys['A'] || keys['ArrowLeft']) {
-                player.model.rotateY(player.rotationSpeed * delta);
-            }
-            if (keys['d'] || keys['D'] || keys['ArrowRight']) {
-                player.model.rotateY(-player.rotationSpeed * delta);
-            }
+<div class="hoverInfo" id="GUI_hoverInfo" hidden>InfoTimerFarm</div>
+<div
+style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;"
+unselectable="on"
+onselectstart="return false;"
+onmousedown="return false;">
+<div class="itemSelector" id="GUI_itemSelector">
+  </div>
+</div>
 
-            if (isMoving && player.state !== 'running') {
-                mixer.clipAction(player.model.animations[0]).play();
-                player.state = 'running';
-            } else if (!isMoving && player.state === 'running') {
-                 // You could stop the animation here, but for this FBX, letting it loop looks fine.
-                 player.state = 'idle';
-            }
 
-            if (mixer) {
-                mixer.update(delta);
-            }
-        }
+<div class="" id="GUI_shop" hidden>
+<div class="shopclass">
+<div class="shopDiv1"> </div>
+<div class="shopDiv2" id="GUI_shoplistBuy"> </div>
+<div class="shopDiv3" id="GUI_shoplistSell"> </div>
+<div class="shopDiv4"> <button id="GUI_shopExit" type="button" name="button">❌</button> </div>
+<div class="shopDiv5"> <h2>Boi#368:FarmShop</h2>  </div>
+<div class="shopDiv6"> <h2 id="GUI_shopItemName">ItemName:</h2> </div>
+<div class="shopDiv7"> <h2 id="GUI_shopAmountPreview">x99</h2> </div>
+<div class="shopDiv8"> <button id="GUI_shopButton" type="button" name="button">BUY</button>  </div>
+</div>
+</div>
+</div>
 
-        function updateCamera() {
-            if (!player.model) return;
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.7.1-rc.0/web3.min.js"></script>
+<script src="https://mooodev.github.io/pixelBois/breathtakingSite/contract_myAbi.js" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/javascript-astar/0.4.1/astar.min.js"></script>
+<script src="https://mooodev.github.io/pixelBois/webGame/js/main.js">
 
-            const offset = new THREE.Vector3(0, 4, -8);
-            offset.applyQuaternion(player.model.quaternion);
-
-            const cameraPosition = player.model.position.clone().add(offset);
-            camera.position.lerp(cameraPosition, 0.1);
-            camera.lookAt(player.model.position.clone().add(new THREE.Vector3(0, 2, 0)));
-        }
-
-        function animate() {
-            requestAnimationFrame(animate);
-            const delta = clock.getDelta();
-            updatePlayer(delta);
-            updateCamera();
-            composer.render();
-        }
-    </script>
+</script>
 </body>
 </html>
