@@ -619,34 +619,46 @@ function updatePlayer(delta) {
     const isRunning = keys['shift']; 
     const currentMaxSpeed = isRunning ? MAX_SPEED * RUN_MULTIPLIER : MAX_SPEED;
 
-    let moveDirection = new THREE.Vector3(0, 0, 0);
-    let rotationDelta = 0;
+    let moveDirectionZ = 0;
+    let rotationInput = 0;
 
-    // --- Joystick Control Logic ---
-    // The 'joystickData' read here is now the global window.joystickData
-    if (joystickData.active) {
-        moveDirection.z = joystickData.y; // Forward/backward
-        rotationDelta = -joystickData.x * ROTATION_SPEED * delta; // Left/right turning
+    // --- Step 1: Gather and Unify Input ---
+    if (window.joystickData && window.joystickData.active) {
+        // Joystick input: Invert Y-axis for standard controls (up = forward = positive Z)
+        moveDirectionZ = -window.joystickData.y;
+        rotationInput = -window.joystickData.x;
     } else {
-        // --- Keyboard Control Logic (Fallback) ---
-        if (keys['w'] || keys['arrowup']) moveDirection.z = 1;
-        else if (keys['s'] || keys['arrowdown']) moveDirection.z = -1;
+        // Keyboard input
+        if (keys['w'] || keys['arrowup']) moveDirectionZ = 1;
+        else if (keys['s'] || keys['arrowdown']) moveDirectionZ = -1;
 
-        if (keys['a'] || keys['arrowleft']) rotationDelta += ROTATION_SPEED * delta;
-        if (keys['d'] || keys['arrowright']) rotationDelta -= ROTATION_SPEED * delta;
+        if (keys['a'] || keys['arrowleft']) rotationInput = 1;
+        else if (keys['d'] || keys['arrowright']) rotationInput = -1;
     }
-    
-    // --- Update Velocity based on direction ---
-    const targetVelocity = moveDirection.multiplyScalar(currentMaxSpeed);
 
-    if (moveDirection.lengthSq() > 0) {
-        player.velocity.lerp(targetVelocity, ACCELERATION * delta);
+    // --- Step 2: Invert Rotation Controls when Reversing ---
+    // Check if the player's *intent* is to move backward.
+    const isIntendingToReverse = moveDirectionZ < 0;
+    if (isIntendingToReverse) {
+        // Flip the rotation direction
+        rotationInput *= -1;
+    }
+
+    // --- Step 3: Calculate Target Velocity and Final Rotation ---
+    const targetVelocityZ = moveDirectionZ * currentMaxSpeed;
+    const rotationDelta = rotationInput * ROTATION_SPEED * delta;
+
+    // --- Step 4: Smoothly Update Player's Actual Velocity ---
+    const targetVelocity = new THREE.Vector3(0, 0, targetVelocityZ);
+
+    // Lerp to the target velocity if there's input, otherwise decelerate to zero.
+    if (moveDirectionZ !== 0) {
+         player.velocity.lerp(targetVelocity, ACCELERATION * delta);
     } else {
-        // Decelerate
-        player.velocity.lerp(new THREE.Vector3(0,0,0), DECELERATION * delta);
+         player.velocity.lerp(new THREE.Vector3(0, 0, 0), DECELERATION * delta);
     }
-    
-    // --- Apply Movement and Rotation ---
+
+    // --- Step 5: Apply Movement and Rotation to Model ---
     player.model.rotateY(rotationDelta);
     player.model.translateZ(player.velocity.z * delta);
 
@@ -660,21 +672,25 @@ function updatePlayer(delta) {
     const finalY = (terrainY !== undefined ? terrainY : currentPos.y) + (snowDepthHere * SINK_FACTOR);
     player.model.position.y = THREE.MathUtils.lerp(currentPos.y, finalY, 1.0 - Math.pow(1.0 - VERTICAL_LERP_FACTOR, delta * 60));
 
-    // --- Update Animations ---
+    // --- Step 6: Update Animations based on actual, final velocity ---
     let desiredAnimation = IDLE;
-    if (Math.abs(player.velocity.z) > 0.1) {
-        desiredAnimation = player.velocity.z > 0 ? WALK : WALK_BACK;
+    // Use a small threshold to prevent animation flickering when stopping.
+    if (player.velocity.z < -0.1) {
+        desiredAnimation = WALK_BACK;
+    } else if (player.velocity.z > 0.1) {
+        desiredAnimation = WALK;
     }
     switchAnimation(desiredAnimation);
 
+    // --- Adjust animation playback speed based on movement speed ---
     if (player.currentAction) {
         const speedRatio = Math.abs(player.velocity.z) / currentMaxSpeed;
         const timeScale = isRunning ? (speedRatio * 1.5 + 0.5) : (speedRatio * 0.5 + 0.5);
         player.currentAction.setEffectiveTimeScale(Math.max(0.1, timeScale)); 
     }
+    
     mixer.update(delta);
 }
-
 
 function updateCamera(delta) {
     if (!player.model) return;
