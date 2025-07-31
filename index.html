@@ -659,25 +659,28 @@ function updatePlayer(delta) {
     let moveDirectionZ = 0;
     let rotationInput = 0;
 
-    // --- Step 1: Gather and Unify Input ---
+    // --- Step 1: Gather and Unify Input (CORRECTED LOGIC) ---
+    
+    // Prioritize active joystick input
     if (window.joystickData && window.joystickData.active) {
-        // Joystick input: Invert Y-axis for standard controls (up = forward = positive Z)
-        moveDirectionZ = -window.joystickData.y;
+        // Joystick input: Y-axis now correctly maps to forward/backward
+        // NippleJS Up = positive Y = forward movement
+        // NippleJS Down = negative Y = backward movement
+        moveDirectionZ = window.joystickData.y; // <--- THIS IS THE FIX
         rotationInput = -window.joystickData.x;
-    } else {
-        // Keyboard input
+    } 
+    // Fallback to keyboard input if joystick is not active
+    else {
         if (keys['w'] || keys['arrowup']) moveDirectionZ = 1;
         else if (keys['s'] || keys['arrowdown']) moveDirectionZ = -1;
-
+        
         if (keys['a'] || keys['arrowleft']) rotationInput = 1;
         else if (keys['d'] || keys['arrowright']) rotationInput = -1;
     }
 
     // --- Step 2: Invert Rotation Controls when Reversing ---
-    // Check if the player's *intent* is to move backward.
     const isIntendingToReverse = moveDirectionZ < 0;
     if (isIntendingToReverse) {
-        // Flip the rotation direction
         rotationInput *= -1;
     }
 
@@ -688,7 +691,6 @@ function updatePlayer(delta) {
     // --- Step 4: Smoothly Update Player's Actual Velocity ---
     const targetVelocity = new THREE.Vector3(0, 0, targetVelocityZ);
 
-    // Lerp to the target velocity if there's input, otherwise decelerate to zero.
     if (moveDirectionZ !== 0) {
          player.velocity.lerp(targetVelocity, ACCELERATION * delta);
     } else {
@@ -711,23 +713,26 @@ function updatePlayer(delta) {
 
     // --- Step 6: Update Animations based on actual, final velocity ---
     let desiredAnimation = IDLE;
-    // Use a small threshold to prevent animation flickering when stopping.
     if (player.velocity.z < -0.1) {
         desiredAnimation = WALK_BACK;
     } else if (player.velocity.z > 0.1) {
         desiredAnimation = WALK;
     }
-    switchAnimation(desiredAnimation);
+    
+    if (player.currentAction.getClip().name !== desiredAnimation) {
+        switchAnimation(desiredAnimation);
+    }
 
     // --- Adjust animation playback speed based on movement speed ---
     if (player.currentAction) {
         const speedRatio = Math.abs(player.velocity.z) / currentMaxSpeed;
-        const timeScale = isRunning ? (speedRatio * 1.5 + 0.5) : (speedRatio * 0.5 + 0.5);
-        player.currentAction.setEffectiveTimeScale(Math.max(0.1, timeScale));
+        const timeScale = isRunning ? (speedRatio * 1.5 + 0.5) : (speedRatio * 1.0);
+        player.currentAction.timeScale = Math.max(0.1, timeScale);
     }
     
     mixer.update(delta);
 }
+
 
 function updateCamera(delta) {
     if (!player.model) return;
