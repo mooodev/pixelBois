@@ -31,9 +31,9 @@
 </head>
 <body>
     <div id="controls">
-        <button id="snowBtn">Toggle Snow</button>
+        <button id="snowBtn">Change Weather</button>
         <p>
-            <!-- This text will be updated by the script -->
+            Current Weather: <span id="weatherStatus">Off</span>
         </p>
     </div>
 
@@ -164,7 +164,7 @@ const GAME_CONFIG = {
         WIDTH: 128, DEPTH: 128, SCALE: 2, CHECKER_DARK: '#3A2E1F', CHECKER_LIGHT: '#4A3E2F',
     },
     SNOW: {
-        MAX_DEPTH: 2.0, DEFORMATION_RADIUS: 2.5, DEFORMATION_STRENGTH: 1.0, ACCUMULATION_RATE: 0.2, DRIFT_SCALE: 0.08, DRIFT_SPEED: 0.02, DRIFT_AMOUNT: 0.4,
+        MAX_DEPTH: 2.0, DEFORMATION_RADIUS: 2.5, DEFORMATION_STRENGTH: 1.0, DRIFT_SCALE: 0.08, DRIFT_SPEED: 0.02,
         SINK_FACTOR: 0.4, 
     },
     GRASS: {
@@ -177,7 +177,53 @@ const GAME_CONFIG = {
         IDLE: 'idle', WALK: 'walking', WALK_BACK: 'walkingBackwards',
     },
     WEATHER: {
-        SNOW_COUNT: 10000,
+        MAX_SNOW_PARTICLES: 15000,
+        LEVELS: [
+            { // Level 0: Off
+                name: "Off",
+                active: false,
+                particleCount: 0,
+                particleSpeed: 0,
+                particleWind: 0,
+                particleSize: 0.1,
+                accumulationRate: 0,
+                driftAmount: 0.0,
+                maxDepth: 0 
+            },
+            { // Level 1: Light Snow
+                name: "Light",
+                active: true,
+                particleCount: 4000,
+                particleSpeed: 3,
+                particleWind: 0.5,
+                particleSize: 0.1,
+                accumulationRate: 0.05,
+                driftAmount: 0.1,
+                maxDepth: 85 
+            },
+            { // Level 2: Moderate Snow
+                name: "Moderate",
+                active: true,
+                particleCount: 8000,
+                particleSpeed: 7,
+                particleWind: 2.0,
+                particleSize: 0.12,
+                accumulationRate: 0.15,
+                driftAmount: 0.35,
+                maxDepth: 170
+            },
+            { // Level 3: Blizzard
+                name: "Blizzard",
+                active: true,
+                particleCount: 15000,
+                particleSpeed: 18,
+                particleWind: 8.0,
+                particleSize: 0.15,
+                accumulationRate: 0.4,
+                driftAmount: 0.5,
+                maxDepth: 255
+            }
+        ]
     }
 };
 
@@ -199,8 +245,8 @@ let terrainData = {
 
 let snowData = {
     texture: null, 
-    cpuData: null,          // Uint8Array for the GPU texture
-    preciseCpuData: null,   // Float32Array for accurate accumulation
+    cpuData: null,
+    preciseCpuData: null,
     noise: new SimplexNoise(), 
     needsUpdate: false,
 };
@@ -212,6 +258,7 @@ const deformationPosition = new THREE.Vector3();
 
 // --- Weather ---
 let snowActive = false;
+let snowLevel = 0;
 let snowParticles;
 
 // --- Camera State ---
@@ -254,8 +301,13 @@ function init() {
     document.addEventListener('keydown', (e) => (keys[e.key.toLowerCase()] = true));
     document.addEventListener('keyup', (e) => (keys[e.key.toLowerCase()] = false));
     window.addEventListener('resize', onWindowResize);
-    document.getElementById('snowBtn').addEventListener('click', () => { snowActive = !snowActive; });
-    document.querySelector('#controls p').innerHTML = "Camera switches to poles automatically.";
+    document.getElementById('snowBtn').addEventListener('click', () => {
+        snowLevel = (snowLevel + 1) % GAME_CONFIG.WEATHER.LEVELS.length;
+        if (snowLevel === 0) {
+            resetSnow();
+        }
+        document.getElementById('weatherStatus').textContent = GAME_CONFIG.WEATHER.LEVELS[snowLevel].name;
+    });
 }
 
 function createCameraPoles() {
@@ -337,23 +389,21 @@ function createTerrain() {
         shader.uniforms.uTime = { value: 0 };
         shader.uniforms.uSnowSpecularColor = { value: new THREE.Color(0x9999FF) };
 
-        // --- FIX START ---
         shader.vertexShader = `
             uniform sampler2D uSnowDepthMap;
             uniform float uMaxSnowDepth;
             varying float vSnowDepth;
             varying vec3 vWorldNormal;
-            varying vec3 vWorldPosition; // Declare varying for world position
+            varying vec3 vWorldPosition;
         ` + shader.vertexShader;
 
         shader.vertexShader = shader.vertexShader.replace(
             '#include <worldpos_vertex>',
             `
             #include <worldpos_vertex>
-            vWorldPosition = worldPosition.xyz; // Assign world position
+            vWorldPosition = worldPosition.xyz;
             `
         );
-        // --- FIX END ---
 
         shader.vertexShader = shader.vertexShader.replace(
             '#include <begin_vertex>',
@@ -365,33 +415,27 @@ function createTerrain() {
             `
         );
         
-        // --- FIX START ---
         shader.fragmentShader = `
         varying float vSnowDepth;
         varying vec3 vWorldNormal;
-        varying vec3 vWorldPosition; // Declare corresponding varying
+        varying vec3 vWorldPosition;
         uniform float uTime;
         uniform vec3 uSnowSpecularColor;
         ` + shader.fragmentShader;
-        // --- FIX END ---
 
         shader.fragmentShader = shader.fragmentShader.replace(
             '#include <dithering_fragment>',
             `
             #include <dithering_fragment>
             vec3 snowColor = vec3(0.95, 0.95, 1.0);
-
             float ambientOcclusion = 1.0 - vSnowDepth * 0.3;
             snowColor *= ambientOcclusion;
-
             vec3 viewDir = normalize(vViewPosition);
             vec3 lightDir = normalize(vec3(1.0, 1.0, 1.0));
             vec3 halfDir = normalize(lightDir + viewDir);
             float spec = pow(max(dot(vWorldNormal, halfDir), 0.0), 32.0);
             float sparkle = smoothstep(0.98, 1.0, sin((vWorldPosition.x + vWorldPosition.z) * 500.0 + uTime * 5.0));
-            
             vec3 specular = uSnowSpecularColor * spec * sparkle;
-
             float snowMix = smoothstep(0.05, 0.15, vSnowDepth);
             gl_FragColor.rgb = mix(gl_FragColor.rgb, snowColor + specular, snowMix);
             `
@@ -405,6 +449,15 @@ function createTerrain() {
     scene.add(terrainMesh);
 }
 
+function resetSnow() {
+    const { WIDTH, DEPTH } = GAME_CONFIG.TERRAIN;
+    const dataSize = WIDTH * DEPTH;
+    for (let i = 0; i < dataSize; i++) {
+        snowData.preciseCpuData[i] = 0;
+        snowData.cpuData[i * 4] = 0;
+    }
+    snowData.needsUpdate = true;
+}
 
 function createGrass() {
     const grassCanvas = document.createElement('canvas');
@@ -478,11 +531,11 @@ function createStars() {
 
 function createWeatherSystems() {
     const snowGeo = new THREE.BufferGeometry(); const snowVertices = [];
-    for(let i=0; i < GAME_CONFIG.WEATHER.SNOW_COUNT; i++) {
+    for(let i=0; i < GAME_CONFIG.WEATHER.MAX_SNOW_PARTICLES; i++) {
         snowVertices.push(Math.random() * terrainData.width - terrainData.width / 2, Math.random() * 50, Math.random() * terrainData.depth - terrainData.depth / 2);
     }
     snowGeo.setAttribute('position', new THREE.Float32BufferAttribute(snowVertices, 3));
-    snowParticles = new THREE.Points(snowGeo, new THREE.PointsMaterial({ color: 0xffffff, size: 0.1, transparent: true }));
+    snowParticles = new THREE.Points(snowGeo, new THREE.PointsMaterial({ color: 0xffffff, size: 0.1, transparent: true, fog: false }));
     snowParticles.visible = false;
     scene.add(snowParticles);
 }
@@ -688,38 +741,56 @@ function updateSnowDeformation() {
 }
 
 function updateWeather(delta) {
+    const settings = GAME_CONFIG.WEATHER.LEVELS[snowLevel];
+    snowActive = settings.active;
     snowParticles.visible = snowActive;
-    if (snowActive) {
-        const positions = snowParticles.geometry.attributes.position.array;
-        for (let i = 0; i < positions.length; i += 3) {
-            positions[i+1] -= 5 * delta;
-            positions[i] += (Math.random() - 0.5) * 2 * delta;
-            if (positions[i+1] < 0) { positions[i+1] = 50; }
+    
+    if (!snowActive) {
+        return;
+    }
+
+    // --- Particle updates ---
+    snowParticles.material.size = settings.particleSize;
+    snowParticles.geometry.setDrawRange(0, settings.particleCount);
+    const positions = snowParticles.geometry.attributes.position.array;
+    for (let i = 0; i < settings.particleCount * 3; i += 3) {
+        positions[i+1] -= settings.particleSpeed * delta; // Y
+        positions[i] += (Math.random() - 0.5) * settings.particleWind * delta; // X (wind)
+        
+        // Wrap particles
+        if (positions[i+1] < 0) {
+            positions[i+1] = 50 + Math.random() * 20;
         }
-        snowParticles.geometry.attributes.position.needsUpdate = true;
+        if (positions[i] > terrainData.width / 2) {
+             positions[i] = -terrainData.width / 2;
+        } else if (positions[i] < -terrainData.width / 2) {
+            positions[i] = terrainData.width / 2;
+        }
+    }
+    snowParticles.geometry.attributes.position.needsUpdate = true;
 
-        const { ACCUMULATION_RATE, DRIFT_SCALE, DRIFT_SPEED, DRIFT_AMOUNT } = GAME_CONFIG.SNOW;
-        const { WIDTH, DEPTH } = GAME_CONFIG.TERRAIN;
-        const preciseData = snowData.preciseCpuData;
-        const textureData = snowData.cpuData;
-        const time = clock.getElapsedTime();
+    // --- Accumulation updates ---
+    const { DRIFT_SCALE, DRIFT_SPEED } = GAME_CONFIG.SNOW;
+    const { WIDTH, DEPTH } = GAME_CONFIG.TERRAIN;
+    const preciseData = snowData.preciseCpuData;
+    const textureData = snowData.cpuData;
+    const time = clock.getElapsedTime();
 
-        for (let y = 0; y < DEPTH; y++) {
-            for (let x = 0; x < WIDTH; x++) {
-                const driftX = x * DRIFT_SCALE + time * DRIFT_SPEED;
-                const driftY = y * DRIFT_SCALE + time * DRIFT_SPEED;
-                const driftFactor = (snowData.noise.noise2D(driftX, driftY) + 1) / 2;
-                const accumulation = ACCUMULATION_RATE * (1.0 - DRIFT_AMOUNT + (driftFactor * DRIFT_AMOUNT * 2.0));
-                
-                const index = (y * WIDTH + x);
-                let currentDepth = preciseData[index];
+    for (let y = 0; y < DEPTH; y++) {
+        for (let x = 0; x < WIDTH; x++) {
+            const driftX = x * DRIFT_SCALE + time * DRIFT_SPEED;
+            const driftY = y * DRIFT_SCALE + time * DRIFT_SPEED;
+            const driftFactor = (snowData.noise.noise2D(driftX, driftY) + 1) / 2;
+            const accumulation = settings.accumulationRate * (1.0 - settings.driftAmount + (driftFactor * settings.driftAmount * 2.0));
+            
+            const index = (y * WIDTH + x);
+            let currentDepth = preciseData[index];
 
-                if (currentDepth < 255) {
-                    currentDepth += accumulation * delta * 255;
-                    preciseData[index] = Math.min(255, currentDepth);
-                    textureData[index * 4] = preciseData[index];
-                    snowData.needsUpdate = true;
-                }
+            if (currentDepth < settings.maxDepth) {
+                currentDepth += accumulation * delta * 255;
+                preciseData[index] = Math.min(settings.maxDepth, currentDepth);
+                textureData[index * 4] = preciseData[index];
+                snowData.needsUpdate = true;
             }
         }
     }
@@ -756,6 +827,60 @@ function animate() {
     }
     renderer.render(scene, camera);
 }
+</script>
+<div id="joystick-container" style="position: absolute; bottom: 50px; right: 50px; width: 150px; height: 150px; display: none;"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/nipplejs/0.10.1/nipplejs.min.js"></script>
+<script>
+    function isMobile() {
+        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    }
+
+    if (isMobile()) {
+        const joystickContainer = document.getElementById('joystick-container');
+        joystickContainer.style.display = 'block';
+
+        const joystick = nipplejs.create({
+            zone: joystickContainer,
+            mode: 'static',
+            position: { left: '50%', top: '50%' },
+            color: 'white',
+        });
+
+        joystick.on('move', function (evt, data) {
+            const angle = data.angle.radian;
+            const force = data.force;
+
+            // Simple mapping of angle to key presses
+            if (force > 0) {
+                const angleDegrees = data.angle.degree;
+
+                // Reset all directions
+                keys['w'] = keys['arrowup'] = false;
+                keys['s'] = keys['arrowdown'] = false;
+                keys['a'] = keys['arrowleft'] = false;
+                keys['d'] = keys['arrowright'] = false;
+
+                if (angleDegrees > 45 && angleDegrees < 135) {
+                    keys['w'] = keys['arrowup'] = true;
+                } else if (angleDegrees > 225 && angleDegrees < 315) {
+                    keys['s'] = keys['arrowdown'] = true;
+                }
+
+                if (angleDegrees > 135 && angleDegrees < 225) {
+                    keys['a'] = keys['arrowleft'] = true;
+                } else if (angleDegrees < 45 || angleDegrees > 315) {
+                    keys['d'] = keys['arrowright'] = true;
+                }
+            }
+        });
+
+        joystick.on('end', function () {
+            keys['w'] = keys['arrowup'] = false;
+            keys['s'] = keys['arrowdown'] = false;
+            keys['a'] = keys['arrowleft'] = false;
+            keys['d'] = keys['arrowright'] = false;
+        });
+    }
 </script>
 </body>
 </html>
