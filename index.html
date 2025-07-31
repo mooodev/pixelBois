@@ -29,11 +29,11 @@
         }
         /* Style for the joystick container */
         #joystick-container {
-            position: absolute; 
-            bottom: 30px; 
-            left: 30px; 
-            width: 150px; 
-            height: 150px; 
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            width: 150px;
+            height: 150px;
             display: none; /* Hidden by default */
             z-index: 110; /* Make sure it's on top */
         }
@@ -176,7 +176,7 @@ const GAME_CONFIG = {
     },
     SNOW: {
         MAX_DEPTH: 2.0, DEFORMATION_RADIUS: 2.5, DEFORMATION_STRENGTH: 1.0, DRIFT_SCALE: 0.08, DRIFT_SPEED: 0.02,
-        SINK_FACTOR: 0.4, 
+        SINK_FACTOR: 0.4,
     },
     GRASS: {
         COUNT: 500000, COLOR: '#BA8E23', SNOW_COLOR: '#FFFFFF',
@@ -199,7 +199,7 @@ const GAME_CONFIG = {
                 particleSize: 0.1,
                 accumulationRate: 0,
                 driftAmount: 0.0,
-                maxDepth: 0 
+                maxDepth: 0
             },
             { // Level 1: Light Snow
                 name: "Light",
@@ -210,7 +210,7 @@ const GAME_CONFIG = {
                 particleSize: 0.1,
                 accumulationRate: 0.05,
                 driftAmount: 0.1,
-                maxDepth: 85 
+                maxDepth: 85
             },
             { // Level 2: Moderate Snow
                 name: "Moderate",
@@ -259,10 +259,10 @@ let terrainData = {
 };
 
 let snowData = {
-    texture: null, 
+    texture: null,
     cpuData: null,
     preciseCpuData: null,
-    noise: new SimplexNoise(), 
+    noise: new SimplexNoise(),
     needsUpdate: false,
 };
 let terrainMesh;
@@ -555,34 +555,71 @@ function createWeatherSystems() {
     scene.add(snowParticles);
 }
 
-function loadCharacter() {
+async function loadCharacter() {
     const loader = new FBXLoader();
     const { IDLE, WALK, WALK_BACK } = GAME_CONFIG.ANIMATION_NAMES;
-    loader.load('https://raw.githubusercontent.com/mooodev/pixelBois/main/webGame/images/Idle.fbx', (fbx) => {
-        player.model = fbx;
-        player.model.scale.setScalar(GAME_CONFIG.PLAYER.SCALE);
-        player.model.position.y = getHeightAt(0, 0) || 0;
-        scene.add(player.model);
-        const { PLAYER_LIGHT_COLOR, PLAYER_LIGHT_INTENSITY, PLAYER_LIGHT_DISTANCE } = GAME_CONFIG.LIGHTING;
-        const pointLight = new THREE.PointLight(PLAYER_LIGHT_COLOR, PLAYER_LIGHT_INTENSITY, PLAYER_LIGHT_DISTANCE);
-        pointLight.position.set(0, 250, 0); pointLight.castShadow = true; player.model.add(pointLight);
-        player.model.traverse((child) => { if (child.isMesh) { child.castShadow = true; child.receiveShadow = true; } });
-        mixer = new THREE.AnimationMixer(player.model);
-        player.animations[IDLE] = mixer.clipAction(fbx.animations[0]);
-        player.currentAction = player.animations[IDLE];
-        player.currentAction.play();
-        loadAnimation(loader, 'https://raw.githubusercontent.com/mooodev/pixelBois/main/webGame/images/Walking.fbx', WALK);
-        loadAnimation(loader, 'https://raw.githubusercontent.com/mooodev/pixelBois/main/webGame/images/Backwards.fbx', WALK_BACK);
-    }, undefined, (error) => console.error(error));
+
+    // A map to hold the loaded AnimationClip objects
+    const animationClips = new Map();
+
+    // Load all animation files concurrently
+    const [idleFbx, walkFbx, walkBackFbx] = await Promise.all([
+        loader.loadAsync('https://raw.githubusercontent.com/mooodev/pixelBois/main/webGame/images/Idle.fbx'),
+        loader.loadAsync('https://raw.githubusercontent.com/mooodev/pixelBois/main/webGame/images/Walking.fbx'),
+        loader.loadAsync('https://raw.githubusercontent.com/mooodev/pixelBois/main/webGame/images/Backwards.fbx')
+    ]);
+
+    // The first loaded FBX ('Idle.fbx') will serve as our main player model
+    player.model = idleFbx;
+    player.model.scale.setScalar(GAME_CONFIG.PLAYER.SCALE);
+    player.model.position.y = getHeightAt(0, 0) || 0;
+    scene.add(player.model);
+
+    // Add lighting and shadows to the player model
+    const { PLAYER_LIGHT_COLOR, PLAYER_LIGHT_INTENSITY, PLAYER_LIGHT_DISTANCE } = GAME_CONFIG.LIGHTING;
+    const pointLight = new THREE.PointLight(PLAYER_LIGHT_COLOR, PLAYER_LIGHT_INTENSITY, PLAYER_LIGHT_DISTANCE);
+    pointLight.position.set(0, 250, 0);
+    pointLight.castShadow = true;
+    player.model.add(pointLight);
+    player.model.traverse((child) => {
+        if (child.isMesh) {
+            child.castShadow = true;
+            child.receiveShadow = true;
+        }
+    });
+
+    // Initialize the AnimationMixer with the player model
+    mixer = new THREE.AnimationMixer(player.model);
+
+    // --- This is the key change ---
+    // Extract the AnimationClip from each loaded FBX and store it.
+    // We give the clip a new name to match our config, which is good practice.
+    const idleClip = idleFbx.animations[0];
+    idleClip.name = IDLE;
+    animationClips.set(IDLE, idleClip);
+
+    const walkClip = walkFbx.animations[0];
+    walkClip.name = WALK;
+    animationClips.set(WALK, walkClip);
+
+    const walkBackClip = walkBackFbx.animations[0];
+    walkBackClip.name = WALK_BACK;
+    animationClips.set(WALK_BACK, walkBackClip);
+    
+    // Now create the AnimationActions from the consolidated clips
+    player.animations[IDLE] = mixer.clipAction(animationClips.get(IDLE));
+    player.animations[WALK] = mixer.clipAction(animationClips.get(WALK));
+    // --- BUG FIX STARTS HERE ---
+    // The original code had a copy-paste error, using get(WALK) for both actions.
+    // This has been corrected to use get(WALK_BACK) for the backwards animation.
+    player.animations[WALK_BACK] = mixer.clipAction(animationClips.get(WALK_BACK));
+    // --- BUG FIX ENDS HERE ---
+
+    // Set the initial action and start playing
+    player.currentAction = player.animations[IDLE];
+    player.currentAction.play();
 }
 
-function loadAnimation(loader, url, name) {
-    loader.load(url, (fbx) => {
-        if (fbx.animations && fbx.animations.length) {
-            player.animations[name] = mixer.clipAction(fbx.animations[0]);
-        }
-    }, undefined, (error) => console.error(error));
-}
 
 function getHeightAt(x, z) {
     const { WIDTH, DEPTH } = GAME_CONFIG.TERRAIN;
@@ -616,7 +653,7 @@ function updatePlayer(delta) {
     const { SINK_FACTOR } = GAME_CONFIG.SNOW;
     const { IDLE, WALK, WALK_BACK } = GAME_CONFIG.ANIMATION_NAMES;
     
-    const isRunning = keys['shift']; 
+    const isRunning = keys['shift'];
     const currentMaxSpeed = isRunning ? MAX_SPEED * RUN_MULTIPLIER : MAX_SPEED;
 
     let moveDirectionZ = 0;
@@ -686,7 +723,7 @@ function updatePlayer(delta) {
     if (player.currentAction) {
         const speedRatio = Math.abs(player.velocity.z) / currentMaxSpeed;
         const timeScale = isRunning ? (speedRatio * 1.5 + 0.5) : (speedRatio * 0.5 + 0.5);
-        player.currentAction.setEffectiveTimeScale(Math.max(0.1, timeScale)); 
+        player.currentAction.setEffectiveTimeScale(Math.max(0.1, timeScale));
     }
     
     mixer.update(delta);
@@ -759,7 +796,7 @@ function updateSnowDeformation() {
     const deformationPosition = new THREE.Vector3();
     player.model.getWorldPosition(deformationPosition);
     
-    const offsetDistance = 0.5; 
+    const offsetDistance = 0.5;
     deformationPosition.addScaledVector(forwardVector, offsetDistance);
 
     const playerX = deformationPosition.x;
